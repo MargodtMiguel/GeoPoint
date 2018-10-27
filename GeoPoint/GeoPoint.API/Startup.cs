@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using GeoPoint.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace GeoPoint.API
 {
@@ -26,9 +30,42 @@ namespace GeoPoint.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddDbContext<GeoPointAPIContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("GeoPointAPIContext")));
+
+            services.AddIdentity<tblUsers, IdentityRole>()
+                 .AddEntityFrameworkStores<GeoPointAPIContext>()
+                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication("GeoPointScheme")
+                 .AddCookie("GeoPointScheme", options =>
+                 {
+                     options.Events =
+                     new CookieAuthenticationEvents()
+                     {
+                         OnRedirectToLogin = (ctx) =>
+                         {
+                             if (ctx.Request.Path.StartsWithSegments("/api") &&
+                         ctx.Response.StatusCode == 200) 
+                         {
+                             ctx.Response.StatusCode = 401;
+                             }
+                             return Task.CompletedTask;
+                         },
+                         OnRedirectToAccessDenied = (ctx) =>
+                         {
+                             if (ctx.Request.Path.StartsWithSegments("/api") &&
+                                     ctx.Response.StatusCode == 200)
+                                {
+
+                                    ctx.Response.StatusCode = 403;
+                                }
+                            return Task.CompletedTask;
+                        }
+                    };
+                 });
+        }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -40,6 +77,7 @@ namespace GeoPoint.API
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
