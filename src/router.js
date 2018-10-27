@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Singleplayer from './views/Singleplayer.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
+import GameOver from './views/GameOver.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/gameover',
+      name: 'gameover',
+      component: GameOver
     }
   ]
 })
