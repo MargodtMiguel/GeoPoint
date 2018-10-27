@@ -1,0 +1,48 @@
+@import './src/style/settings/settings.colors.scss';
+@import './src/style/settings/settings.global.scss';
+.c-game__map{
+  width:100%;
+  height:100%;;
+}
+
+svg{
+  width:100%;
+  height:100%;
+  fill:$text-color;
+  
+}
+
+.c-game__score{
+    position: absolute;
+    font-family:$font-stack;
+    color:$text-color;
+    font-size:1.2em;
+    margin:10px 0px 0px 10px;
+    background-color:$bg-color;
+    border-radius:36px;
+    padding:5px;
+    font-weight:600;
+   }
+
+.c-game__footer{
+  position: fixed;
+  left: 50;
+  bottom: 0;
+  width: 100%;
+  max-width:800px;
+  margin:0 auto;
+  height:80px;
+  background-color: $bg-color;
+  color: $text-color;
+  text-align: center;
+  font-family: $font-stack;
+  font-size:1.8em;
+  line-height: 2;
+  font-weight:600;
+  vertical-align: middle;
+}
+
+.pointAtCountry{
+  color:$alpha-color;
+  font-size:1.4em;
+}

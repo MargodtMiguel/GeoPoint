@@ -1,0 +1,51 @@
+h1{
+    font-family: $font-stack;
+    font-size:5em;
+    font-weight:600;
+    color:$text-color;
+    text-align:center;
+    padding:80px 0px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.c-button-primary{
+    background-color: $alpha-color;
+    border:0;
+    border-radius:36px;
+    width:300px;
+    margin: 0 auto;
+    margin-bottom:40px;
+    font-size:1.7em;
+    font-family: $font-stack;
+    color: $text-color;
+    font-weight:600;
+    padding:10px 0px;
+    text-align:center;
+    transition: background-color 0.2s ease;
+}
+
+.c-button-primary:hover{
+    cursor: pointer;
+    background-color: $alpha-color-dark;
+}
+
+.secundary{
+    background-color: $beta-color;
+}
+
+.secundary:hover{
+    background-color: $beta-color-dark;
+}
+
+
+
+path{
+transition: .2s fill;
+}
+
+path:hover{
+    fill:$alpha-color;
+}

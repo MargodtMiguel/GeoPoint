@@ -1,0 +1,34 @@
+@import './src/style/settings/settings.colors.scss';
+@import './src/style/settings/settings.global.scss';
+
+.c-login__signup{
+    text-align: center;
+    color: $text-color;
+    font-family: $font-stack;
+    
+}
+
+.c-login__form{
+    width:360px;
+    margin:0 auto;
+    margin-bottom:10px;
+}
+
+.c-login__form input{
+    width:100%;
+    border:0;
+    border-bottom:1px $alpha-color solid;
+    background:none;
+    color:$alpha-color;
+    font-size:1.3em;
+    margin-bottom:40px;
+}
+
+.c-login__form input:focus{
+    outline:none;
+}
+
+.c-login__signup a{
+    font-weight:600;
+    color: $text-color;
+}

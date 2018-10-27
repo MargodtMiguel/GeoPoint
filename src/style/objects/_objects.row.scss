@@ -1,0 +1,22 @@
+@import '../settings/settings.global';
+@import '../settings/settings.colors';
+
+.o-row{
+    padding-left: #{ $gutter / 2 }px;
+    padding-right: #{ $gutter / 2 }px;
+    padding-top: #{ $gutter }px;
+    padding-bottom: #{ $gutter }px;
+    
+}
+
+.o-row--lg{
+    padding-top: #{ $gutter * 2 }px;
+    padding-bottom: #{ $gutter * 2 }px;
+}
+
+.o-row--footer{
+    background: $black;
+    color: $white;
+    padding-top: #{ $gutter * 2 }px;
+    padding-bottom: #{ $gutter * 2 }px;
+}
