@@ -12,8 +12,8 @@
 </template>
 
 <style lang="scss">
- @import './src/style/settings/settings.colors.scss';
-  @import './src/style/settings/settings.global.scss';
+    @import './src/style/settings/settings.colors.scss';
+    @import './src/style/settings/settings.global.scss';
     .c-gameover__title{
         color: $beta-color;
     }
