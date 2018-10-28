@@ -2,7 +2,7 @@
     <div class="c-gameover">
         <h1 class="c-gameover__title">GAME OVER</h1>
         <p class="c-gameover__score">YOU SCORED: {{ lastScore }}</p>
-         <router-link to="/singleplayer">
+         <router-link to="/maps">
         <div class="c-button-primary">TRY AGAIN</div>
          </router-link>
           <router-link to="/">

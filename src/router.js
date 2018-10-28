@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Singleplayer from './views/Singleplayer.vue'
+import Maps from './views/Maps.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import GameOver from './views/GameOver.vue'
+import Europe from './views/Europe.vue'
 
 Vue.use(Router)
 
@@ -16,9 +17,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/singleplayer',
-      name: 'singleplayer',
-      component: Singleplayer
+      path: '/maps',
+      name: 'maps',
+      component: Maps
     },
     {
       path: '/login',
@@ -34,6 +35,11 @@ export default new Router({
       path: '/gameover',
       name: 'gameover',
       component: GameOver
+    },
+    {
+      path: '/europe',
+      name: 'europe',
+      component: Europe
     }
   ]
 })

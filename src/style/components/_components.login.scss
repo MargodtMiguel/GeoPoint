@@ -2,10 +2,7 @@
 @import './src/style/settings/settings.global.scss';
 
 .c-login__signup{
-    text-align: center;
-    color: $text-color;
-    font-family: $font-stack;
-    
+    text-align: center;  
 }
 
 .c-login__form{
@@ -30,5 +27,4 @@
 
 .c-login__signup a{
     font-weight:600;
-    color: $text-color;
 }
