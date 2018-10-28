@@ -47,6 +47,7 @@
         :center="true"
         :preventMouseEventsDefault="false"
         :dblClickZoomEnabled="false"
+        :maxZoom="20"
         @svgpanzoom="registerSvgPanZoom"
     >
   <svg id="map" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -642,8 +643,12 @@ var europe = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "B
           this.corrCountry = this.pickRandomCountry(europe);
         }else{
           console.log("wrong");
-          this.$store.commit('setLastScore', this.score)
-          this.$router.push('gameover') 
+          this.svgpanzoom.resetZoom();
+          this.svgpanzoom.resetPan();
+          this.$store.commit('setLastScore', this.score);
+          document.getElementById(this.corrCountry).classList.add("correctCountry");
+          setTimeout(() => this.$router.push('gameover'), 2000);
+          //this.$router.push('gameover') 
         }
       },
       pickRandomCountry: function(obj) {
