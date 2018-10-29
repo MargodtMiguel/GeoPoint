@@ -10,17 +10,12 @@
         </router-link>
       </div>
       <div class="c-maps__maps__map">
-        <router-link to="/europe">
-          <img src="../assets/maps/europe.svg" />
-          <p>Europe</p>
+        <router-link to="/africa">
+          <img src="../assets/maps/africa.svg"/>
+          <p>Africa</p>
         </router-link>
       </div>
-      <div class="c-maps__maps__map">
-        <router-link to="/europe">
-          <img src="../assets/maps/europe.svg" />
-          <p>Europe</p>
-        </router-link>
-      </div>
+
     </div>
     <div @click="getRandomMap()" class="c-button-primary secundary">RANDOM MAP</div>   
   
@@ -46,12 +41,18 @@
     flex-wrap:wrap;
     justify-content: space-around;
     align-items: flex-start;
+    margin-bottom:50px;
   }
 
   .c-maps__maps__map{
     width:230px;
+    max-height:200px;
     margin:10px;
     transition: all .2s ease-in-out;
+  }
+
+    .c-maps__maps__map img{
+    height:200px;
   }
 
   .c-maps__maps__map:hover{
@@ -62,7 +63,7 @@
 
 <script>
 
-  var allmaps = ['Europe'];
+  var allmaps = ['Africa', 'Europe'];
 
   export default {
     name:'maps',

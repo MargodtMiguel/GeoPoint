@@ -7,6 +7,7 @@ import Register from './views/Register.vue'
 import GameOver from './views/GameOver.vue'
 import Europe from './views/Europe.vue'
 import Finish from './views/Finish.vue'
+import Africa from './views/Africa.vue'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path:'/finish',
       name: 'finish',
       component: Finish
+    },
+    {
+      path:'/africa',
+      name: 'africa',
+      component: Africa
     }
   ]
 })
