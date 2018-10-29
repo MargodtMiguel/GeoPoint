@@ -614,7 +614,7 @@
 <script>
   import SvgPanZoom from 'vue-svg-pan-zoom';
   
-var europe = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "Belgium", BG: "Bulgaria", BA: "Bosnia and Herzegovina", BY: "Belarus", CH: "Switzerland", CZ: "Czech Republic", DE: "Germany", DK: "Denmark", EE: "Estonia", FI: "Finland", GB: "United Kingdom", GE: "Georgia", GR: "Greece", HR: "Croatia", HU: "Hungary", IE: "Ireland", IS: "Iceland", IT: "Italy", LI: "Liechtenstein", LT: "Lithuania", LU: "Luxembourg", LV: "Latvia", MD: "Moldova", MK: "Macedonia", ME: "Montenegro", NO: "Norway", PL: "Poland", PT: "Portugal", RO: "Romania", RS: "Serbia", SK: "Slovakia", SI: "Slovenia", SE: "Sweden", TR: "Turkey", UA: "Ukraine", XK: "Kosovo", NL: "Netherlands", ES: "Spain", FR: "France", PT: "Portugal", CY: "Cyprus"};
+  var mapDict = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "Belgium", BG: "Bulgaria", BA: "Bosnia and Herzegovina", BY: "Belarus", CH: "Switzerland", CZ: "Czech Republic", DE: "Germany", DK: "Denmark", EE: "Estonia", FI: "Finland", GB: "United Kingdom", GE: "Georgia", GR: "Greece", HR: "Croatia", HU: "Hungary", IE: "Ireland", IS: "Iceland", IT: "Italy", LI: "Liechtenstein", LT: "Lithuania", LU: "Luxembourg", LV: "Latvia", MD: "Moldova", MK: "Macedonia", ME: "Montenegro", NO: "Norway", PL: "Poland", PT: "Portugal", RO: "Romania", RS: "Serbia", SK: "Slovakia", SI: "Slovenia", SE: "Sweden", TR: "Turkey", UA: "Ukraine", XK: "Kosovo", NL: "Netherlands", ES: "Spain", FR: "France", PT: "Portugal", CY: "Cyprus"};
 
 
 
@@ -631,30 +631,35 @@ var europe = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "B
     },
     computed:{
       countryToPick(){
-        return europe[this.corrCountry]
+        return mapDict[this.corrCountry]
       }
     },
     methods:{
       pickCountry: function(country){
         if(country == this.corrCountry){
-          console.log("correct");
           this.score++;
-          delete europe[this.corrCountry]
-          this.corrCountry = this.pickRandomCountry(europe);
+          delete mapDict[this.corrCountry]
+          this.corrCountry = this.pickRandomCountry(mapDict);
         }else{
-          console.log("wrong");
           this.svgpanzoom.resetZoom();
           this.svgpanzoom.resetPan();
           this.$store.commit('setLastScore', this.score);
           document.getElementById(this.corrCountry).classList.add("correctCountry");
           setTimeout(() => this.$router.push('gameover'), 2000);
-          //this.$router.push('gameover') 
         }
       },
       pickRandomCountry: function(obj) {
-        console.log("picking random country")
         var keys = Object.keys(obj)
-        return keys[ keys.length * Math.random() << 0];
+        var ctp = keys[ keys.length * Math.random() << 0];
+        if(typeof ctp == 'undefined'){
+          this.$store.commit('setEndTime');
+          this.$store.commit('setCurrentMap', 'Europe');
+          this.$store.commit('setLastScore', this.score);
+          this.$router.push('finish');
+        }else{
+          console.log("Random pick:" + ctp);
+        }
+        return ctp;
       },
       registerSvgPanZoom(svgpanzoom) {
         this.svgpanzoom = svgpanzoom;
@@ -671,8 +676,11 @@ var europe = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "B
       }
     },
     created: function(){
-      this.corrCountry = this.pickRandomCountry(europe);
-      console.log(this.corrCountry);
+      this.$store.commit('resetValues');
+      this.$store.commit('setStartTime');
+      mapDict = {AL: "Albania", AD: "Andorra", AM: "Armenia", AT: "Austria", BE: "Belgium", BG: "Bulgaria", BA: "Bosnia and Herzegovina", BY: "Belarus", CH: "Switzerland", CZ: "Czech Republic", DE: "Germany", DK: "Denmark", EE: "Estonia", FI: "Finland", GB: "United Kingdom", GE: "Georgia", GR: "Greece", HR: "Croatia", HU: "Hungary", IE: "Ireland", IS: "Iceland", IT: "Italy", LI: "Liechtenstein", LT: "Lithuania", LU: "Luxembourg", LV: "Latvia", MD: "Moldova", MK: "Macedonia", ME: "Montenegro", NO: "Norway", PL: "Poland", PT: "Portugal", RO: "Romania", RS: "Serbia", SK: "Slovakia", SI: "Slovenia", SE: "Sweden", TR: "Turkey", UA: "Ukraine", XK: "Kosovo", NL: "Netherlands", ES: "Spain", FR: "France", PT: "Portugal", CY: "Cyprus"};
+      this.corrCountry = this.pickRandomCountry(mapDict);
+
     }
   }
 </script>
