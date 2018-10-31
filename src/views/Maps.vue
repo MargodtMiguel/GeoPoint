@@ -4,13 +4,13 @@
     <p>PICK A MAP</p>
     <div class="c-maps__maps">
       <div class="c-maps__maps__map">
-        <router-link to="/europe">
+        <router-link to="/game/Europe">
           <img src="../assets/maps/europe.svg" />
           <p>Europe</p>
         </router-link>
       </div>
       <div class="c-maps__maps__map">
-        <router-link to="/africa">
+        <router-link to="/game/Africa">
           <img src="../assets/maps/africa.svg"/>
           <p>Africa</p>
         </router-link>

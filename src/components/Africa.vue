@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div class="c-game__top">
+  <div class="c-africa-map">
+      <div class="c-game__top">
     <div class="c-game__top__score">
       SCORE: {{ score }}
     </div>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="c-game__map">
-  <SvgPanZoom 
+      <SvgPanZoom 
         style="width: 100%; height: 100%;"
         :zoomEnabled="true"
         :controlIconsEnabled="false"
@@ -50,8 +50,7 @@
         :maxZoom="20"
         @svgpanzoom="registerSvgPanZoom"
     >
-  <svg version="1.1" id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1025.3 1033.3">
-
+      <svg version="1.1" id="map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1025.3 1033.3">
 <path  @click="pickCountry('AO')" id="AO" class="st0" d="M505.5,620.9l-36-0.2l-4.3,1.7l-3.5-0.3l-5.1,1.9l-1.1,2.7l6,8.7
 	l2.4,9.3l3.6,13.4l-3.8,5.5l-0.6,2.8l2.9,8.3l3.1,8.4l3.6,5l0.6,7.8l-1.4,10.3l-4,6.1l-7.1,9.1l-2.9,5.6l-4.1,12.5l-0.8,5.9
 	l-4.3,12.7l-1.9,12.2l1,8.7l5.9-2.7l7.2-2.3l7.8,0.4l7.1,6.3l1.9-1l48.8-0.6l8.2,6.6l29.1,2l22.4-5.7l-7.6-8.6l-7.8-11.3l1.6-44
@@ -261,24 +260,17 @@
 	l-4.6,0.1l-5.5,4.7l-6.4,1.4l-5.5,2.1l-3.9,0.2l0,0l-6.9,0.5l-4.2,2.6l-6,0.9l-10.5,4.3l-13.2,1.6l-11.3,3.5L842.8,395.1
 	L842.8,395.1z"/>
 </svg>
-
-  </SvgPanZoom>
+</SvgPanZoom>
 </div>
 <div class="c-game__footer">
   POINT AT  <span class="pointAtCountry">{{ countryToPick }}</span>
 </div>
-</div>
-
-
+  </div>
+  
 </template>
 
-<style lang="scss">
- @import './src/style/components/components.game.scss';
-
-</style>
-
 <script>
-  import SvgPanZoom from 'vue-svg-pan-zoom';
+import SvgPanZoom from 'vue-svg-pan-zoom';
   
   var mapDict = {  AO: "Angola",  BI: "Burundi",  BJ: "Benin",  BF: "Burkina Faso",  BW: "Botswana",  CF: "Central African Rep.",  CI: "Côte d'Ivoire",  CM: "Cameroon",  CD: "Dem. Rep. Congo",  CG: "Congo",  DJ: "Djibouti",  DZ: "Algeria",  EG: "Egypt",  ER: "Eritrea",  ET: "Ethiopia",  GA: "Gabon",  GH: "Ghana",  GN: "Guinea",  GM: "Gambia",  GW: "Guinea-Bissau",  GQ: "Eq. Guinea",  KE: "Kenya",  LR: "Liberia",  LY: "Libya",  LS: "Lesotho",  MA: "Morocco",  MG: "Madagascar",  ML: "Mali",  MZ: "Mozambique",  MR: "Mauritania",  MW: "Malawi",  NA: "Namibia",  NE: "Niger",  NG: "Nigeria",  RW: "Rwanda",  EH: "W. Sahara",  SD: "Sudan",  SS: "S. Sudan",  SN: "Senegal",  SL: "Sierra Leone",  "SZ": "Swaziland",  TD: "Chad",  TG: "Togo",  TN: "Tunisia",  TZ: "Tanzania",  UG: "Uganda",  ZA: "South Africa",  ZM: "Zambia",  ZW: "Zimbabwe",  SO: "Somalia"};
 
@@ -287,7 +279,8 @@
   export default {
     name: 'africa',
     components: {
-      SvgPanZoom 
+			SvgPanZoom,
+
     },
     data(){
       return{
@@ -319,7 +312,6 @@
         var ctp = keys[ keys.length * Math.random() << 0];
         if(typeof ctp == 'undefined'){
           this.$store.commit('setEndTime');
-          this.$store.commit('setCurrentMap', 'Africa');
           this.$store.commit('setLastScore', this.score);
           this.$router.push('finish');
         }else{
@@ -337,16 +329,17 @@
       },
       zoomOut(){
         if( !this.svgpanzoom ) return;
- 
         this.svgpanzoom.zoomOut();
       }
     },
     created: function(){
-      this.$store.commit('resetValues');
-      this.$store.commit('setStartTime');
       mapDict = {  AO: "Angola",  BI: "Burundi",  BJ: "Benin",  BF: "Burkina Faso",  BW: "Botswana",  CF: "Central African Rep.",  CI: "Côte d'Ivoire",  CM: "Cameroon",  CD: "Dem. Rep. Congo",  CG: "Congo",  DJ: "Djibouti",  DZ: "Algeria",  EG: "Egypt",  ER: "Eritrea",  ET: "Ethiopia",  GA: "Gabon",  GH: "Ghana",  GN: "Guinea",  GM: "Gambia",  GW: "Guinea-Bissau",  GQ: "Eq. Guinea",  KE: "Kenya",  LR: "Liberia",  LY: "Libya",  LS: "Lesotho",  MA: "Morocco",  MG: "Madagascar",  ML: "Mali",  MZ: "Mozambique",  MR: "Mauritania",  MW: "Malawi",  NA: "Namibia",  NE: "Niger",  NG: "Nigeria",  RW: "Rwanda",  EH: "W. Sahara",  SD: "Sudan",  SS: "S. Sudan",  SN: "Senegal",  SL: "Sierra Leone",  "SZ": "Swaziland",  TD: "Chad",  TG: "Togo",  TN: "Tunisia",  TZ: "Tanzania",  UG: "Uganda",  ZA: "South Africa",  ZM: "Zambia",  ZW: "Zimbabwe",  SO: "Somalia"};
       this.corrCountry = this.pickRandomCountry(mapDict);
 
     }
   }
 </script>
+
+<style scoped lang="scss">
+ @import './src/style/components/components.game.scss';
+</style>

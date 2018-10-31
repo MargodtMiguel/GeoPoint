@@ -5,9 +5,8 @@ import Maps from './views/Maps.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import GameOver from './views/GameOver.vue'
-import Europe from './views/Europe.vue'
 import Finish from './views/Finish.vue'
-import Africa from './views/Africa.vue'
+import Game from './views/Game.vue'
 
 Vue.use(Router)
 
@@ -39,19 +38,14 @@ export default new Router({
       component: GameOver
     },
     {
-      path: '/europe',
-      name: 'europe',
-      component: Europe
-    },
-    {
       path:'/finish',
       name: 'finish',
       component: Finish
     },
     {
-      path:'/africa',
-      name: 'africa',
-      component: Africa
+      path:'/game/:map',
+      name: 'game',
+      component: Game
     }
   ]
 })
