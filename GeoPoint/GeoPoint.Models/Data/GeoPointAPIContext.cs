@@ -2,26 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GeoPoint.Models.Data;
+
+using GeoPoint.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GeoPoint.Models
+namespace GeoPoint.Models.Data
 {
-    public class GeoPointAPIContext : DbContext
+    public class GeoPointAPIContext : IdentityDbContext<GeoPointUser>
     {
         public GeoPointAPIContext (DbContextOptions<GeoPointAPIContext> options)
             : base(options)
         {
         }
-        public DbSet<tblUsers> Users { get; set; }
-        public DbSet<tblScores> Scores { get; set; }
-        public DbSet<tblFriends> Friends { get; set; }
+        public DbSet<Score> Scores { get; set; }
+        public DbSet<Friends> Friends { get; set; }
 
-        //FLUENT API 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Seed();
         }
 
     }

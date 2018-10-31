@@ -6,8 +6,8 @@ using System.Text;
 
 namespace GeoPoint.Models
 {
-    public class tblUsers : IdentityUser
+    public class GeoPointUser : IdentityUser
     {
-        public bool IsAdmin { get; set; }
+
     }
 }
