@@ -86,12 +86,6 @@ namespace GeoPoint.API
                         }
                     };
                 });
-            services.AddHttpCacheHeaders((expirationModelOptions) => {
-                expirationModelOptions.MaxAge = 1;
-            }, (validationModelOptions) => {
-                validationModelOptions.MustRevalidate = true;
-            });
-            services.AddResponseCaching();
             services.AddTransient<SeedIdentity>();
             services.AddCors();
             services.AddSwaggerGen(c =>
@@ -120,7 +114,7 @@ namespace GeoPoint.API
                 {
                     new RateLimitRule() {
                     Endpoint = "*",
-                    Limit=20,
+                    Limit=50,
                     Period ="5m"
                     }
                 };
@@ -147,8 +141,6 @@ namespace GeoPoint.API
                 .AllowAnyOrigin();
             });
             app.UseIpRateLimiting();
-            app.UseResponseCaching();
-            app.UseHttpCacheHeaders();
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));

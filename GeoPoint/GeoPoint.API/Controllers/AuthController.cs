@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeoPoint.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -24,9 +24,9 @@ namespace GeoPoint.API.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("/SignIn")]
+        [HttpPost("api/[controller]/Login")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn(IdentityModel identityModel )
+        public async Task<IActionResult> Login(IdentityModel identityModel )
         {
             if (!ModelState.IsValid)
                 return BadRequest("Unvalid data");
@@ -51,9 +51,9 @@ namespace GeoPoint.API.Controllers
             return BadRequest("Failed to login"); 
         }
 
-        [HttpPost("/SignUp")]
+        [HttpPost("api/[controller]/Register")]
         [AllowAnonymous]
-        public async Task<IActionResult> SignUp(IdentityModel identityModel)
+        public async Task<IActionResult> Register(IdentityModel identityModel)
         {
             if (!ModelState.IsValid) return BadRequest("Unvalid data");
             try
@@ -62,7 +62,7 @@ namespace GeoPoint.API.Controllers
                 if (await _userManager.FindByNameAsync(user.UserName) == null)
                 {
                     var u = await _userManager.CreateAsync(user, identityModel.Password);
-                    return await SignIn(identityModel);
+                    return await Register(identityModel);
                 }
                 else
                 {
@@ -72,6 +72,20 @@ namespace GeoPoint.API.Controllers
             catch
             {
                 return BadRequest("Failed to create account");
+            }
+        }
+        [HttpPost("api/[controller]/Logout")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {         
+            try
+            {
+                await _signInManager.SignOutAsync();
+                return Ok("Succes");
+            }
+            catch
+            {
+                return BadRequest("Failed to Sign Out");
             }
         }
     }

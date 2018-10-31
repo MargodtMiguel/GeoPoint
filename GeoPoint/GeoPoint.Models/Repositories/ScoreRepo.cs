@@ -25,31 +25,22 @@ namespace GeoPoint.Models.Repositories
         {
             try
             {
-                Score s = await getOldScore(score);
-                if ( s != null)
-                {
-                    score.Id = s.Id;
-                    return await UpdateScore(score);
-                }
-                else
-                {
-                    _context.Scores.Add(score);
-                    await _context.SaveChangesAsync();
-                    return score;
-                }
+                _context.Scores.Add(score);
+                await _context.SaveChangesAsync();
+                return score;
             }
             catch(Exception e)
             {
                 throw (e);
             }
         }
-        public async Task<Score> UpdateScore(Score newscore)
+        public async Task<Score> UpdateScore(Score score)
         {
             try
             {
-                _context.Scores.Update(newscore);
+                _context.Scores.Update(score);
                 await _context.SaveChangesAsync();
-                return newscore;
+                return score;
             }
             catch(Exception e)
             {
