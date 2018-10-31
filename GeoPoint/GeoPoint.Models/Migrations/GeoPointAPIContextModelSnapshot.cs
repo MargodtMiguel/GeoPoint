@@ -99,7 +99,8 @@ namespace GeoPoint.Models.Migrations
 
                     b.Property<DateTime>("TimeStamp");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.Property<int>("Value");
 
@@ -235,7 +236,8 @@ namespace GeoPoint.Models.Migrations
                 {
                     b.HasOne("GeoPoint.Models.GeoPointUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

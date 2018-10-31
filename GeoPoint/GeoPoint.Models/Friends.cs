@@ -12,9 +12,7 @@ namespace GeoPoint.Models
         [Required]
         public string Id { get; set; }
         public bool isPending { get; set; } = true;
-        [Required]
         public string UserId { get; set; }
-        [Required]
         public string FriendId { get; set; }
 
         //navigatie properties

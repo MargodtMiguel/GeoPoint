@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace GeoPoint.API.Controllers
 {
@@ -26,10 +27,12 @@ namespace GeoPoint.API.Controllers
     {
         private readonly IScoreRepo _scoreRepo;
         private readonly UserManager<GeoPointUser> _userManager;
-        public ScoresController(IScoreRepo scoreRepo, UserManager<GeoPointUser> userManager)
+        private readonly ILogger<ScoresController> _logger;
+        public ScoresController(IScoreRepo scoreRepo, UserManager<GeoPointUser> userManager, ILogger<ScoresController> logger)
         {
             _scoreRepo = scoreRepo;
             _userManager = userManager;
+            _logger = logger;
         }
 
 
@@ -42,7 +45,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-
+                _logger.LogError($"Exception thrown when trying to get top scores: {e}");
                 return BadRequest();
             }
         }
@@ -68,6 +71,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError($"Exception thrown when trying to add or update score: {e}");
                 return BadRequest("Failed to add/update score");
             }
         }

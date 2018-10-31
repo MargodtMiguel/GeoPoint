@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeoPoint.Models.Migrations
 {
     [DbContext(typeof(GeoPointAPIContext))]
-    [Migration("20181028123049_initialCreate")]
-    partial class initialCreate
+    [Migration("20181031161953_deployMigration")]
+    partial class deployMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,7 +101,8 @@ namespace GeoPoint.Models.Migrations
 
                     b.Property<DateTime>("TimeStamp");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.Property<int>("Value");
 
@@ -237,7 +238,8 @@ namespace GeoPoint.Models.Migrations
                 {
                     b.HasOne("GeoPoint.Models.GeoPointUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
