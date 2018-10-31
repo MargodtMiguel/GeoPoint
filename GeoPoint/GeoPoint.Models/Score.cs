@@ -13,7 +13,7 @@ namespace GeoPoint.Models
         public string Id { get; set; }
         public int Value { get; set; }
         public string Area { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public double TimeSpan { get; set; }
         [ForeignKey("UserId")]
         [Required]
         public string UserId { get; set; }

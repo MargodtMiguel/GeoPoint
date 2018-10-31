@@ -72,18 +72,18 @@ namespace GeoPoint.Models.Data
             //Seeding Scores
             var scores = new[]
             {
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=10,TimeStamp = DateTime.Now, Area = "EU" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=8,TimeStamp = DateTime.Now, Area = "NA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=4,TimeStamp = DateTime.Now, Area = "SA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=11,TimeStamp = DateTime.Now, Area = "AF" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=14,TimeStamp = DateTime.Now, Area = "EU" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=6,TimeStamp = DateTime.Now, Area = "NA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=7,TimeStamp = DateTime.Now, Area = "SA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=1,TimeStamp = DateTime.Now, Area = "AF" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=8,TimeStamp = DateTime.Now, Area = "EU" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=8,TimeStamp = DateTime.Now, Area = "NA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=11,TimeStamp = DateTime.Now, Area = "SA" },
-                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=11,TimeStamp = DateTime.Now, Area = "AF" }
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=10,TimeSpan = 15.0, Area = "EU" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=8,TimeSpan = 2.4, Area = "NA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=4,TimeSpan = 6.8, Area = "SA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[0].Id, Value=11,TimeSpan = 7.9, Area = "AF" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=14,TimeSpan = 22.4, Area = "EU" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=6,TimeSpan = 77.2, Area = "NA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=7,TimeSpan = 3.5, Area = "SA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[1].Id, Value=1,TimeSpan = 1.7, Area = "AF" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=8,TimeSpan = 3.8, Area = "EU" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=8,TimeSpan = 99.9, Area = "NA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=11,TimeSpan = 7.77, Area = "SA" },
+                new Score{ Id = Guid.NewGuid().ToString(), UserId = users[2].Id, Value=11,TimeSpan = 10.0, Area = "AF" }
             };
 
             foreach(Score s in scores)

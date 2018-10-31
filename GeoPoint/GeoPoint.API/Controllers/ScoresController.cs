@@ -55,13 +55,17 @@ namespace GeoPoint.API.Controllers
         {
             try
             {
-                Score s = new Score { Area = score.Area, Value = score.Value, TimeStamp = score.TimeStamp };
+                Score s = new Score { Area = score.Area, Value = score.Value, TimeSpan = score.TimeSpan };
                 s.Id = Guid.NewGuid().ToString();
                 s.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var oldScore = await _scoreRepo.getOldScore(s);
                 if ( oldScore == null)
                 {
                     return Ok(await _scoreRepo.CreateScore(s));
+                }
+                else if(oldScore.Value > s.Value)
+                {
+                    return Ok("This wasn't your highscore");
                 }
                 else
                 {

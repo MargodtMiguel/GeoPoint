@@ -97,7 +97,7 @@ namespace GeoPoint.Models.Migrations
 
                     b.Property<string>("Area");
 
-                    b.Property<DateTime>("TimeStamp");
+                    b.Property<double>("TimeSpan");
 
                     b.Property<string>("UserId")
                         .IsRequired();

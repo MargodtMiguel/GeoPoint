@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GeoPoint.Models.Migrations
 {
     [DbContext(typeof(GeoPointAPIContext))]
-    [Migration("20181031161953_deployMigration")]
-    partial class deployMigration
+    [Migration("20181031170607_deployCreate")]
+    partial class deployCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,7 +99,7 @@ namespace GeoPoint.Models.Migrations
 
                     b.Property<string>("Area");
 
-                    b.Property<DateTime>("TimeStamp");
+                    b.Property<double>("TimeSpan");
 
                     b.Property<string>("UserId")
                         .IsRequired();

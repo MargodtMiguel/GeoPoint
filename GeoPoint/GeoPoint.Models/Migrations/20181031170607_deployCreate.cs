@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GeoPoint.Models.Migrations
 {
-    public partial class deployMigration : Migration
+    public partial class deployCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -186,7 +186,7 @@ namespace GeoPoint.Models.Migrations
                     Id = table.Column<string>(nullable: false),
                     Value = table.Column<int>(nullable: false),
                     Area = table.Column<string>(nullable: true),
-                    TimeStamp = table.Column<DateTime>(nullable: false),
+                    TimeSpan = table.Column<double>(nullable: false),
                     UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
