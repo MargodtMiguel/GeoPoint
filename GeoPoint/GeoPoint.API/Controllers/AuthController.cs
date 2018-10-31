@@ -9,6 +9,7 @@ using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace GeoPoint.API.Controllers
 {
     [ApiController]
+    [EnableCors("GeoPoint")]
     public class AuthController : ControllerBase
     {
         private readonly SignInManager<GeoPointUser> _signInManager;

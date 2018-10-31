@@ -91,7 +91,16 @@ namespace GeoPoint.API
                     };
                 });
             services.AddTransient<SeedIdentity>();
-            //services.AddCors();
+            services.AddCors(cfg =>
+            {
+                cfg.AddPolicy("GeoPoint", builder =>
+                {
+                    builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("http://GeoPoint.be");
+                });
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new Info
@@ -101,17 +110,12 @@ namespace GeoPoint.API
                 });
             });
             services.AddApiVersioning(cfg => {
-                //1. basis versie en default versie aanbrengen:
-                cfg.DefaultApiVersion = new ApiVersion(0, 1); //(major, minor)
+                cfg.DefaultApiVersion = new ApiVersion(0, 1);
                 cfg.AssumeDefaultVersionWhenUnspecified = true;
-
-                //2. toon de beschikbare versie in de header: api-supported-versions:
                 cfg.ReportApiVersions = true;
-                //3. gebruik de header met key "ver" ipv de standaard querystrings
                 cfg.ApiVersionReader = new HeaderApiVersionReader("ver");
             });
             services.AddMemoryCache();
-            //één of meerdere RateLimitRules definiëren
             services.Configure<IpRateLimitOptions>((options) =>
             {
                 options.GeneralRules = new System.Collections.Generic.List<RateLimitRule>()
@@ -125,7 +129,6 @@ namespace GeoPoint.API
             });
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -146,6 +149,7 @@ namespace GeoPoint.API
                 });
             }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedIdentity seedIdentity)
         {
@@ -162,12 +166,12 @@ namespace GeoPoint.API
                 var context = serviceScope.ServiceProvider.GetRequiredService<GeoPointAPIContext>();
                 context.Database.Migrate();
             }
-            //app.UseCors(cfg =>
-            //{
-            //    cfg.AllowAnyHeader()
-            //    .AllowAnyMethod()
-            //    .AllowAnyOrigin();
-            //});
+            app.UseCors(cfg =>
+            {
+                cfg.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
+            });
             app.UseIpRateLimiting();
             app.UseAuthentication();
             app.UseHttpsRedirection();

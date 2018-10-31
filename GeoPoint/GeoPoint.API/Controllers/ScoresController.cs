@@ -19,10 +19,10 @@ using Microsoft.Extensions.Logging;
 namespace GeoPoint.API.Controllers
 {
     [ApiController]
-    //[EnableCors]
     [Produces("application/json")]
     [ApiVersion("0.1")]
     [Authorize]
+    [EnableCors("GeoPoint")]
     public class ScoresController : ControllerBase
     {
         private readonly IScoreRepo _scoreRepo;
