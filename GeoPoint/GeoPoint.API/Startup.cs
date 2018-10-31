@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace GeoPoint.API
 {
@@ -87,7 +90,7 @@ namespace GeoPoint.API
                     };
                 });
             services.AddTransient<SeedIdentity>();
-            services.AddCors();
+            //services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new Info
@@ -121,7 +124,26 @@ namespace GeoPoint.API
             });
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-        }
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Tokens:Issuer"],
+                        ValidAudience = Configuration["Tokens:Audience"],
+
+                        IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                    };
+                    options.SaveToken = false;
+                    options.RequireHttpsMetadata = false;
+                });
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedIdentity seedIdentity)
@@ -134,12 +156,12 @@ namespace GeoPoint.API
             {
                 app.UseHsts();
             }
-            app.UseCors(cfg =>
-            {
-                cfg.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin();
-            });
+            //app.UseCors(cfg =>
+            //{
+            //    cfg.AllowAnyHeader()
+            //    .AllowAnyMethod()
+            //    .AllowAnyOrigin();
+            //});
             app.UseIpRateLimiting();
             app.UseAuthentication();
             app.UseHttpsRedirection();
@@ -149,7 +171,7 @@ namespace GeoPoint.API
                 c.RoutePrefix = "swagger"; //kan je dus aanpassen naar een ander uri
                 c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "GeoPoint.API v1.0");
             });
-            
+            app.UseAuthentication();
             app.UseMvc();
             seedIdentity.SeedIdentityMobileAppsAPI().Wait();    
         }

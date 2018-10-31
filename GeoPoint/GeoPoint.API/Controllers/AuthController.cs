@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using GeoPoint.API.Services;
 using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -10,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace GeoPoint.API.Controllers
 {
@@ -18,15 +21,22 @@ namespace GeoPoint.API.Controllers
     {
         private readonly SignInManager<GeoPointUser> _signInManager;
         private readonly UserManager<GeoPointUser> _userManager;
-        public AuthController(SignInManager<GeoPointUser> signInManager, UserManager<GeoPointUser> userManager )
+        private readonly IConfiguration _configuration;
+     
+        private readonly IPasswordHasher<GeoPointUser> _hasher;
+        public AuthController(SignInManager<GeoPointUser> signInManager, UserManager<GeoPointUser> userManager, IConfiguration configuration, IPasswordHasher<GeoPointUser> hasher )
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _hasher = hasher;
+           
+            _configuration = configuration;
         }
 
+        #region cookieAuth
         [HttpPost("api/[controller]/Login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(IdentityModel identityModel )
+        public async Task<IActionResult> Login(IdentityModel identityModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Unvalid data");
@@ -34,7 +44,7 @@ namespace GeoPoint.API.Controllers
             {
                 var result = await
                _signInManager.PasswordSignInAsync(identityModel.UserName,
-               
+
                identityModel.Password, false, false);
                 if (result.Succeeded)
                 {
@@ -48,7 +58,7 @@ namespace GeoPoint.API.Controllers
             {
                 Debug.WriteLine(exc);
             }
-            return BadRequest("Failed to login"); 
+            return BadRequest("Failed to login");
         }
 
         [HttpPost("api/[controller]/Register")]
@@ -77,7 +87,7 @@ namespace GeoPoint.API.Controllers
         [HttpPost("api/[controller]/Logout")]
         [AllowAnonymous]
         public async Task<IActionResult> Logout()
-        {         
+        {
             try
             {
                 await _signInManager.SignOutAsync();
@@ -88,5 +98,26 @@ namespace GeoPoint.API.Controllers
                 return BadRequest("Failed to Sign Out");
             }
         }
+        #endregion
+
+        #region TokenAuth
+        //[HttpPost("token")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> GenerateJwtToken([FromBody]IdentityModel identityModel)
+        //{
+        //    try
+        //    {
+        //        var jwtsvc = new JWTServices<GeoPointUser>(_configuration, _userManager, _hasher);
+        //        var token = await jwtsvc.GenerateJwtToken(identityModel);
+        //        return Ok(token);
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        //_logger.LogError($"Exception thrown when creating JWT: {exc}");
+        //    }
+
+        //    return BadRequest("Failed to generate JWT token");
+        //}
+        #endregion
     }
 }

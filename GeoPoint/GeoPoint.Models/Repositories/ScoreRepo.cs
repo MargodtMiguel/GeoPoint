@@ -38,6 +38,13 @@ namespace GeoPoint.Models.Repositories
         {
             try
             {
+                var local = _context.Set<Score>().Local.FirstOrDefault(entry => entry.Id.Equals(score.Id));
+                if (!(local == null))
+                {
+                    _context.Entry(local).State = EntityState.Detached;
+                }
+                _context.Entry(score).State = EntityState.Modified;
+                _context.SaveChanges();
                 _context.Scores.Update(score);
                 await _context.SaveChangesAsync();
                 return score;

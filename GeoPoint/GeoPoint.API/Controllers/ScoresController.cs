@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
 using GeoPoint.Models.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -49,10 +52,9 @@ namespace GeoPoint.API.Controllers
         {
             try
             {
-                GeoPointUser user = await _userManager.FindByNameAsync(score.UserName);
                 Score s = new Score { Area = score.Area, Value = score.Value, TimeStamp = score.TimeStamp };
                 s.Id = Guid.NewGuid().ToString();
-                s.UserId = user.Id;
+                s.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 var oldScore = await _scoreRepo.getOldScore(s);
                 if ( oldScore == null)
                 {
