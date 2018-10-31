@@ -1,47 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GeoPoint.Models;
-using GeoPoint.Models.Data;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
 using GeoPoint.API.ViewModels;
-using Microsoft.AspNetCore.Cors;
+using GeoPoint.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GeoPoint.API.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly GeoPointAPIContext _context;
-        private readonly SignInManager<GeoPointUser> _signInMgr;
-        private readonly ILogger<AuthController> _logger;
-
-        public AuthController(GeoPointAPIContext context, SignInManager<GeoPointUser> signInMgr, ILogger<AuthController> logger)
+        private readonly SignInManager<GeoPointUser> _signInManager;
+        private readonly UserManager<GeoPointUser> _userManager;
+        public AuthController(SignInManager<GeoPointUser> signInManager, UserManager<GeoPointUser> userManager )
         {
-            _context = context;
-            _signInMgr = signInMgr;
-            _logger = logger;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
-        
-        [HttpPost("/login")]
+        [HttpPost("/SignIn")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(IdentityModel identityModel)
+        public async Task<IActionResult> SignIn(IdentityModel identityModel )
         {
             if (!ModelState.IsValid)
                 return BadRequest("Unvalid data");
             try
             {
                 var result = await
-               _signInMgr.PasswordSignInAsync(identityModel.UserName,
+               _signInManager.PasswordSignInAsync(identityModel.UserName,
+               
                identityModel.Password, false, false);
                 if (result.Succeeded)
                 {
@@ -49,12 +42,37 @@ namespace GeoPoint.API.Controllers
                 }
                 ModelState.AddModelError("", "Username or password not found");
                 return BadRequest("Failed to login");
+
             }
             catch (Exception exc)
             {
-                _logger.LogError($"Exception thrown when logging in: {exc}");
+                Debug.WriteLine(exc);
             }
-            return BadRequest("Failed to login");
+            return BadRequest("Failed to login"); 
+        }
+
+        [HttpPost("/SignUp")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SignUp(IdentityModel identityModel)
+        {
+            if (!ModelState.IsValid) return BadRequest("Unvalid data");
+            try
+            {
+                var user = new GeoPointUser { Id = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString(), UserName = identityModel.UserName };
+                if (await _userManager.FindByNameAsync(user.UserName) == null)
+                {
+                    var u = await _userManager.CreateAsync(user, identityModel.Password);
+                    return await SignIn(identityModel);
+                }
+                else
+                {
+                    return BadRequest("User already exists!");
+                }
+            }
+            catch
+            {
+                return BadRequest("Failed to create account");
+            }
         }
     }
 }

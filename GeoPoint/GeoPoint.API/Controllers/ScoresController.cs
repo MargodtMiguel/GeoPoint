@@ -17,7 +17,7 @@ namespace GeoPoint.API.Controllers
     [EnableCors]
     [Produces("application/json")]
     [ApiVersion("0.1")]
-    // [Authorize]
+    [Authorize]
     public class ScoresController : ControllerBase
     {
         private readonly IScoreRepo _scoreRepo;
@@ -27,8 +27,8 @@ namespace GeoPoint.API.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetTopScores([Required]string area, [Required]int length)
+        [HttpGet("/GetTopScores")]
+        public async Task<IActionResult> GetTopScores([Required]string area, [Required]int length = 10)
         {
             try
             {

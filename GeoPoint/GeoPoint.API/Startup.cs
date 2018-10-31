@@ -30,7 +30,8 @@ namespace GeoPoint.API
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-            _env = env;
+            _env = env;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -91,7 +92,8 @@ namespace GeoPoint.API
                 validationModelOptions.MustRevalidate = true;
             });
             services.AddResponseCaching();
-            services.AddTransient<SeedIdentity>();            services.AddCors();
+            services.AddTransient<SeedIdentity>();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1.0", new Info
