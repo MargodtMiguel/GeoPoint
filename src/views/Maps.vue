@@ -48,6 +48,7 @@
     width:230px;
     max-height:200px;
     margin:10px;
+    margin-bottom:40px;
     transition: all .2s ease-in-out;
   }
 

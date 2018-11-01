@@ -643,7 +643,7 @@
           this.svgpanzoom.resetPan();
           this.$store.commit('setLastScore', this.score);
           document.getElementById(this.corrCountry).classList.add("correctCountry");
-          setTimeout(() => this.$router.push('gameover'), 2000);
+          setTimeout(() => this.$router.push('/gameover'), 2000);
         }
       },
       pickRandomCountry: function(obj) {
@@ -652,7 +652,7 @@
         if(typeof ctp == 'undefined'){
           this.$store.commit('setEndTime');
           this.$store.commit('setLastScore', this.score);
-          this.$router.push('finish');
+          this.$router.push('/finish');
         }else{
           console.log("Random pick:" + ctp);
         }
