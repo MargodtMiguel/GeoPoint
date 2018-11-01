@@ -53,6 +53,11 @@ namespace GeoPoint.API.Controllers
         [HttpPost("api/[controller]/AddScore")]
         public async Task<IActionResult> AddScore(ScoreVM score)
         {
+            if (score == null)
+            {
+                throw new ArgumentNullException(nameof(score));
+            }
+
             try
             {
                 Score s = new Score { Area = score.Area, Value = score.Value, TimeSpan = score.TimeSpan };
@@ -70,7 +75,8 @@ namespace GeoPoint.API.Controllers
                 else
                 {
                     s.Id = oldScore.Id;
-                    return Ok(await _scoreRepo.UpdateScore(s));
+                    await _scoreRepo.UpdateScore(s);
+                    return Ok("Succes");
                 }
             }
             catch (Exception e)

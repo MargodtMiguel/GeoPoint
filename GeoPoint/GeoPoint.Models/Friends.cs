@@ -15,7 +15,6 @@ namespace GeoPoint.Models
         public string UserId { get; set; }
         public string FriendId { get; set; }
 
-        //navigatie properties
 
         public virtual GeoPointUser User { get; set; }
         public virtual GeoPointUser Friend { get; set; }

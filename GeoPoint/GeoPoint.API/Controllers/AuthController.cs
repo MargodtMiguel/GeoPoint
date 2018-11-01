@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -45,10 +44,12 @@ namespace GeoPoint.API.Controllers
                 return BadRequest("Unvalid data");
             try
             {
-                var result = await
-               _signInManager.PasswordSignInAsync(identityModel.UserName,
-
-               identityModel.Password, false, false);
+                if(User.Identity.IsAuthenticated)
+                {
+                    await _signInManager.SignOutAsync();
+                   
+                }
+                var result = await _signInManager.PasswordSignInAsync(identityModel.UserName, identityModel.Password, false, false);
                 if (result.Succeeded)
                 {
                     return Ok("Welcome " + identityModel.UserName);
@@ -72,7 +73,7 @@ namespace GeoPoint.API.Controllers
             try
             {
                 var user = new GeoPointUser { Id = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString(), UserName = identityModel.UserName };
-                if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value != null)
+                if (User.Identity.IsAuthenticated)
                 {
                     await _signInManager.SignOutAsync();
 
