@@ -71,7 +71,7 @@
     methods:{
       getRandomMap: function(){
         var randomMap = allmaps[Math.floor(Math.random()*allmaps.length)];
-        this.$router.push(randomMap);
+        this.$router.push("/game/" + randomMap);
       }
     }
   }

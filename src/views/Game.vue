@@ -26,10 +26,10 @@
       }
     },
     created: function(){
-      //set the current map (to show on the finish page)
-      this.$store.commit('setCurrentMap', this.$route.params.map);
       //make sure all values are resetted
       this.$store.commit('resetValues');
+      //set the current map (to show on the finish page)
+      this.$store.commit('setCurrentMap', this.mapComponent);
       //start the timer (duration time is used in scoreboard and on finish page)
       this.$store.commit('setStartTime');
     }
