@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoPoint.Models", "GeoPoint.Models\GeoPoint.Models.csproj", "{7932E410-2892-4B73-BA27-4DE7C76074AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoPoint.API", "GeoPoint.API\GeoPoint.API.csproj", "{F05BFFAE-AF2A-4D01-B19D-6E5E4B293563}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7932E410-2892-4B73-BA27-4DE7C76074AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7932E410-2892-4B73-BA27-4DE7C76074AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7932E410-2892-4B73-BA27-4DE7C76074AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7932E410-2892-4B73-BA27-4DE7C76074AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F05BFFAE-AF2A-4D01-B19D-6E5E4B293563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F05BFFAE-AF2A-4D01-B19D-6E5E4B293563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F05BFFAE-AF2A-4D01-B19D-6E5E4B293563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F05BFFAE-AF2A-4D01-B19D-6E5E4B293563}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2A535C0-C49C-428E-B0AF-01A54E1E90CF}
+	EndGlobalSection
+EndGlobal
