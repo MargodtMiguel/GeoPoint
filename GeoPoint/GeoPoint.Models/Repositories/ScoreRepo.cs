@@ -1,5 +1,6 @@
 ﻿using GeoPoint.Models.Data;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,14 @@ namespace GeoPoint.Models.Repositories
     public class ScoreRepo : IScoreRepo
     {
         private readonly GeoPointAPIContext _context;
-        public ScoreRepo(GeoPointAPIContext context)
+        private readonly GeoPointAPIMongoDBContext _mongocontext;
+        public ScoreRepo(GeoPointAPIContext context, GeoPointAPIMongoDBContext mongocontext)
         {
             _context = context;
+            _mongocontext = mongocontext; 
         }
-        public async Task<IEnumerable<Score>> GetTopScores(string area,int length)
+        #region SQLDB
+        public async Task<IEnumerable<Score>> GetTopScores(string area, int length)
         {
             var Scores = await this._context.Scores.Where(x => x.Area == area).OrderByDescending(x => x.Value).Take(length).AsNoTracking().ToListAsync();
             return Scores;
@@ -29,7 +33,7 @@ namespace GeoPoint.Models.Repositories
                 await _context.SaveChangesAsync();
                 return score;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw (e);
             }
@@ -49,11 +53,11 @@ namespace GeoPoint.Models.Repositories
                 await _context.SaveChangesAsync();
                 return score;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw (e);
             }
-            
+
         }
         public async Task<Score> getOldScore(Score score)
         {
@@ -63,5 +67,19 @@ namespace GeoPoint.Models.Repositories
         {
             return _context.Scores.Any(x => x.Area == s.Area && x.UserId == s.UserId);
         }
+        #endregion
+
+        #region NoSQLDB
+        public async Task<MongoModels.Score> CreateAsync(MongoModels.Score s)    {   
+            await _mongocontext.Scores.InsertOneAsync(s);     
+            return s;
+        }
+
+        //public async Task<IEnumerable<MongoModels.Score>> GetMongoScores()
+        //{
+        //    IMongoCollection<MongoModels.Score> collection = _mongocontext.Scores.
+        //    return await collection.Find({ }).ToListAsync<MongoModels.Score>();
+        //}
+        #endregion
     }
 }

@@ -147,7 +147,9 @@ namespace GeoPoint.API
                     options.SaveToken = false;
                     options.RequireHttpsMetadata = false;
                 });
-            }
+            services.AddSingleton<GeoPointAPIMongoDBContext>();
+
+        }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
