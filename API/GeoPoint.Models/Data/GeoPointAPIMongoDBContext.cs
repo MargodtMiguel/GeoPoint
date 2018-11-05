@@ -1,15 +1,17 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GeoPoint.Models.Data
 {
     public class GeoPointAPIMongoDBContext
     {
         private readonly IConfiguration configuration;
-        private readonly IMongoDatabase Database;
+        public readonly IMongoDatabase Database;
 
         public GeoPointAPIMongoDBContext(IConfiguration configuration)
         {
@@ -18,6 +20,12 @@ namespace GeoPoint.Models.Data
             Database = client.GetDatabase(configuration.GetSection("MongoDatabases")["GeoPoint"]);
 
         }
-        public IMongoCollection<MongoModels.Score> Scores => Database.GetCollection<MongoModels.Score>("Scores");
+        public IMongoCollection<MongoModels.Score> Scores => Database.GetCollection<MongoModels.Score>("scores");
+        public async Task<bool> CollectionExistsAsync(string collectionName)
+        {
+            var filter = new BsonDocument("name", collectionName);
+            var collections = await Database.ListCollectionsAsync(new ListCollectionsOptions { Filter = FilterDefinition<BsonDocument>.Empty });
+            return await collections.AnyAsync();
+        }
     }
 }

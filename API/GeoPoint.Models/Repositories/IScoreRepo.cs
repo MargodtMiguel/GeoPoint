@@ -10,5 +10,7 @@ namespace GeoPoint.Models.Repositories
         Task<Score> getOldScore(Score score);
         Task<Score> UpdateScore(Score score);
         bool ScoreExists(Score s);
+        Task<MongoModels.Score> CreateAsync(MongoModels.Score s);
+        Task<IEnumerable<MongoModels.Score>> GetMongoScores();
     }
 }

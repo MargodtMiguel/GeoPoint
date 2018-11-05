@@ -148,12 +148,12 @@ namespace GeoPoint.API
                     options.RequireHttpsMetadata = false;
                 });
             services.AddSingleton<GeoPointAPIMongoDBContext>();
-
+            services.AddTransient<SeedMongo>();
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedIdentity seedIdentity)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedIdentity seedIdentity, SeedMongo seedMongo)
         {
             if (env.IsDevelopment())
             {
@@ -185,7 +185,8 @@ namespace GeoPoint.API
             });
             app.UseAuthentication();
             app.UseMvc();
-            seedIdentity.SeedIdentityMobileAppsAPI().Wait();    
+            seedIdentity.SeedIdentityMobileAppsAPI().Wait();
+            seedMongo.initDatabase(150);
         }
     }
 }

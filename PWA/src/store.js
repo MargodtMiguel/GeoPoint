@@ -36,6 +36,7 @@ export default new Vuex.Store({
       state.startTime = '';      
       state.endTime = '';
     }
+    
   },
   actions: {
 

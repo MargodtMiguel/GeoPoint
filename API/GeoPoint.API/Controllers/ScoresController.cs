@@ -49,7 +49,19 @@ namespace GeoPoint.API.Controllers
                 return BadRequest();
             }
         }
-
+        [HttpGet("api/[controller]/getAllScores")]
+        public async Task<IActionResult> GetAllScores()
+        {
+            try
+            {
+                return Ok(await _scoreRepo.GetMongoScores());
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Exception thrown when trying to get all scores: {e}");
+                return BadRequest("Failed to add/update score");
+            }
+        }
         [HttpPost("api/[controller]/AddScore")]
         public async Task<IActionResult> AddScore(ScoreVM score)
         {

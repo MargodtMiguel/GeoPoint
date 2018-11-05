@@ -12,11 +12,11 @@ namespace GeoPoint.Models.Repositories
     public class ScoreRepo : IScoreRepo
     {
         private readonly GeoPointAPIContext _context;
-        private readonly GeoPointAPIMongoDBContext _mongocontext;
-        public ScoreRepo(GeoPointAPIContext context, GeoPointAPIMongoDBContext mongocontext)
+        private readonly GeoPointAPIMongoDBContext mongoDBContext;
+        public ScoreRepo(GeoPointAPIContext context, GeoPointAPIMongoDBContext mongoDBContext)
         {
             _context = context;
-            _mongocontext = mongocontext; 
+            this.mongoDBContext = mongoDBContext; 
         }
         #region SQLDB
         public async Task<IEnumerable<Score>> GetTopScores(string area, int length)
@@ -71,15 +71,16 @@ namespace GeoPoint.Models.Repositories
 
         #region NoSQLDB
         public async Task<MongoModels.Score> CreateAsync(MongoModels.Score s)    {   
-            await _mongocontext.Scores.InsertOneAsync(s);     
+            await mongoDBContext.Scores.InsertOneAsync(s);     
             return s;
         }
 
-        //public async Task<IEnumerable<MongoModels.Score>> GetMongoScores()
-        //{
-        //    IMongoCollection<MongoModels.Score> collection = _mongocontext.Scores.
-        //    return await collection.Find({ }).ToListAsync<MongoModels.Score>();
-        //}
+        public async Task<IEnumerable<MongoModels.Score>> GetMongoScores()
+        {
+            IMongoCollection<MongoModels.Score> collection = mongoDBContext.Database.GetCollection<MongoModels.Score>("scores");
+
+            return await collection.Find(FilterDefinition<MongoModels.Score>.Empty).ToListAsync<MongoModels.Score>();
+        }
         #endregion
     }
 }
