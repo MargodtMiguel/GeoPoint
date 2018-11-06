@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    authToken:'',
     lastScore: 0,
     currentMap: '',
     startTime: '',
@@ -43,7 +44,16 @@ export default new Vuex.Store({
         password: account.password
       })
       .then(response => {
-        
+        this.authToken = response.data.token
+      })
+    },
+    userRegister(state, account){
+      axios.post(`https://localhost:44363/api/Auth/Register`, {
+        userName: account.login,
+        password: account.password
+      })
+      .then(response => {
+        this.authToken = response.data.token
       })
     }
   },
