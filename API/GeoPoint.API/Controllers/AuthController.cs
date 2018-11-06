@@ -109,6 +109,29 @@ namespace GeoPoint.API.Controllers
                 return BadRequest("Failed to Sign Out");
             }
         }
+
+        [HttpGet("api/[controller]/isLoggedIn")]
+        [AllowAnonymous]
+        public IActionResult isLoggedIn()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    return Ok(true);
+
+                }
+                else
+                {
+                    return Ok(false);
+                }
+            }
+            catch(Exception e)
+            {
+                _logger.LogError($"Exception thrown when checking if user is logged in: {e}");
+                return BadRequest("Failed to check if user was logged in");
+            }
+        }
         #endregion
 
     }
