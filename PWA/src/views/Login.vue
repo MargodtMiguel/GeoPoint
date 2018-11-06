@@ -39,6 +39,7 @@ export default {
     methods:{
         userLogIn: function(){
             this.$store.commit('userLogIn', this.account);
+            
         }
     }
 }

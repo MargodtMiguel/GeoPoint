@@ -44,16 +44,26 @@ export default new Vuex.Store({
         password: account.password
       })
       .then(response => {
-        this.authToken = response.data.token
+        if(response.data.token != undefined){
+          this.authToken = response.data.token;
+          console.log(response.data.token)
+        }else{
+          console.log(response)
+        }
+
       })
     },
     userRegister(state, account){
       axios.post(`https://localhost:44363/api/Auth/Register`, {
         userName: account.login,
-        password: account.password
+        password: account.password1
       })
       .then(response => {
-        this.authToken = response.data.token
+        if(response.data.token != undefined){
+          this.authToken = response.data.token
+        }else{
+          console.log(response)
+        }
       })
     }
   },
