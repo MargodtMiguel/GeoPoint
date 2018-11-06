@@ -130,23 +130,23 @@ namespace GeoPoint.API
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration["Tokens:Issuer"],
-                        ValidAudience = Configuration["Tokens:Audience"],
+              .AddJwtBearer(options =>
+              {
+                  options.TokenValidationParameters = new TokenValidationParameters()
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = Configuration["Tokens:Issuer"],
+                      ValidAudience = Configuration["Tokens:Audience"],
 
-                        IssuerSigningKey = new SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
-                    };
-                    options.SaveToken = false;
-                    options.RequireHttpsMetadata = false;
-                });
+                      IssuerSigningKey = new SymmetricSecurityKey
+                 (Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
+                  };
+                  options.SaveToken = false;
+                  options.RequireHttpsMetadata = false;
+              });
             services.AddSingleton<GeoPointAPIMongoDBContext>();
             services.AddTransient<SeedMongo>();
         }

@@ -21,7 +21,7 @@ namespace GeoPoint.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [ApiVersion("0.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [EnableCors("GeoPoint")]
     public class ScoresController : ControllerBase
     {
