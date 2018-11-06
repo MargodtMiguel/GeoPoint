@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -35,10 +36,18 @@ export default new Vuex.Store({
       state.currentMap = '';
       state.startTime = '';      
       state.endTime = '';
+    },
+    userLogIn(state, account){
+      axios.post(`https://localhost:44363/api/Auth/Login`, {
+        userName: account.login,
+        password: account.password
+      })
+      .then(response => {
+        
+      })
     }
-    
   },
   actions: {
-
+    
   }
 })
