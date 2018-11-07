@@ -1,37 +1,79 @@
-﻿using GeoPoint.Models.Repositories;
+﻿using AspNetCore.Identity.Mongo.Model;
+using GeoPoint.Models.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GeoPoint.Models.Data
 {
     public class SeedMongo
     {
-        private readonly IScoreRepo scoreRepo;
         private readonly IConfiguration configuration;
         private readonly GeoPointAPIMongoDBContext mongoDBContext;
-        public SeedMongo(IScoreRepo scoreRepo, IConfiguration configuration, GeoPointAPIMongoDBContext mongoDBContext)
+        private readonly UserManager<GeoPointUser> userMgr;
+        private readonly RoleManager<MongoRole> roleMgr;
+        private readonly IScoreRepo scoreRepo;
+        public SeedMongo(UserManager<GeoPointUser> userMgr, RoleManager<MongoRole> roleMgr, IScoreRepo scoreRepo, IConfiguration configuration, GeoPointAPIMongoDBContext mongoDBContext)
         {
             this.scoreRepo = scoreRepo;
             this.configuration = configuration;
             this.mongoDBContext = mongoDBContext;
+            this.userMgr = userMgr;
+            this.roleMgr = roleMgr;
 
         }
-        public void initDatabase(int nmbrScores)
+        public async Task initDatabase(int nmbrScores)
         {
+            var users = new[]
+           {
+                new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = "RuneClaeys" },
+                new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = "MiguelMargodt" },
+                new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = "JohanVannieuwenhuyse" },
+
+            };
+            foreach (var u in users)
+            {
+                var user = await userMgr.FindByNameAsync(u.UserName);
+                Debug.WriteLine(user);
+                if (user == null)
+                {
+                    if (!(await roleMgr.RoleExistsAsync("Admin")))
+                    {
+                        var role = new MongoRole("Admin");
+                        await roleMgr.CreateAsync(role);
+
+                    }
+                    var userResult = await userMgr.CreateAsync(u, "P@ssw0rd");
+                    var roleResult = await userMgr.AddToRoleAsync(u, "Admin");
+                    if (!userResult.Succeeded || !roleResult.Succeeded)
+                    {
+                        throw new InvalidOperationException("Failed to build user and roles");
+                    }
+                }
+            }
             if (!mongoDBContext.CollectionExistsAsync("scores").Result)
             {
                 List<string> AreaList = new List<string> { "EU", "AF", "SA", "NA" };
-                List<string> UserList = new List<string> { "3f316e83-896f-47c3-95c7-24e70d25afa9", "18d74f91-0417-4f61-9809-68e2ca21ba5f", "763f45a5-0ec3-413b-ad02-6683f9dc8e40" };
-                for (var i = 0; i < nmbrScores; i++)
+                List<string> UserList = new List<string> { users[0].Id, users[1].Id, users[2].Id };
+                     for (var i = 0; i < nmbrScores; i++)
                 {
-                    scoreRepo.CreateAsync(new Models.MongoModels.Score
+                    DateTime date = DateTime.UtcNow.AddDays(- new Random().Next(7));
+                    date = date.AddMinutes(-new Random().Next(60));
+                    date = date.AddHours(-new Random().Next(24));
+                    date = date.AddSeconds(-new Random().Next(60));
+                    Debug.WriteLine(date.ToString());
+                   
+                    await scoreRepo.CreateAsync(new Score
                     {
                         Value = new Random().Next(30),
                         Area = AreaList[new Random().Next(AreaList.Count)],
                         UserId = UserList[new Random().Next(UserList.Count)],
-                        TimeSpan = new Random().Next(30)
+                        TimeSpan = new Random().Next(30),
+                        TimeStamp = date
                     });
                 }
             }

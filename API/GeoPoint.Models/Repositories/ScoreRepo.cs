@@ -1,86 +1,40 @@
 ﻿using GeoPoint.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GeoPoint.Models.Repositories
 {
     public class ScoreRepo : IScoreRepo
     {
-        private readonly GeoPointAPIContext _context;
         private readonly GeoPointAPIMongoDBContext mongoDBContext;
-        public ScoreRepo(GeoPointAPIContext context, GeoPointAPIMongoDBContext mongoDBContext)
+        public ScoreRepo( GeoPointAPIMongoDBContext mongoDBContext)
         {
-            _context = context;
             this.mongoDBContext = mongoDBContext; 
         }
-        #region SQLDB
-        public async Task<IEnumerable<Score>> GetTopScores(string area, int length)
-        {
-            var Scores = await this._context.Scores.Where(x => x.Area == area).OrderByDescending(x => x.Value).Take(length).AsNoTracking().ToListAsync();
-            return Scores;
+       
+
+        #region MongoDB
+
+        public async Task<Score> CreateAsync(Score score)    {   
+            await mongoDBContext.Scores.InsertOneAsync(score);     
+            return score;
         }
 
-        public async Task<Score> CreateScore(Score score)
+        public async Task<IEnumerable<Score>> GetAllScoresAsync()
         {
-            try
-            {
-                _context.Scores.Add(score);
-                await _context.SaveChangesAsync();
-                return score;
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-        }
-        public async Task<Score> UpdateScore(Score score)
-        {
-            try
-            {
-                var local = _context.Set<Score>().Local.FirstOrDefault(entry => entry.Id.Equals(score.Id));
-                if (!(local == null))
-                {
-                    _context.Entry(local).State = EntityState.Detached;
-                }
-                _context.Entry(score).State = EntityState.Modified;
-                _context.SaveChanges();
-                _context.Scores.Update(score);
-                await _context.SaveChangesAsync();
-                return score;
-            }
-            catch (Exception e)
-            {
-                throw (e);
-            }
-
-        }
-        public async Task<Score> getOldScore(Score score)
-        {
-            return await _context.Scores.Where(x => x.Area == score.Area && x.UserId == score.UserId).FirstOrDefaultAsync();
-        }
-        public bool ScoreExists(Score s)
-        {
-            return _context.Scores.Any(x => x.Area == s.Area && x.UserId == s.UserId);
-        }
-        #endregion
-
-        #region NoSQLDB
-        public async Task<MongoModels.Score> CreateAsync(MongoModels.Score s)    {   
-            await mongoDBContext.Scores.InsertOneAsync(s);     
-            return s;
+            IMongoCollection<Score> collection = mongoDBContext.Database.GetCollection<Score>("scores");
+            return await collection.Find(FilterDefinition<Score>.Empty).ToListAsync<Score>();
         }
 
-        public async Task<IEnumerable<MongoModels.Score>> GetMongoScores()
+        public async Task<IEnumerable<Score>> GetTopScoresAsync(string area,int length)
         {
-            IMongoCollection<MongoModels.Score> collection = mongoDBContext.Database.GetCollection<MongoModels.Score>("scores");
-
-            return await collection.Find(FilterDefinition<MongoModels.Score>.Empty).ToListAsync<MongoModels.Score>();
+            return await mongoDBContext.Scores.Find(s => s.Area == area).SortByDescending(s => s.Value).ThenByDescending(s => s.TimeSpan).Limit(10).ToListAsync<Score>();
+            
         }
+
         #endregion
     }
 }

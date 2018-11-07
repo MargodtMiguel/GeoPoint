@@ -20,7 +20,8 @@ namespace GeoPoint.Models.Data
             Database = client.GetDatabase(configuration.GetSection("MongoDatabases")["GeoPoint"]);
 
         }
-        public IMongoCollection<MongoModels.Score> Scores => Database.GetCollection<MongoModels.Score>("scores");
+        public IMongoCollection<Score> Scores => Database.GetCollection<Score>("scores");
+        public IMongoCollection<GeoPointUser> Users => Database.GetCollection<GeoPointUser>("users");
         public async Task<bool> CollectionExistsAsync(string collectionName)
         {
             var filter = new BsonDocument("name", collectionName);

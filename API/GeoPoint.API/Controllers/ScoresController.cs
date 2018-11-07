@@ -20,7 +20,6 @@ namespace GeoPoint.API.Controllers
 {
     [ApiController]
     [Produces("application/json")]
-    [ApiVersion("0.1")]
     [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [EnableCors("GeoPoint")]
     public class ScoresController : ControllerBase
@@ -36,65 +35,58 @@ namespace GeoPoint.API.Controllers
         }
 
 
-        [HttpGet("api/[controller]/GetTopScores")]
-        public async Task<IActionResult> GetTopScores([Required]string area, [Required]int length = 10)
-        {
-            try
-            {
-                return Ok(await _scoreRepo.GetTopScores(area, length));
-            }
-            catch (Exception e)
-            {
-                _logger.LogError($"Exception thrown when trying to get top scores: {e}");
-                return BadRequest();
-            }
-        }
+       
         [HttpGet("api/[controller]/getAllScores")]
         public async Task<IActionResult> GetAllScores()
         {
             try
             {
-                return Ok(await _scoreRepo.GetMongoScores());
+                return Ok(await _scoreRepo.GetAllScoresAsync());
             }
             catch (Exception e)
             {
                 _logger.LogError($"Exception thrown when trying to get all scores: {e}");
-                return BadRequest("Failed to add/update score");
+                return BadRequest("Failed to get all scores score");
             }
         }
-        [HttpPost("api/[controller]/AddScore")]
-        public async Task<IActionResult> AddScore(ScoreVM score)
-        {
-            if (score == null)
-            {
-                throw new ArgumentNullException(nameof(score));
-            }
 
+        [HttpGet("api/[controller]/getTopScores")]
+        public async Task<IActionResult> getTopScores([Required] string area, int length = 10)
+        {
             try
             {
-                Score s = new Score { Area = score.Area, Value = score.Value, TimeSpan = score.TimeSpan };
-                s.Id = Guid.NewGuid().ToString();
-                s.UserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                var oldScore = await _scoreRepo.getOldScore(s);
-                if ( oldScore == null)
-                {
-                    return Ok(await _scoreRepo.CreateScore(s));
-                }
-                else if(oldScore.Value > s.Value)
-                {
-                    return Ok("This wasn't your highscore");
-                }
-                else
-                {
-                    s.Id = oldScore.Id;
-                    await _scoreRepo.UpdateScore(s);
-                    return Ok("Succes");
-                }
+                return Ok(await _scoreRepo.GetTopScoresAsync(area,length));
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to add or update score: {e}");
-                return BadRequest("Failed to add/update score");
+                _logger.LogError($"Exception thrown when trying to get top scores: {e}");
+                return BadRequest("Failed to get top scores");
+            }
+        }
+
+        [HttpPost("api/[Controller]/addScore")]
+        public async Task<IActionResult> addScore(ScoreVM scoreVM)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Unvalid data");
+            try
+            {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                Score score = new Score
+                {
+                    UserId = userId,
+                    Area = scoreVM.Area,
+                    Value = scoreVM.Value,
+                    TimeSpan = scoreVM.TimeSpan,
+                    TimeStamp = scoreVM.TimeStamp
+                };
+                return Ok(await _scoreRepo.CreateAsync(score));
+            }
+            catch(Exception e)
+            {
+                _logger.LogError($"Exception thrown when trying to add a score: {e}");
+                return BadRequest("Failed to add score");
             }
         }
     }

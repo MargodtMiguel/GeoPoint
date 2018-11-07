@@ -1,4 +1,5 @@
-﻿using GeoPoint.API.ViewModels;
+﻿using AspNetCore.Identity.Mongo.Model;
+using GeoPoint.API.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GeoPoint.API.Services
 {
-        public class JWTServices<TEntity> where TEntity : IdentityUser
+        public class JWTServices<TEntity> where TEntity : MongoUser
         {
 
             private readonly UserManager<TEntity> userManager;
@@ -36,7 +37,7 @@ namespace GeoPoint.API.Services
                 //1. Gebruiker opzoeken in de database met async UserManager en hash vergelijking
                 try
                 {
-                    TEntity user = await userManager.FindByNameAsync(identityModel.UserName);
+                    TEntity user = await userManager.FindByNameAsync(identityModel.Username);
 
                     if (user != null)
                     {
@@ -48,7 +49,7 @@ namespace GeoPoint.API.Services
                         }
                         else
                         {
-                            return new IdentityError { Code= "400", Description= "Incorect password"};
+                            return new IdentityError { Code= "400", Description= "Incorrect password"};
                         }
 
                     }
@@ -68,10 +69,10 @@ namespace GeoPoint.API.Services
                     var claims = new List<Claim>
              {
                 //JWT claims zijn ingebouwd in de JWT spec: subscriber, JWT Id
-                 new Claim(JwtRegisteredClaimNames.Sub, identityModel.UserName),  //subscriber
+                 new Claim(JwtRegisteredClaimNames.Sub, identityModel.Username),  //subscriber
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), 
                  //extra claims (waardoor toch datastore info beschikbaar wordt)
-               //new Claim(JwtRegisteredClaimNames.Birthdate, identityModel.BirthDate.ToString())
+                 new Claim(ClaimTypes.Name, user.Id.ToString())
              }.Union(userClaims);   //nog de extra userClaims toevoegen.
 
                     //3. Sigin credentials met de symmetric key & encryptie methode
@@ -90,7 +91,7 @@ namespace GeoPoint.API.Services
                     //5. user info returnen (vervaldatum als additionele info)
                     return new
                     {
-                        token = new JwtSecurityTokenHandler().WriteToken(token), //token generator
+                        token = new JwtSecurityTokenHandler().WriteToken(token), 
                         expiration = token.ValidTo
                     };
                 }

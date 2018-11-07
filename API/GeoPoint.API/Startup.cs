@@ -24,6 +24,7 @@ using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AspNetCore.Identity.Mongo;
 
 namespace GeoPoint.API
 {
@@ -54,13 +55,12 @@ namespace GeoPoint.API
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<GeoPointAPIContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("GeoPointAPIContext")));
-            services.AddScoped<IFriendsRepo, FriendsRepo>();
+            
+
+            //Repos
             services.AddScoped<IScoreRepo, ScoreRepo>();
-            services.AddIdentity<GeoPointUser, IdentityRole>()
-                 .AddEntityFrameworkStores<GeoPointAPIContext>()
-                 .AddDefaultTokenProviders();
+
+            //cookie auth
             services.AddAuthentication("GeoPointScheme")
                 .AddCookie("GeoPointScheme", options =>
                 {
@@ -90,7 +90,8 @@ namespace GeoPoint.API
                         }
                     };
                 });
-            services.AddTransient<SeedIdentity>();
+
+            //Cross origin
             services.AddCors(cfg =>
             {
                 cfg.AddPolicy("GeoPoint", builder =>
@@ -101,21 +102,21 @@ namespace GeoPoint.API
                 });
             });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1.0", new Info
-                {
-                    Title = "GeoPoint.API",
-                    Version = "v1.0"
-                });
-            });
+            //Swagger
+            services.AddSwaggerDocumentation();
+
+            //Versioning
             services.AddApiVersioning(cfg => {
-                cfg.DefaultApiVersion = new ApiVersion(0, 1);
+                cfg.DefaultApiVersion = new ApiVersion(1, 0);
                 cfg.AssumeDefaultVersionWhenUnspecified = true;
                 cfg.ReportApiVersions = true;
-                cfg.ApiVersionReader = new HeaderApiVersionReader("ver");
+                cfg.ApiVersionReader = new MediaTypeApiVersionReader();
             });
+
+            //Cachinng
             services.AddMemoryCache();
+
+            //Rate limiting
             services.Configure<IpRateLimitOptions>((options) =>
             {
                 options.GeneralRules = new System.Collections.Generic.List<RateLimitRule>()
@@ -129,6 +130,8 @@ namespace GeoPoint.API
             });
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+
+            //Token Auth
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
               .AddJwtBearer(options =>
               {
@@ -147,26 +150,29 @@ namespace GeoPoint.API
                   options.SaveToken = false;
                   options.RequireHttpsMetadata = false;
               });
+
+            //MongoDB
             services.AddSingleton<GeoPointAPIMongoDBContext>();
             services.AddTransient<SeedMongo>();
+            services.AddIdentityMongoDbProvider<GeoPointUser>(options =>
+            {
+                options.ConnectionString = Configuration.GetConnectionString("MongoConnection");
+                
+            });
         }
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedIdentity seedIdentity, SeedMongo seedMongo)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,SeedMongo seedMongo)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerDocumentation();
             }
             else
             {
                 app.UseHsts();
-            }
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<GeoPointAPIContext>();
-                context.Database.Migrate();
             }
             app.UseCors(cfg =>
             {
@@ -178,15 +184,9 @@ namespace GeoPoint.API
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));
-            app.UseSwagger();
-            app.UseSwaggerUI(c => {
-                c.RoutePrefix = "swagger"; //kan je dus aanpassen naar een ander uri
-                c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "GeoPoint.API v1.0");
-            });
-            app.UseAuthentication();
+            //app.UseSwagger();
             app.UseMvc();
-            seedIdentity.SeedIdentityMobileAppsAPI().Wait();
-            seedMongo.initDatabase(150);
+            seedMongo.initDatabase(150).Wait();
         }
     }
 }
