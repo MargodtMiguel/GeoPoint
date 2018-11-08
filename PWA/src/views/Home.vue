@@ -6,7 +6,9 @@
       </router-link>
 
     <!-- <div class="c-button-primary">MULTIPLAYER</div> -->
-    <div class="c-button-primary secundary">LEADERBOARDS</div>
+    <router-link to="/leaderboard/Europe">
+      <div class="c-button-primary secundary">LEADERBOARDS</div>
+    </router-link>
   </div>
 </template>
 

@@ -7,6 +7,7 @@ import Register from './views/Register.vue'
 import GameOver from './views/GameOver.vue'
 import Finish from './views/Finish.vue'
 import Game from './views/Game.vue'
+import Leaderboard from './views/Leaderboard.vue'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path:'/game/:map',
       name: 'game',
       component: Game
+    },
+    {
+      path:'/leaderboard/:map',
+      name: 'leaderboard',
+      component: Leaderboard
     }
   ]
 })
