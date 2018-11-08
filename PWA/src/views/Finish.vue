@@ -10,7 +10,7 @@
         <div class="c-button-primary">PLAY AGAIN</div>
          </router-link>
           <router-link to="/">
-        <div class="c-button-primary">BACK TO MENU</div>
+        <div class="c-button-primary secundary">BACK TO MENU</div>
           </router-link>
    
   

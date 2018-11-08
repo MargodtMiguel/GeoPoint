@@ -8,6 +8,7 @@ import GameOver from './views/GameOver.vue'
 import Finish from './views/Finish.vue'
 import Game from './views/Game.vue'
 import Leaderboard from './views/Leaderboard.vue'
+import Leadermap from './views/Leadermap.vue'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path:'/leaderboard/:map',
       name: 'leaderboard',
       component: Leaderboard
+    },
+    {
+      path:'/leaderboard',
+      name: 'leadermap',
+      component: Leadermap
     }
   ]
 })
