@@ -57,8 +57,7 @@ namespace GeoPoint.Models.Data
             }
             if (!mongoDBContext.CollectionExistsAsync("scores").Result)
             {
-                List<string> AreaList = new List<string> { "EU", "AF", "SA", "NA" };
-                List<string> UserList = new List<string> { users[0].Id, users[1].Id, users[2].Id };
+                List<string> AreaList = new List<string> { "EUROPE", "AFRICA", "SOUTH-AMERICA", "NORTH-AMERICA" ,"AUSTRALIA"};
                      for (var i = 0; i < nmbrScores; i++)
                 {
                     DateTime date = DateTime.UtcNow.AddDays(- new Random().Next(7));
@@ -71,7 +70,7 @@ namespace GeoPoint.Models.Data
                     {
                         Value = new Random().Next(30),
                         Area = AreaList[new Random().Next(AreaList.Count)],
-                        UserId = UserList[new Random().Next(UserList.Count)],
+                        User = users[new Random().Next(users.Length)],
                         TimeSpan = new Random().Next(30),
                         TimeStamp = date
                     });

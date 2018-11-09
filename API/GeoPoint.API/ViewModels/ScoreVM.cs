@@ -11,7 +11,7 @@ namespace GeoPoint.API.ViewModels
         [Required]
         public int Value { get; set; }
         [Required]
-        [CollectionHasElements(ErrorMessage = "Must be EU, SA, NA, AF or AU")]
+        [CollectionHasElements(ErrorMessage = "Must be EUROPE, SOUTH-AMERICA, NORTH-AMERICA, AFRICA or AUSTRALIA")]
         public string Area { get; set; }
         [Required]
         public double TimeSpan { get; set; }
@@ -24,11 +24,11 @@ namespace GeoPoint.API.ViewModels
             {
                 var check = value as string;
                 return (
-                    check.Contains("EU") || 
-                    check.Contains("SA") || 
-                    check.Contains("NA") || 
-                    check.Contains("AF") || 
-                    check.Contains("AU")
+                    check.Contains("EUROPE") || 
+                    check.Contains("SOUTH-AMERICA") || 
+                    check.Contains("NORTH-AMERICA") || 
+                    check.Contains("AFRICA") || 
+                    check.Contains("AUSTRALIA")
                     );
             }
         }

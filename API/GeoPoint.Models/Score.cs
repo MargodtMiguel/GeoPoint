@@ -22,9 +22,9 @@ namespace GeoPoint.Models
         public double TimeSpan { get; set; }
         [BsonElement("TimeStamp")]
         public DateTime TimeStamp { get; set; }
-        [BsonElement("UserId")]
-        public string UserId { get; set; }
 
+        [BsonIgnoreIfNull]  
+        public GeoPointUser User { get; set; }
         
     }
 }

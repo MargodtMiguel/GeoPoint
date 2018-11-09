@@ -55,7 +55,7 @@ namespace GeoPoint.API.Controllers
         {
             try
             {
-                return Ok(await _scoreRepo.GetTopScoresAsync(area,length));
+                return Ok(await _scoreRepo.GetTopScoresAsync(area.ToUpper(),length));
             }
             catch (Exception e)
             {
@@ -75,8 +75,8 @@ namespace GeoPoint.API.Controllers
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 Score score = new Score
                 {
-                    UserId = userId,
-                    Area = scoreVM.Area,
+                    User = await _userManager.FindByIdAsync(userId),
+                    Area = scoreVM.Area.ToUpper(),
                     Value = scoreVM.Value,
                     TimeSpan = scoreVM.TimeSpan,
                     TimeStamp = scoreVM.TimeStamp

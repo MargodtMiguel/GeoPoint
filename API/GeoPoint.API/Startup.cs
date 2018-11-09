@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspNetCore.Identity.Mongo;
+using MongoDB.Bson.Serialization;
 
 namespace GeoPoint.API
 {
@@ -159,6 +160,7 @@ namespace GeoPoint.API
                 options.ConnectionString = Configuration.GetConnectionString("MongoConnection");
                 
             });
+           
         }
 
 
