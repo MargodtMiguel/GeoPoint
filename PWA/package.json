@@ -12,6 +12,7 @@
     "panzoom": "^6.3.2",
     "register-service-worker": "^1.0.0",
     "vue": "^2.5.17",
+    "vue-password": "^1.2.0",
     "vue-router": "^3.0.1",
     "vue-svg-pan-zoom": "^0.1.0",
     "vuex": "^3.0.1",

@@ -21,10 +21,29 @@
     margin-bottom:40px;
 }
 
+
 .c-login__form input:focus{
     outline:none;
 }
 
 .c-login__signup a{
     font-weight:600;
+}
+
+.c-login__form__password{
+    max-width:100%;
+    padding-right:0px !important;
+}
+
+.VuePassword__Toggle{
+    height:20px;
+}
+
+.VuePassword__Input{
+    height:40px;
+}
+
+.VuePassword__Meter{
+    padding:0;
+    margin:10px 0px 30px 0px;
 }

@@ -27,6 +27,14 @@
   line-height: 2;
   font-weight:600;
   vertical-align: middle;
+
+  //make it unable to select the text when dubble clicked on zoom buttons
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; 
 }
 
 .c-game__top{
@@ -47,6 +55,14 @@
   width:140px;
   padding-left:10px;
   float:left;
+
+  //make it unable to select the text when dubble clicked on zoom buttons
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;  
 }
 
 .c-game__top__controls{

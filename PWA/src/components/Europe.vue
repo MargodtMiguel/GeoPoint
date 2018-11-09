@@ -644,6 +644,7 @@
           this.$store.commit('setLastScore', this.score);
           document.getElementById(this.corrCountry).classList.add("correctCountry");
           setTimeout(() => this.$router.push('/gameover'), 2000);
+
         }
       },
       pickRandomCountry: function(obj) {

@@ -2,35 +2,26 @@
     <div class="c-leaderboard">
         <h1>{{ mapRoute }}</h1>
         <p>Top 20 best scores</p>
-        <p></p>
+        
         <table>
-            <tr>
+            <thead>
                 <th class="c-leaderboard__placement"></th>
                 <th>Username</th>
                 <th>Score</th>
                 <th>Time</th>
-            </tr>
-            <tr>
-                <td class="c-leaderboard__placement">1</td>
-                <td>Miguel</td>
-                <td>44</td>
-                <td>78.845</td>
-            </tr>
-            <tr>
-                <td class="c-leaderboard__placement">2</td>
-                <td>RuunTheBruuneBeer</td>
-                <td>2</td>
-                <td>412.237</td>
-            </tr>
-            <tr>
-                <td class="c-leaderboard__placement">3</td>
-                <td>BramAkaBrokke</td>
-                <td>15</td>
-                <td>12.47</td>
-            </tr>
+            </thead>
+            <tbody v-for="score in topScores" v-bind:key="score.id">
+                <tr>
+                    <td class="c-leaderboard__placement">1</td>
+                    <td>{{score.id}}</td>
+                    <td>{{ score.value }}</td>
+                    <td>{{ score.timeSpan }}</td>
+                </tr>
+
+            </tbody>
         </table>
 
-        <router-link to="/"><div class="c-button-primary secundary">BACK TO MENU</div></router-link>
+        <router-link to="/leaderboard"><div class="c-button-primary secundary">PICK OTHER MAP</div></router-link>
     </div>
 </template>
 
@@ -80,10 +71,18 @@
 <script>
 export default {
     name: 'leaderboard',
+    beforeCreate:function(){
+      this.$store.dispatch('fetchTopScoresByArea');
+    },
     computed:{
         mapRoute(){
-        return this.$route.params.map
-      }
+            return this.$route.params.map
+        },
+        topScores(){
+            return this.$store.getters.getTopScores
+        }
+    },
+    created: function(){      
     }
 }
 </script>

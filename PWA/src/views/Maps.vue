@@ -2,7 +2,8 @@
   <div>
     <MapPick routeVar="/game/"></MapPick>
 
-    <div @click="getRandomMap()" class="c-button-primary secundary">RANDOM MAP</div>   
+    <div @click="getRandomMap()" class="c-button-primary">RANDOM MAP</div>
+    <router-link to="/"><div class="c-button-primary secundary">BACK TO MENU</div></router-link>   
   
   </div>
 </template>
