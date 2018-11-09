@@ -39,11 +39,36 @@
     height:20px;
 }
 
+.VuePassword__Toggle__Icon{
+    fill:$alpha-color;
+}
+
+
 .VuePassword__Input{
     height:40px;
 }
 
+.VuePassword__Message{
+    margin-bottom:30px;
+}
+
 .VuePassword__Meter{
     padding:0;
-    margin:10px 0px 30px 0px;
+    margin:10px 0px 10px 0px;
+}
+
+.VuePassword--weak{
+    color:$beta-color;
+}
+
+.VuePassword--medium{
+    color: #af8679;
+}
+
+.VuePassword--good{
+    color: #57a68c;
+}
+
+.VuePassword--great{
+    color: $alpha-color;
 }

@@ -49,7 +49,7 @@ export default new Vuex.Store({
     },
     userLogIn(state, account){
       axios.post(`https://localhost:44363/api/Auth/Login`, {
-        userName: account.login,
+        username: account.login,
         password: account.password
       })
       .then(response => {
@@ -68,7 +68,7 @@ export default new Vuex.Store({
     },
     userRegister(state, account){
       axios.post(`https://localhost:44363/api/Auth/Register`, {
-        userName: account.login,
+        username: account.login,
         password: account.password1
       })
       .then(response => {

@@ -4,7 +4,7 @@
         <div class="c-login__form">
             <form  @submit.prevent="userLogIn">
                 <input v-model="account.login" id="inpUsername" placeholder="Username" type="text" autocomplete="off" required/>
-                <input v-model="account.password" id="inpPassword" placeholder="Password" type="password" autocomplete="off" required/>
+                <!-- <input v-model="account.password" id="inpPassword" placeholder="Password" type="password" autocomplete="off" required/> -->
                     <vue-password v-model="account.password"
                                     classes="c-login__form__password"
                                     placeholder="Password"
