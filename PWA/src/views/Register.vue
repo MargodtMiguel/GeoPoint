@@ -4,9 +4,19 @@
         <div class="c-login__form">
             <form @submit.prevent="userRegister">
                 <input v-model="account.login" id="inpUsername" placeholder="Username" type="text"  autocomplete="off" required/>
-                <input placeholder="E-mail address" tpye="e-mail"  autocomplete="off"/>
-                <input v-model="account.password1" id="inpPassword1" placeholder="Password" type="password"  autocomplete="off" required/>
-                <input v-model="account.password2" id="inpPassword2" placeholder="Confirm password" type="password"  autocomplete="off" required/>
+                <input v-model="account.email" placeholder="E-mail address" tpye="e-mail"  autocomplete="off"/>
+                <vue-password v-model="account.password1"
+                                    classes="c-login__form__password"
+                                    placeholder="Password"
+                                    :disableStrength="false"
+                    >
+                    </vue-password>
+                <vue-password v-model="account.password2"
+                                    classes="c-login__form__password"
+                                    placeholder="Confirm password"
+                                    :disableStrength="true"
+                    >
+                    </vue-password>
                 <button class="c-button-primary">SIGN UP</button>
             </form>
         </div>
@@ -20,17 +30,31 @@
      button{
          display:block;
      }
+
+     .VuePassword__Meter{
+         margin-bottom:20px;
+     }
+
+     .VuePassword__Message{
+         margin-bottom:30px;
+     }
 </style>
 
 <script>
+import VuePassword from 'vue-password'
+
 export default {
     name:'register',
+    components:{
+        VuePassword
+    },
     data(){
         return{
             account:{
                 login:'',
                 password1:'',
-                password2:''
+                password2:'',
+                email:''
             }
         }
     },
@@ -39,10 +63,17 @@ export default {
             if(this.account.password1 == this.account.password2){
                 this.$store.commit('userRegister', this.account);
             } else{
-                console.log("passwords do not match omegalul")
+                console.log("passwords do not match")
             }
             
+            if(this.$store.getters.isLoggedIn){
+                console.log("true")
+                this.$router.replace('/')
+            }else{
+                console.log("false")
+            }
         }
+        
     }
 }
 </script>

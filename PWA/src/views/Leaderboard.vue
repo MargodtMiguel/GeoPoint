@@ -1,27 +1,33 @@
 <template>
     <div class="c-leaderboard">
         <h1>{{ mapRoute }}</h1>
-        <p>Top 20 best scores</p>
-        
-        <table>
-            <thead>
-                <th class="c-leaderboard__placement"></th>
-                <th>Username</th>
-                <th>Score</th>
-                <th>Time</th>
-            </thead>
-            <tbody v-for="score in topScores" v-bind:key="score.id">
-                <tr>
-                    <td class="c-leaderboard__placement">1</td>
-                    <td>{{score.id}}</td>
-                    <td>{{ score.value }}</td>
-                    <td>{{ score.timeSpan }}</td>
-                </tr>
+        <div v-if="topScores && topScores.length">
+            <p>Top 20 best scores</p>
+                    
+            <table>
+                <thead>
+                    <th class="c-leaderboard__placement"></th>
+                    <th>Username</th>
+                    <th>Score</th>
+                    <th>Time</th>
+                </thead>
+                <tbody v-for="(score, index) in topScores" v-bind:key="score.id">
+                    <tr>
+                        <td class="c-leaderboard__placement">{{ index + 1}}</td>
+                        <td>{{score.user.userName}}</td>
+                        <td>{{ score.value }}</td>
+                        <td>{{ score.timeSpan }}</td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+        <div v-else>
+            <p>There are no scores available for this map</p>
+        </div>
+       
 
-        <router-link to="/leaderboard"><div class="c-button-primary secundary">PICK OTHER MAP</div></router-link>
+        <div @click="otherMap()" class="c-button-primary secundary">PICK OTHER MAP</div>
     </div>
 </template>
 
@@ -61,6 +67,7 @@
 
     .c-leaderboard td{
         font-weight:100;
+        height:15px;
     }
 
     .c-leaderboard .c-button-primary{
@@ -71,9 +78,6 @@
 <script>
 export default {
     name: 'leaderboard',
-    beforeCreate:function(){
-      this.$store.dispatch('fetchTopScoresByArea');
-    },
     computed:{
         mapRoute(){
             return this.$route.params.map
@@ -82,7 +86,14 @@ export default {
             return this.$store.getters.getTopScores
         }
     },
-    created: function(){      
+    methods:{
+        otherMap: function(){
+            this.$store.commit('resetValues');
+            this.$router.push('/leaderboard');
+        }
+    },
+    created: function(){
+        this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);   
     }
 }
 </script>

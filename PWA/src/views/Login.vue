@@ -4,10 +4,10 @@
         <div class="c-login__form">
             <form  @submit.prevent="userLogIn">
                 <input v-model="account.login" id="inpUsername" placeholder="Username" type="text" autocomplete="off" required/>
-                <!-- <input v-model="account.password" id="inpPassword" placeholder="Password" type="password" autocomplete="off" required/> -->
                     <vue-password v-model="account.password"
                                     classes="c-login__form__password"
                                     placeholder="Password"
+                                    :disableStrength="true"
                     >
                     </vue-password>
                 <button type="submit" class="c-button-primary">LOG IN</button>
@@ -23,9 +23,11 @@
  button{
      display:block;
      margin:0 auto;
+     margin-top:40px;
  }
- .c-login__togglePassword{
-     float:right;
+
+ .VuePassword__Input{
+     margin-bottom:20px;
  }
 </style>
 
@@ -47,7 +49,16 @@ export default {
     },
     methods:{
         userLogIn: function(){
+
+
             this.$store.commit('userLogIn', this.account);
+            if(this.$store.getters.isLoggedIn){
+                console.log("true")
+                this.$router.replace('/')
+            }else{
+                console.log("false")
+            }
+
             
         }
     }
