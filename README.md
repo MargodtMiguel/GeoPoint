@@ -27,13 +27,13 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 ## Frontend vereisten
  
 | Vereisten                    | Info                            | Check |  
-| -----------------------------|---------------------------------|-------|
-| Framework                    | right-aligned                   |       |
-| Testing                      | centered                        |       |
-| Styling                      | are neat                        |       |
-| PWA                          |                                 |       |
+| -----------------------------|---------------------------------|:-----:|
+| Framework                    | Gebruik gemaakt van vue.js      |   V   |
+| Testing                      |                                 |       |
+| Styling                      | SCSS                            |   V   |
+| PWA                          | Heeft een correcte PWA set-up   |   V   |
 | Multi-language               |                                 |       |
 | Error logging                |                                 |       |
 | Development setup            |                                 |       |
 | Webpack optimisation         |                                 |       |
-| Eigen inbreng                |                                 |       |
+| Eigen inbreng                | SVG map pan en zoom + password strength|   V   |
