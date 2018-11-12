@@ -7,3 +7,33 @@ De gebruiker kan ook badges verdienen voor op zijn profiel. Voorbeeld: Badge bij
 Het is mogelijk om vrienden toe te voegen om zo hun score's te zien. 
 
 Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
+
+## Backend vereisten
+
+| Vereisten                    | Info                            | Check |    
+| -----------------------------|---------------------------------|-------|
+| Backend API                  | right-aligned                   |       |
+| De database                  | centered                        |       |
+| Realtime                     | are neat                        |       |
+| Autorisatie en authenticatie |                                 |       |
+| Kwetsbaarheid                |                                 |       |
+| API Docs                     |                                 |       |
+| Framework                    |                                 |       |
+| Foutcontrole                 |                                 |       |
+| Source controle              |                                 |       |
+| Deployment                   |                                 |       |
+| Eigen inbgeng                |                                 |       |
+
+## Frontend vereisten
+ 
+| Vereisten                    | Info                            | Check |  
+| -----------------------------|---------------------------------|-------|
+| Framework                    | right-aligned                   |       |
+| Testing                      | centered                        |       |
+| Styling                      | are neat                        |       |
+| PWA                          |                                 |       |
+| Multi-language               |                                 |       |
+| Error logging                |                                 |       |
+| Development setup            |                                 |       |
+| Webpack optimisation         |                                 |       |
+| Eigen inbreng                |                                 |       |
