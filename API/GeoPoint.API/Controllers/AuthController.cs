@@ -69,7 +69,7 @@ namespace GeoPoint.API.Controllers
             if (!ModelState.IsValid) return BadRequest("Unvalid data");
             try
             {
-                var user = new GeoPointUser { Id = Guid.NewGuid().ToString(), SecurityStamp = Guid.NewGuid().ToString(), UserName = identityModel.Username, Email = identityModel.Email };
+                var user = new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = identityModel.Username, Email = identityModel.Email };
                 if (await _userManager.FindByNameAsync(user.UserName) == null)
                 {
                     var u = await _userManager.CreateAsync(user, identityModel.Password);
