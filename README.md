@@ -11,16 +11,16 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 ## Backend vereisten
 
 | Vereisten                    | Info                            | Check |    
-| -----------------------------|---------------------------------|-------|
-| Backend API                  | right-aligned                   |       |
-| De database                  | centered                        |       |
-| Realtime                     | are neat                        |       |
-| Autorisatie en authenticatie |                                 |       |
+| -----------------------------|---------------------------------|:-----:|
+| Backend API                  | ASP.NET Core MVC API            |   V   |
+| De database                  | MongoDB                         |   V   |
+| Realtime                     |                                 |       |
+| Autorisatie en authenticatie | JWT Token authentication        |   V   |
 | Kwetsbaarheid                |                                 |       |
-| API Docs                     |                                 |       |
-| Framework                    |                                 |       |
+| API Docs                     | Swagger                         |   V   |
+| Framework                    | Seeder ingesteld                |   V   |
 | Foutcontrole                 |                                 |       |
-| Source controle              |                                 |       |
+| Source controle              | Github                          |   V   |
 | Deployment                   |                                 |       |
 | Eigen inbgeng                |                                 |       |
 
