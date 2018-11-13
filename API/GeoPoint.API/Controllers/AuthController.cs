@@ -49,7 +49,7 @@ namespace GeoPoint.API.Controllers
             try
             {
                 
-                var jwtsvc = new JWTServices<GeoPointUser>(_configuration,_userManager,_hasher);
+                var jwtsvc = new JWTServices<GeoPointUser>(_configuration,_userManager,_hasher,_logger);
                 var token = await jwtsvc.GenerateJwtToken(identityModel);
                 if(token.GetType() == typeof(IdentityError))
                 {

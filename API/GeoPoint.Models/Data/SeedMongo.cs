@@ -30,8 +30,7 @@ namespace GeoPoint.Models.Data
         }
         public async Task initDatabase(int nmbrScores)
         {
-            try
-            {
+
                 var users = new[]
            {
                 new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = "RuneClaeys" },
@@ -79,11 +78,7 @@ namespace GeoPoint.Models.Data
                             TimeStamp = date
                         });
                     }
-                }
-            }
-            catch(Exception e)
-            {
-
+                
             }
         }
     }

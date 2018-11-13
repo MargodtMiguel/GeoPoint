@@ -20,12 +20,13 @@ namespace GeoPoint.API.Services
             private readonly UserManager<TEntity> userManager;
             private readonly IPasswordHasher<TEntity> hasher;
             private readonly IConfiguration configuration;
-
-            public JWTServices(IConfiguration configuration, UserManager<TEntity> userManager, IPasswordHasher<TEntity> hasher)
+            private readonly ILogger logger;
+            public JWTServices(IConfiguration configuration, UserManager<TEntity> userManager, IPasswordHasher<TEntity> hasher, ILogger logger)
             {
                 this.userManager = userManager;
                 this.hasher = hasher;
                 this.configuration = configuration;
+                this.logger = logger;
             }
 
             //returnen van een anoniem object
@@ -97,7 +98,7 @@ namespace GeoPoint.API.Services
                 }
                 catch (Exception exc)
                 {
-                    
+                  logger.LogError($"\r\n\r\nError thrown on JWTService - (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when using JWTService: " + exc + "\r\n\r\n");
                 }
             return new { error = "Failed to generate JWT token" }; //minimale info ->meer in de logger
         }
