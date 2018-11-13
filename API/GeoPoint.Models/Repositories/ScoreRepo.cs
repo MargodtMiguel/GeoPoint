@@ -31,6 +31,7 @@ namespace GeoPoint.Models.Repositories
 
         public async Task<IEnumerable<Score>> GetTopScoresAsync(string area,int length)
         {
+            
             return await mongoDBContext.Scores.Find(s => s.Area == area).SortByDescending(s => s.Value).ThenByDescending(s => s.TimeSpan).Limit(length).ToListAsync<Score>();
             
         }

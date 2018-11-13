@@ -9,7 +9,7 @@ namespace GeoPoint.API.ViewModels
     public class ScoreVM
     {
         [Required]
-        public int Value { get; set; }
+        public int Value { get;set; }
         [Required]
         [CollectionHasElements(ErrorMessage = "Must be EUROPE, SOUTH-AMERICA, NORTH-AMERICA, AFRICA or AUSTRALIA")]
         public string Area { get; set; }
@@ -22,6 +22,7 @@ namespace GeoPoint.API.ViewModels
         {
             public override bool IsValid(object value)
             {
+
                 var check = value as string;
                 return (
                     check.Contains("EUROPE") || 

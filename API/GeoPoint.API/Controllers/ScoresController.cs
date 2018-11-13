@@ -21,7 +21,7 @@ namespace GeoPoint.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
-    [EnableCors("GeoPoint")]
+    //[EnableCors("GeoPoint")]
     public class ScoresController : ControllerBase
     {
         private readonly IScoreRepo _scoreRepo;
@@ -55,7 +55,12 @@ namespace GeoPoint.API.Controllers
         {
             try
             {
-                return Ok(await _scoreRepo.GetTopScoresAsync(area.ToUpper(),length));
+                IEnumerable<Score> scores = await _scoreRepo.GetTopScoresAsync(area.ToUpper(), length);
+                foreach(Score s in scores)
+                {
+                    s.User.PasswordHash = null;
+                }
+                return Ok(scores);
             }
             catch (Exception e)
             {
@@ -81,6 +86,7 @@ namespace GeoPoint.API.Controllers
                     TimeSpan = scoreVM.TimeSpan,
                     TimeStamp = scoreVM.TimeStamp
                 };
+                
                 return Ok(await _scoreRepo.CreateAsync(score));
             }
             catch(Exception e)

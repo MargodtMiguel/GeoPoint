@@ -26,6 +26,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspNetCore.Identity.Mongo;
 using MongoDB.Bson.Serialization;
+using GeoPoint.API.Hubs;
 
 namespace GeoPoint.API
 {
@@ -93,16 +94,13 @@ namespace GeoPoint.API
                 });
 
             //Cross origin
-            services.AddCors(cfg =>
-            {
-                cfg.AddPolicy("GeoPoint", builder =>
-                {
-                    builder.AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .WithOrigins("http://GeoPoint.be");
-                });
-            });
-
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+              builder =>
+              {
+                  builder.AllowAnyMethod().AllowAnyHeader()
+                         .WithOrigins("http://localhost:8080", "https://localhost:44363/", "http://172.30.252.133:8080")
+                         .AllowCredentials();
+              }));
             //Swagger
             services.AddSwaggerDocumentation();
 
@@ -160,7 +158,7 @@ namespace GeoPoint.API
                 options.ConnectionString = Configuration.GetConnectionString("MongoConnection");
                 
             });
-           
+            services.AddSignalR();
         }
 
 
@@ -176,17 +174,13 @@ namespace GeoPoint.API
             {
                 app.UseHsts();
             }
-            app.UseCors(cfg =>
-            {
-                cfg.AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin();
-            });
+            app.UseCors("CorsPolicy");
             app.UseIpRateLimiting();
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));
             //app.UseSwagger();
+            app.UseSignalR(routes => { routes.MapHub<Scoreboard>("/scoreboard"); });
             app.UseMvc();
             seedMongo.initDatabase(150).Wait();
         }
