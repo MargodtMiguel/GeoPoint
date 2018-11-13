@@ -1,0 +1,48 @@
+@import './src/style/settings/settings.colors.scss';
+@import './src/style/settings/settings.global.scss';
+
+.c-leaderboard h1{
+    padding-bottom: 20px;
+}
+.c-leaderboard__holder{
+    width: 80%;
+    margin:0 auto;
+}
+.c-leaderboard__header p{
+    display: none;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "position username username" "position Score Time";
+    background: $alpha-color;  
+    font-size: 1.3em; 
+    
+  }
+  
+.position { 
+    grid-area: position; 
+    height: 80px; 
+    text-align: center; 
+    line-height: 80px;
+    font-weight: bold;
+}
+
+.username { 
+    grid-area: username; 
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.Score { 
+    grid-area: Score; 
+}
+
+.Time { 
+    grid-area: Time; 
+   
+}
