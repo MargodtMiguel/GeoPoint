@@ -63,9 +63,20 @@ export default {
             return this.$store.getters.getCurrentMap
         }
     },
+    data(){
+        return{
+            score:{
+                value: this.$store.getters.getLastScore,
+                area: this.$store.getters.getCurrentMap,
+                timeSpan: this.$store.getters.getDurationTime
+            }
+        }
+    },
     created: function(){
         if(this.lastScore == 0){
             this.$router.push('gameover');
+        }else{
+            this.$store.commit('addScore', this.score);
         }
     }
 }

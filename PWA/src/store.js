@@ -26,15 +26,15 @@ export default new Vuex.Store({
       var expDateStorage = localStorage.expDate;
       var expDate = new Date(expDateStorage);
       var now = moment(Date.now());
-      console.log(expDateStorage);
-      console.log(now);
+      console.log("get isloggedin expdate: "+ expDateStorage);
+      console.log("get isloggedin now: " + now);
       if(now != undefined && expDateStorage != undefined){
         if(now.isValid() && expDateStorage.isValid()){
           if(now.isBefore(expDateStorage)){
-            console.log("true")
+            console.log("now is before expdatestorage")
             return true;
           }else{
-            console.log("false")
+            console.log("now is after expdatestorage")
             return false;
           }
         }else{
@@ -84,13 +84,14 @@ export default new Vuex.Store({
           localStorage.authToken = response.data.token;
           console.log( moment(response.data.expiration).add(5, 'm').toDate())
           localStorage.expDate =  moment(response.data.expiration).add(5, 'm').toDate();
-          console.log("userLogIn expDate"  + localStorage.expDate)
+          console.log("userLogIn expDate "  + localStorage.expDate)
         }else{
           console.log(response)
         }
 
       })
       .catch(e => {
+        console.log("CATCH")
         localStorage.clear();
       })
     },
@@ -117,6 +118,28 @@ export default new Vuex.Store({
         //clear local storage data's
       localStorage.clear();
       })
+    },
+    addScore(state, score){
+      let token = "Bearer " + localStorage.authToken;
+      let data = JSON.stringify({
+        value: score.value,
+        area: score.area.toUpperCase(),
+        timeSpan: score.timeSpan
+    })
+      axios.post('https://localhost:44363/api/Scores/addScore',data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+
+      })
+      .then(response => {
+        console.log("Score added")
+
+      })
+      .catch(e => {
+        console.log("error " + e)
+      })
     }    
   },
   actions: {
@@ -132,6 +155,7 @@ export default new Vuex.Store({
         }
       )
       .then(response => {
+        console.log(response)
         commit('setTopScores', response.data);  
       })
     }

@@ -642,6 +642,7 @@
           this.svgpanzoom.resetZoom();
           this.svgpanzoom.resetPan();
           this.$store.commit('setLastScore', this.score);
+          this.$store.commit('setEndTime');
           document.getElementById(this.corrCountry).classList.add("correctCountry");
           setTimeout(() => this.$router.push('/gameover'), 2000);
 

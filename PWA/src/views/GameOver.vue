@@ -31,10 +31,22 @@
 <script>
 export default {
     name:'gameover',
+    data(){
+        return{
+            score:{
+                value: this.$store.getters.getLastScore,
+                area: this.$store.getters.getCurrentMap,
+                timeSpan: this.$store.getters.getDurationTime
+            }
+        }
+    },
     computed:{
         lastScore(){
             return this.$store.getters.getLastScore
         }
+    },
+    created: function(){
+        this.$store.commit('addScore', this.score);
     }
 }
 </script>
