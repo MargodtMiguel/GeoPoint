@@ -9,20 +9,28 @@ import Finish from './views/Finish.vue'
 import Game from './views/Game.vue'
 import Leaderboard from './views/Leaderboard.vue'
 import Leadermap from './views/Leadermap.vue'
+import Friends from './views/Friends.vue'
+import moment from 'moment'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/maps',
       name: 'maps',
-      component: Maps
+      component: Maps,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
@@ -47,17 +55,64 @@ export default new Router({
     {
       path:'/game/:map',
       name: 'game',
-      component: Game
+      component: Game,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path:'/leaderboard/:map',
       name: 'leaderboard',
-      component: Leaderboard
+      component: Leaderboard,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path:'/leaderboard',
       name: 'leadermap',
-      component: Leadermap
+      component: Leadermap,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path:'/friends',
+      name: 'friends',
+      component: Friends,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
+
 })
+
+router.beforeEach((to, from, next) => {
+  // if(to.meta.requiresAuth && localStorage.authToken == null){
+  //   return next('/login')
+  // }
+
+if(to.meta.requiresAuth){
+  var expDateStorage = moment(localStorage.expDate);
+  var now = moment(Date.now());
+
+  try{
+    if(now.isBefore(expDateStorage)){
+      next();
+    }else{
+      return next('/login')
+    }
+  }catch(err){
+    return next('/login')
+  }
+     
+}
+  
+
+  
+
+  next();
+})
+
+export default router;

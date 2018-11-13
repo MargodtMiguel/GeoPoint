@@ -21,6 +21,10 @@
     margin-bottom:40px;
 }
 
+.c-login__form__error{
+    color:$beta-color;
+    margin-bottom:20px;
+}
 
 .c-login__form input:focus{
     outline:none;

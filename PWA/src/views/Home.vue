@@ -5,7 +5,10 @@
         <div class="c-button-primary">PLAY</div>
       </router-link>
 
-    <!-- <div class="c-button-primary">MULTIPLAYER</div> -->
+      <router-link to="/friends">
+        <div class="c-button-primary">FRIENDS</div>
+      </router-link>
+
     <router-link to="/leaderboard">
       <div class="c-button-primary secundary">LEADERBOARDS</div>
     </router-link>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import moment from 'moment'
+import router from './router.js'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     currentMap: '',
     startTime: '',
     endTime: '',
-    topScores: []
+    topScores: [],
+    errorMessage: ''
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -43,9 +45,8 @@ export default new Vuex.Store({
       }else{
         return false;
       }
-      
-     
-    }
+    },
+    getErrorMessage: state => state.errorMessage,
   },
   mutations: {
     setLastScore(state, s){
@@ -70,6 +71,7 @@ export default new Vuex.Store({
       state.startTime = '';      
       state.endTime = '';
       state.topScores = [];
+      state.errorMessage = '';
     },
     userLogIn(state, account){
       //clear local storage data's
@@ -82,22 +84,24 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
-          console.log( moment(response.data.expiration).add(5, 'm').toDate())
           localStorage.expDate =  moment(response.data.expiration).add(5, 'm').toDate();
-          console.log("userLogIn expDate "  + localStorage.expDate)
+          router.push('/')
         }else{
-          console.log(response)
         }
 
       })
       .catch(e => {
-        console.log("CATCH")
         localStorage.clear();
+        state.errorMessage = e.response.data;
       })
     },
     userRegister(state, account){
       //clear local storage data's
       localStorage.clear();
+
+      //clear previous error message
+      state.errorMessage = '';
+
       axios.post(`https://localhost:44363/api/Auth/Register`, {
         username: account.login,
         password: account.password1,
@@ -107,16 +111,15 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
-          console.log( moment(response.data.expiration).add(5, 'm').toDate())
           localStorage.expDate =  moment(response.data.expiration).add(5, 'm').toDate();
-          console.log(localStorage.expDate)
+          router.push('/')
         }else{
-          console.log(response)
         }
       })
       .catch(e => {
         //clear local storage data's
       localStorage.clear();
+      state.errorMessage = e.response.data;
       })
     },
     addScore(state, score){

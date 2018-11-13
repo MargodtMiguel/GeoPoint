@@ -4,7 +4,7 @@
         <div class="c-login__form">
             <form @submit.prevent="userRegister">
                 <input v-model="account.login" id="inpUsername" placeholder="Username" type="text"  autocomplete="off" required/>
-                <input v-model="account.email" placeholder="E-mail address" tpye="e-mail"  autocomplete="off"/>
+                <input v-model="account.email" placeholder="E-mail address" tpye="e-mail" autocomplete="off" required/>
                 <vue-password v-model="account.password1"
                                     classes="c-login__form__password"
                                     placeholder="Password"
@@ -17,6 +17,8 @@
                                     :disableStrength="true"
                     >
                     </vue-password>
+                    <p class="c-login__form__error">{{ errorMessage }}</p>
+                    <p class="c-login__form__error">{{ errorMessage2 }}</p>
                 <button class="c-button-primary">SIGN UP</button>
             </form>
         </div>
@@ -55,25 +57,32 @@ export default {
                 password1:'',
                 password2:'',
                 email:''
-            }
+            },
+            errMess:''
+        }
+    },
+    computed:{
+        errorMessage(){
+            return this.$store.getters.getErrorMessage
+        },
+        errorMessage2(){
+            return this.errMess
         }
     },
     methods:{
         userRegister: function(){
             if(this.account.password1 == this.account.password2){
+                this.errMess = ""
+                this.$store.commit('resetValues');
                 this.$store.commit('userRegister', this.account);
             } else{
-                console.log("passwords do not match")
-            }
-            
-            if(this.$store.getters.isLoggedIn){
-                console.log("true")
-                this.$router.replace('/')
-            }else{
-                console.log("false")
+                this.$store.commit('resetValues');
+                this.errMess = "Passwords do not match"
             }
         }
-        
+    },
+    created: function(){
+        this.$store.commit('resetValues');
     }
 }
 </script>

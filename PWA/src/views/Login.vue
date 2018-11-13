@@ -10,6 +10,7 @@
                                     :disableStrength="true"
                     >
                     </vue-password>
+                    <p class="c-login__form__error">{{ errorMessage }}</p>
                 <button type="submit" class="c-button-primary">LOG IN</button>
             </form>
         </div>
@@ -47,20 +48,19 @@ export default {
             }
         }
     },
+    computed:{
+        errorMessage(){
+            return this.$store.getters.getErrorMessage
+        }
+    },
     methods:{
         userLogIn: function(){
-
-
             this.$store.commit('userLogIn', this.account);
-            if(this.$store.getters.isLoggedIn){
-                console.log("true")
-                this.$router.replace('/')
-            }else{
-                console.log("false")
-            }
 
-            
         }
+    },
+    created: function(){
+        this.$store.commit('resetValues');
     }
 }
 </script>
