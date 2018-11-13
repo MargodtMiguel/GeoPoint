@@ -26,14 +26,17 @@ namespace GeoPoint.Models.Repositories
         public async Task<IEnumerable<Score>> GetAllScoresAsync()
         {
             IMongoCollection<Score> collection = mongoDBContext.Database.GetCollection<Score>("scores");
-            return await collection.Find(FilterDefinition<Score>.Empty).ToListAsync<Score>();
+            return await collection.Find(FilterDefinition<Score>.Empty)
+                .ToListAsync<Score>();
         }
 
         public async Task<IEnumerable<Score>> GetTopScoresAsync(string area,int length)
-        {
-            
-            return await mongoDBContext.Scores.Find(s => s.Area == area).SortByDescending(s => s.Value).ThenByDescending(s => s.TimeSpan).Limit(length).ToListAsync<Score>();
-            
+        {          
+            return await mongoDBContext.Scores.Find(s => s.Area == area)
+                .SortByDescending(s => s.Value)
+                .ThenByDescending(s => s.TimeSpan)
+                .Limit(length)
+                .ToListAsync<Score>();            
         }
 
         #endregion

@@ -43,10 +43,12 @@ namespace GeoPoint.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(IdentityModel identityModel)
         {
+            
             if (!ModelState.IsValid)
                 return BadRequest("Unvalid data");
             try
             {
+                
                 var jwtsvc = new JWTServices<GeoPointUser>(_configuration,_userManager,_hasher);
                 var token = await jwtsvc.GenerateJwtToken(identityModel);
                 if(token.GetType() == typeof(IdentityError))
@@ -58,7 +60,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to login: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on AuthController - Login method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to login: "+ e + "\r\n\r\n");
             }
             return BadRequest("Failed to login");
         }
@@ -82,7 +84,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to register: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on AuthController - Register method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Register: " + e + "\r\n\r\n");
                 return BadRequest("Failed to create account");
             }
         }
@@ -97,7 +99,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to logout: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on AuthController - Logout method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Logout: " + e + "\r\n\r\n");
                 return BadRequest("Failed to Sign Out");
             }
         }

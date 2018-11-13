@@ -10,30 +10,30 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 
 ## Backend vereisten
 
-| Vereisten                    | Info                            | Check |    
-| -----------------------------|---------------------------------|:-----:|
-| Backend API                  | ASP.NET Core MVC API            |   V   |
-| De database                  | MongoDB                         |   V   |
-| Realtime                     |                                 |       |
-| Autorisatie en authenticatie | JWT Token authentication        |   V   |
-| Kwetsbaarheid                |                                 |       |
-| API Docs                     | Swagger                         |   V   |
-| Framework                    | Seeder ingesteld                |   V   |
-| Foutcontrole                 |                                 |       |
-| Source controle              | Github                          |   V   |
-| Deployment                   |                                 |       |
-| Eigen inbgeng                |                                 |       |
+| Vereisten                    | Info                            			| Check |    
+| -----------------------------|--------------------------------------------|:-----:|
+| Backend API                  | ASP.NET Core MVC API            			|   V   |
+| De database                  | MongoDB                         			|   V   |
+| Realtime                     |                                 			|       |
+| Autorisatie en authenticatie | JWT Token authentication        			|   V   |
+| Kwetsbaarheid                | Cors http://localhost:8080      			|   V   |
+| API Docs                     | Swagger                         			|   V   |
+| Framework                    | Seeder ingesteld                			|   V   |
+| Foutcontrole                 | Try/Catch on controllers with Logging   	|   V   |
+| Source controle              | Github                          			|   V   |
+| Deployment                   |                                 			|       |
+| Eigen inbgeng                |                                 			|       |
 
 ## Frontend vereisten
  
-| Vereisten                    | Info                            | Check |  
-| -----------------------------|---------------------------------|:-----:|
-| Framework                    | Gebruik gemaakt van vue.js      |   V   |
-| Testing                      |                                 |       |
-| Styling                      | SCSS                            |   V   |
-| PWA                          | Heeft een correcte PWA set-up   |   V   |
-| Multi-language               |                                 |       |
-| Error logging                |                                 |       |
-| Development setup            |                                 |       |
-| Webpack optimisation         |                                 |       |
-| Eigen inbreng                | SVG map pan en zoom + password strength|   V   |
+| Vereisten                    | Info                            			| Check |  
+| -----------------------------|--------------------------------------------|:-----:|
+| Framework                    | Gebruik gemaakt van vue.js      			|   V   |
+| Testing                      |                                 			|       |
+| Styling                      | SCSS                            			|   V   |
+| PWA                          | Heeft een correcte PWA set-up   			|   V   |
+| Multi-language               |                                 			|       |
+| Error logging                |                                 			|       |
+| Development setup            |                                			|       |
+| Webpack optimisation         |                                 			|       |
+| Eigen inbreng                | SVG map pan en zoom + password strength	|   V   |

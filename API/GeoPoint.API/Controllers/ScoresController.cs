@@ -34,8 +34,7 @@ namespace GeoPoint.API.Controllers
             _logger = logger;
         }
 
-
-       
+    
         [HttpGet("api/[controller]/getAllScores")]
         public async Task<IActionResult> GetAllScores()
         {
@@ -45,7 +44,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to get all scores: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on ScoresController - GetAllScores method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Get All Scores: " + e + "\r\n\r\n");
                 return BadRequest("Failed to get all scores score");
             }
         }
@@ -64,7 +63,7 @@ namespace GeoPoint.API.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to get top scores: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on ScoresController - GetTopScores method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Get Top Scores: " + e + "\r\n\r\n");
                 return BadRequest("Failed to get top scores");
             }
         }
@@ -91,7 +90,7 @@ namespace GeoPoint.API.Controllers
             }
             catch(Exception e)
             {
-                _logger.LogError($"Exception thrown when trying to add a score: {e}");
+                _logger.LogError($"\r\n\r\nError thrown on ScoresController - AddScore method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Add Score    : " + e + "\r\n\r\n");
                 return BadRequest("Failed to add score");
             }
         }

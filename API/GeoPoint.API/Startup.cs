@@ -4,29 +4,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
 using GeoPoint.Models.Data;
 using GeoPoint.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using GeoPoint.Models.Repositories;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspNetCore.Identity.Mongo;
-using MongoDB.Bson.Serialization;
 using GeoPoint.API.Hubs;
+using Microsoft.Extensions.Logging;
 
 namespace GeoPoint.API
 {
@@ -37,12 +31,10 @@ namespace GeoPoint.API
         {
             Configuration = configuration;
             _env = env;
-
         }
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             
@@ -53,7 +45,7 @@ namespace GeoPoint.API
                     options.SslPort = 44343;
                 }
                 options.Filters.Add(new RequireHttpsAttribute());
-                options.RespectBrowserAcceptHeader = true; //false by default
+                options.RespectBrowserAcceptHeader = true;
                 options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -66,26 +58,20 @@ namespace GeoPoint.API
             services.AddAuthentication("GeoPointScheme")
                 .AddCookie("GeoPointScheme", options =>
                 {
-                    options.Events =
-                    new CookieAuthenticationEvents()
+                    options.Events = new CookieAuthenticationEvents()
                     {
                         OnRedirectToLogin = (ctx) =>
                         {
-                            if (ctx.Request.Path.StartsWithSegments("/api") &&
-                        ctx.Response.StatusCode == 200) //redirect is 200
-                        {
-                            //doe geen redirect naar een loginpagina bij een api call
-                            //maar geef een 401 - unauthorized
-                            ctx.Response.StatusCode = 401;
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200) 
+                            {
+                                ctx.Response.StatusCode = 401;
                             }
                             return Task.CompletedTask;
                         },
                         OnRedirectToAccessDenied = (ctx) =>
                         {
-                            if (ctx.Request.Path.StartsWithSegments("/api") &&
-                ctx.Response.StatusCode == 200)
+                            if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == 200)
                             {
-
                                 ctx.Response.StatusCode = 403; //uitvoering refused
                             }
                             return Task.CompletedTask;
@@ -163,13 +149,14 @@ namespace GeoPoint.API
         }
 
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,SeedMongo seedMongo)
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,SeedMongo seedMongo, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerDocumentation();
+                loggerFactory.AddFile("Logs/GeoPointAPI - {Date}.txt");
             }
             else
             {
@@ -180,7 +167,6 @@ namespace GeoPoint.API
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));
-            //app.UseSwagger();
             app.UseSignalR(routes => { routes.MapHub<Scoreboard>("/scoreboard"); });
             app.UseMvc();
             seedMongo.initDatabase(150).Wait();
