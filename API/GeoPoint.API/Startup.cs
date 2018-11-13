@@ -98,9 +98,10 @@ namespace GeoPoint.API
               builder =>
               {
                   builder.AllowAnyMethod().AllowAnyHeader()
-                         .WithOrigins("http://localhost:8080", "https://localhost:44363/", "http://172.30.252.133:8080")
+                         .WithOrigins("http://localhost:8080", "https://localhost:44363/")
                          .AllowCredentials();
               }));
+
             //Swagger
             services.AddSwaggerDocumentation();
 

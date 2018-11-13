@@ -21,7 +21,7 @@ namespace GeoPoint.API.Controllers
     [ApiController]
     [Produces("application/json")]
     [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
-    //[EnableCors("GeoPoint")]
+    [EnableCors("CorsPolicy")]
     public class ScoresController : ControllerBase
     {
         private readonly IScoreRepo _scoreRepo;

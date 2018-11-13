@@ -19,7 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace GeoPoint.API.Controllers
 {
     [ApiController]
-    [EnableCors("GeoPoint")]
+    [EnableCors("CorsPolicy")]
     public class AuthController : ControllerBase
     {
         private readonly SignInManager<GeoPointUser> _signInManager;
