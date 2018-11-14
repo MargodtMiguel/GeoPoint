@@ -2,11 +2,9 @@
 
 Game: De gebruiker krijgt de naam van een land / stad te zien op het scherm en een kaart. Hij moet nu raden waar op de kaart het land / de stad ligt. Telkens hij het juist heeft krijg hij en punt. Bij een foutief antwoord stopt het spel en krijgt de gebruiker het juiste antwoord te zien. Zo kan hij bijleren en zijn persoonlijke score verslaan.
 
-De gebruiker kan ook badges verdienen voor op zijn profiel. Voorbeeld: Badge bij het voltooien van de map "Europa".
+Het is mogelijk om vrienden toe te voegen om zo enkel de top scores van je vrienden te zien bij 'leaderboards' (in plaats van alle topscores). 
 
-Het is mogelijk om vrienden toe te voegen om zo hun score's te zien. 
-
-Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
+Realtime: Vriendschapsverzoeken komen realtime op het scherm
 
 ## Backend vereisten
 
@@ -36,4 +34,4 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
 | Development setup            |                                			|       |
 | Webpack optimisation         |                                 			|       |
-| Eigen inbreng                | SVG map pan en zoom + password strength          	|   V   |
+| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend'|   V   |
