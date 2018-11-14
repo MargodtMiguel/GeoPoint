@@ -17,6 +17,7 @@
     "vue-password": "^1.2.0",
     "vue-router": "^3.0.1",
     "vue-svg-pan-zoom": "^0.1.0",
+    "vue2-slideout-panel": "^1.0.8",
     "vuex": "^3.0.1",
     "webpack-dev-server": "^3.1.10"
   },
