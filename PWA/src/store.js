@@ -84,7 +84,7 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
-          localStorage.expDate =  moment(response.data.expiration).add(5, 'm').toDate();
+          localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
         }
@@ -111,7 +111,7 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
-          localStorage.expDate =  moment(response.data.expiration).add(5, 'm').toDate();
+          localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
         }
@@ -153,7 +153,7 @@ export default new Vuex.Store({
           headers: {'Authorization': token},
           params:{
             area: a,
-            length: 20
+            length: 10
           }
         }
       )

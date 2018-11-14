@@ -3,7 +3,7 @@
         <h1>{{ mapRoute }}</h1>
         <div class="c-leaderboard__holder" v-if="topScores && topScores.length">
             <div class="c-leaderboard__toggle">
-                <p>Top 20 best scores</p>
+                <p>Top 10 scores</p>
                 <div class="c-button-primary secundary toggle">
                     Friends only
                 </div>     

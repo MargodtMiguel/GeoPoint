@@ -8,8 +8,10 @@
                 <img src="../assets/addFriend.png" alt="">
             </div>
         </div>
-            
-            
+
+        <router-link to="/">    
+            <div class="c-button-primary secundary">PICK OTHER MAP</div>
+        </router-link>
     </div>
 </template>
 

@@ -17,16 +17,18 @@
 }
 .c-leaderboard__toggle p{
     height: 50px;
-    line-height: 70px;
-    font-size: 1.2em;
+    line-height: 55px;
+    font-size: 1.4em;
+    margin-left:5px;
 }
 .toggle{
     margin:5px;
-    width: 150px;
-    height: 10px;
+    width: 130px;
+    height: 15px;
     align-self: flex-end;
-    line-height: 10px;
+    line-height: 15px;
     font-size: 1.2em;
+    margin-top:0px !important;
 }   
 .c-leaderboard__grid{
     background: $alpha-color;
@@ -43,12 +45,13 @@
   
 .position { 
     grid-area: position; 
-    height: 100px;
-    line-height: 100px;
+    height: 80px;
+    line-height: 80px;
     text-align: center;
     font-weight: bold;
     margin:10px 0px;
     border-right: 1px solid $alpha-color-dark;
+    font-size:1.4em;
 }
 
 .username { 
@@ -94,11 +97,16 @@
 }
 .circle__helper{
     background: $alpha-color-dark;
-    height: 60px;
-    width:60px;
-    line-height: 60px;
+    height: 40px;
+    width:auto;
+    padding:0px 15px;
+    line-height: 40px;
     text-align: center;
     border-radius: 90px;
+}
+
+.c-leaderboard .secundary{
+    margin-top:25px;
 }
 @media only screen and (max-width:768px){
     .c-leaderboard__holder{
