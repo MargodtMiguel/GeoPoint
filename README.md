@@ -11,7 +11,7 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 ## Backend vereisten
 
 | Vereisten                    | Info                            			| Check |    
-| -----------------------------|--------------------------------------------|:-----:|
+| -----------------------------|--------------------------------------------------------|:-----:|
 | Backend API                  | ASP.NET Core MVC API            			|   V   |
 | De database                  | MongoDB                         			|   V   |
 | Realtime                     |                                 			|       |
@@ -19,7 +19,7 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 | Kwetsbaarheid                | Cors http://localhost:8080      			|   V   |
 | API Docs                     | Swagger                         			|   V   |
 | Framework                    | Seeder ingesteld                			|   V   |
-| Foutcontrole                 | Try/Catch on controllers with Logging   	|   V   |
+| Foutcontrole                 | Try/Catch on controllers with Logging            	|   V   |
 | Source controle              | Github                          			|   V   |
 | Deployment                   |                                 			|       |
 | Eigen inbgeng                |                                 			|       |
@@ -27,13 +27,13 @@ Realtime: Scoreborden (world + friends) + vriendschapsverzoeken
 ## Frontend vereisten
  
 | Vereisten                    | Info                            			| Check |  
-| -----------------------------|--------------------------------------------|:-----:|
+| -----------------------------|--------------------------------------------------------|:-----:|
 | Framework                    | Gebruik gemaakt van vue.js      			|   V   |
 | Testing                      |                                 			|       |
 | Styling                      | SCSS                            			|   V   |
 | PWA                          | Heeft een correcte PWA set-up   			|   V   |
 | Multi-language               |                                 			|       |
-| Error logging                |                                 			|       |
+| Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
 | Development setup            |                                			|       |
 | Webpack optimisation         |                                 			|       |
-| Eigen inbreng                | SVG map pan en zoom + password strength	|   V   |
+| Eigen inbreng                | SVG map pan en zoom + password strength          	|   V   |
