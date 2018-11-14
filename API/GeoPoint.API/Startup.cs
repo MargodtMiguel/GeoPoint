@@ -53,6 +53,7 @@ namespace GeoPoint.API
 
             //Repos
             services.AddScoped<IScoreRepo, ScoreRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
 
             //cookie auth
             services.AddAuthentication("GeoPointScheme")

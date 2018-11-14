@@ -10,7 +10,15 @@ namespace GeoPoint.Models
 {
     public class GeoPointUser : MongoUser
     {
-       
+        [BsonIgnoreIfNull]
+        public IList<Friend> Friends { get; set; }
     }
-   
+    public class Friend
+    {
+        [BsonElement("Username")]
+        public string Username { get; set; }
+        [BsonElement("IsPending")]
+        public bool IsPending { get; set; } = true;
+    }
+    
 }
