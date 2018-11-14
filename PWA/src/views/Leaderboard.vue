@@ -14,12 +14,15 @@
                 <p>Score</p>
                 <p>Time</p>
             </div>
-            <div class="grid-container" v-for="(score, index) in topScores" v-bind:key="score.id">
-                <div class="position"><p>{{ index + 1}}</p></div>
+            <div class="c-leaderboard__grid" v-for="(score, index) in topScores" v-bind:key="score.id">
+                <div class="position"><div class="test"><p>{{ index + 1}}</p></div></div>
                 <div class="username"><p>{{score.user.userName}}</p></div>
-                <div class="Score"><p class="resp">Score</p><p>{{ score.value }}</p></div>
-                <div class="Time"><p class="resp">Time</p><p>{{ score.timeSpan }}</p></div>
+                <div class="score-label"><p class="label__helper">Score</p></div>
+                <div class="time-label"><p class="label__helper">Time</p></div>
+                <div class="score"><div class="circle__helper">{{score.value}}</div></div>
+                <div class="time"><div class="circle__helper"><p>{{ score.timeSpan }}s</p></div></div>
             </div>
+            
     
         </div>
         <div v-else>

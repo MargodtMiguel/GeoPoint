@@ -11,38 +11,97 @@
 .c-leaderboard__header p{
     display: none;
 }
-
-.grid-container {
+.c-leaderboard__toggle{
+    display: flex;
+    justify-content: space-between;
+}
+.c-leaderboard__toggle p{
+    height: 50px;
+    line-height: 70px;
+    font-size: 1.2em;
+}
+.toggle{
+    margin:5px;
+    width: 150px;
+    height: 10px;
+    align-self: flex-end;
+    line-height: 10px;
+    font-size: 1.2em;
+}   
+.c-leaderboard__grid{
+    background: $alpha-color;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas: "position username username" "position Score Time";
-    background: $alpha-color;  
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.4fr 0.7fr 1fr;
+    grid-template-areas: "username username username username username"
+                         "position score-label score-label time-label time-label"
+                        "position score score time time";
     font-size: 1.3em; 
-    
+    margin-bottom: 5px;
+    border-radius: 10px;
   }
   
 .position { 
     grid-area: position; 
-    height: 80px; 
-    text-align: center; 
-    line-height: 80px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
     font-weight: bold;
+    margin:10px 0px;
+    border-right: 1px solid $alpha-color-dark;
 }
 
 .username { 
+    overflow: hidden;
     grid-area: username; 
-    height: 35px;
-    line-height: 35px;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     font-weight: bold;
+    background: $alpha-color-dark;
+    border-radius: 10px 10px 0px 0px;
+}
+.username p{
+    font-size: 0.9em;
+}
+.score-label {
+    grid-area: score-label; 
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
 }
 
-.Score { 
-    grid-area: Score; 
+.time-label { 
+    grid-area: time-label; 
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
 }
 
-.Time { 
-    grid-area: Time; 
-   
+.score { 
+    grid-area: score;
+    margin:0 auto;
+    display: block;
+}
+
+.time { 
+    grid-area: time; 
+    margin:0 auto;
+    display: block;
+}
+.label__helper{
+    font-size: 0.8em;
+}
+.circle__helper{
+    background: $alpha-color-dark;
+    height: 60px;
+    width:60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 90px;
+}
+@media only screen and (max-width:768px){
+    .c-leaderboard__holder{
+        width: 95%;
+    }
 }
