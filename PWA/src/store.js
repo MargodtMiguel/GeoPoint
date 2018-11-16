@@ -16,6 +16,7 @@ export default new Vuex.Store({
     endTime: '',
     topScores: [],
     errorMessage: '',
+    curUser:''
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -86,6 +87,7 @@ export default new Vuex.Store({
           //set local storage data's
           localStorage.authToken = response.data.token;
           localStorage.curUser = account.login;
+          state.curUser = account.login;
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
