@@ -45,8 +45,12 @@ export default {
             account:{
                 login:'',
                 password:''
-            }
+            },
+            isLoggedIn:false
         }
+    },
+    beforeCreate:function(){
+      this.isLoggedIn =  this.$store.getters.isLoggedIn
     },
     computed:{
         errorMessage(){

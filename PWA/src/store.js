@@ -25,24 +25,16 @@ export default new Vuex.Store({
     },
     getTopScores: state => state.topScores,
     isLoggedIn(state){
-      var expDateStorage = localStorage.expDate;
-      var expDate = new Date(expDateStorage);
+      var expDateStorage = moment(localStorage.expDate);
       var now = moment(Date.now());
-      console.log("get isloggedin expdate: "+ expDateStorage);
-      console.log("get isloggedin now: " + now);
-      if(now != undefined && expDateStorage != undefined){
-        if(now.isValid() && expDateStorage.isValid()){
-          if(now.isBefore(expDateStorage)){
-            console.log("now is before expdatestorage")
-            return true;
-          }else{
-            console.log("now is after expdatestorage")
-            return false;
-          }
+    
+      try{
+        if(now.isBefore(expDateStorage)){
+          return true;
         }else{
           return false;
         }
-      }else{
+      }catch(err){
         return false;
       }
     },
@@ -121,6 +113,9 @@ export default new Vuex.Store({
       localStorage.clear();
       state.errorMessage = e.response.data;
       })
+    },
+    userLogOut(state){
+      localStorage.clear();
     },
     addScore(state, score){
       let token = "Bearer " + localStorage.authToken;

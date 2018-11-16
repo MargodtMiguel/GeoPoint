@@ -17,7 +17,7 @@
         <h2>Pending</h2>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
-                <p>Bobba</p>
+                <p>Username</p>
             </div>
             <div class="c-friends__list__item">
                 <img src="../assets/checkmark.png" alt="">
@@ -26,7 +26,7 @@
         </div>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
-                <p>Bobba</p>
+                <p>Username</p>
             </div>
             <div class="c-friends__list__item">
                 <img src="../assets/checkmark.png" alt="">
@@ -37,7 +37,7 @@
         <h2>Friendlist</h2>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
-                <p>Bobba</p>
+                <p>Username</p>
             </div>
             <div class="c-friends__list__item">
                 <img src="../assets/trash.png" alt="">
@@ -45,7 +45,7 @@
         </div>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
-                <p>Bobba</p>
+                <p>Username</p>
             </div>
             <div class="c-friends__list__item">
                 <img src="../assets/trash.png" alt="">
