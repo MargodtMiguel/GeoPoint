@@ -15,7 +15,7 @@ export default new Vuex.Store({
     startTime: '',
     endTime: '',
     topScores: [],
-    errorMessage: ''
+    errorMessage: '',
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -39,6 +39,7 @@ export default new Vuex.Store({
       }
     },
     getErrorMessage: state => state.errorMessage,
+    getCurUser: state => state.curUser
   },
   mutations: {
     setLastScore(state, s){
@@ -76,6 +77,7 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
+          localStorage.curUser = account.login;
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
@@ -156,6 +158,18 @@ export default new Vuex.Store({
         console.log(response)
         commit('setTopScores', response.data);  
       })
+    },
+    searchUser:({commit, state}, val) =>{
+      let token = "Bearer " + localStorage.authToken;
+      axios.get('https://localhost:44363/api/Scores/getTopScores',
+      {
+        headers: {'Authorization': token},
+        params:{
+          area: a,
+          length: 10
+        }
+      }
+    )
     }
   }
 })

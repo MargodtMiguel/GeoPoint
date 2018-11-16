@@ -78,6 +78,30 @@ namespace GeoPoint.API.Controllers
             }
 
         }
+        [HttpGet("api/[controller]/searhUser")]
+        public async Task<IActionResult> searchUser([Required]string Username)
+        {
+            try
+            {
+
+                IEnumerable<GeoPointUser> users = await userRepo.searchUser(Username);
+                var matches = new List<String>();
+                if (users != null)
+                {
+                    foreach (GeoPointUser u in users)
+                    {
+                        matches.Add(u.UserName);
+                    }
+                    return Ok(matches);
+                }
+                return BadRequest("No matching users found");
+            }
+            catch(Exception e)
+            {
+                logger.LogError($"\r\n\r\nError thrown on UsersController - searchUser method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to search a user: " + e + "\r\n\r\n");
+                return BadRequest("Failed to get search for a user");
+            }
+        }
     }
 
 

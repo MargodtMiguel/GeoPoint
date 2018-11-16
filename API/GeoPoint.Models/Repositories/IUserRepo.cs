@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GeoPoint.Models.Repositories
 {
@@ -6,5 +7,6 @@ namespace GeoPoint.Models.Repositories
     {
         Task<bool> checkIfFriends(GeoPointUser curUser, string friend);
         Task sendFriendRequest(GeoPointUser friend,Friend f);
+        Task<IEnumerable<GeoPointUser>> searchUser(string Username);
     }
 }

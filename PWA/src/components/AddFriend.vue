@@ -8,7 +8,7 @@
                 <img src="../assets/cross.png" alt="">
             </div>
         </div>
-        <input id="friendToAdd" placeholder="Enter friends username" type="text" autocomplete="off" required/>
+        <input v-model="friendToAdd" id="friendToAdd" placeholder="Enter friends username" type="text" autocomplete="off" required/>
 
         <button type="submit" class="c-button-primary">SEND INVITE</button>
     </div>
@@ -66,14 +66,28 @@ export default {
     name:'addfriend',
     data(){
         return{
-
+            friendToAdd: '',
         };
     },
     methods:{
         closePanel() {
             this.$emit("closePanel", {});
+        },
+        searchFriends(val){
+            console.log("searching " + val)
         }
-    }
+    },
+     watch: {
+        friendToAdd: {
+        handler: function(val) {
+            console.log(val);
+            if(val.length >= 3){
+                this.searchFriends(val);
+            }
+        },
+        deep: true
+        }
+    }, 
 }
 </script>
 
