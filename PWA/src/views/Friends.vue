@@ -147,6 +147,10 @@ export default {
                 //any data you want passed to your component
             }
         })
+        
+
+        },
+        searchFriends(){
 
         }
     }

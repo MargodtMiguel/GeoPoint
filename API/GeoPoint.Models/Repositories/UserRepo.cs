@@ -32,5 +32,11 @@ namespace GeoPoint.Models.Repositories
             var filterResult = Builders<GeoPointUser>.Filter.Eq(b => b.Id, friend.Id);
             await mongoDBContext.Users.UpdateOneAsync(filterResult, Builders<GeoPointUser>.Update.Push(l => l.Friends, f));
         }
+
+        public async Task<IEnumerable<GeoPointUser>> searchUser(string Username)
+        {
+            IMongoCollection<GeoPointUser> collection = mongoDBContext.Database.GetCollection<GeoPointUser>("users");
+            return await collection.Find(x => x.UserName.Contains(Username)).ToListAsync();
+        }
     }
 }

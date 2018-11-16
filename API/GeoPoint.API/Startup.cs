@@ -21,6 +21,7 @@ using System.Text;
 using AspNetCore.Identity.Mongo;
 using GeoPoint.API.Hubs;
 using Microsoft.Extensions.Logging;
+using AspNetCore.Identity.Mongo.Model;
 
 namespace GeoPoint.API
 {
@@ -139,13 +140,14 @@ namespace GeoPoint.API
               });
 
             //MongoDB
-            services.AddSingleton<GeoPointAPIMongoDBContext>();
-            services.AddTransient<SeedMongo>();
-            services.AddIdentityMongoDbProvider<GeoPointUser>(options =>
+            services.AddIdentityMongoDbProvider<GeoPointUser,MongoRole>(options =>
             {
                 options.ConnectionString = Configuration.GetConnectionString("MongoConnection");
-                
+
             });
+            services.AddSingleton<GeoPointAPIMongoDBContext>();
+            services.AddTransient<SeedMongo>();
+            
             services.AddSignalR();
         }
 
@@ -168,7 +170,7 @@ namespace GeoPoint.API
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));
-            app.UseSignalR(routes => { routes.MapHub<Scoreboard>("/scoreboard"); });
+            app.UseSignalR(routes => { routes.MapHub<friendRequest>("/friendRequest"); });
             app.UseMvc();
             seedMongo.initDatabase(150).Wait();
         }
