@@ -7,7 +7,6 @@
       <div>
         <img v-on:click.prevent="showPanel" src="../assets/translation.png" alt="">
       </div>
-      
     </div>
     <h1>GeoPoint</h1>
       <router-link to="/maps">

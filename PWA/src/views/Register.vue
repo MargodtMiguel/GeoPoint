@@ -1,5 +1,13 @@
 <template>
-    <div class="c-register">
+<div>
+    <slideout-panel>
+    </slideout-panel>
+    <div class="c-login">
+        <div class="c-language-icon">
+            <div>
+                <img v-on:click.prevent="showPanel" src="../assets/translation.png" alt="">
+            </div>
+        </div>
         <h1>GeoPoint</h1>
         <div class="c-login__form">
             <form @submit.prevent="userRegister">
@@ -24,6 +32,8 @@
         </div>
         <p class="c-login__signup">{{ $t('HAVE-ACCOUNT') }} <router-link to="/login">{{ $t('LOG-IN') }}</router-link></p>
     </div>
+</div>
+    
 </template>
 
 <style lang="scss">
@@ -44,11 +54,15 @@
 
 <script>
 import VuePassword from 'vue-password'
+import { VueSlideoutPanel } from 'vue2-slideout-panel';
+import changelanguage from '../components/ChangeLanguage';
+import { vueSlideoutPanelService } from 'vue2-slideout-panel';
 
 export default {
     name:'register',
     components:{
-        VuePassword
+        VuePassword,
+        'slideout-panel': VueSlideoutPanel
     },
     data(){
         return{
@@ -70,6 +84,12 @@ export default {
         }
     },
     methods:{
+        showPanel(){
+            const panel1Handle = vueSlideoutPanelService.show({
+            component : changelanguage,
+            width: '350px',
+            })
+        },
         userRegister: function(){
             if(this.account.password1 == this.account.password2){
                 this.errMess = ""

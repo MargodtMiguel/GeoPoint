@@ -2,17 +2,17 @@
     <div class="c-language">
         <div class="c-language__close">
             <div class="c-language__close__title">
-                Change language
+               Change language
             </div>
             <div v-on:click.prevent="closePanel" class="c-language__close__button">
                 <img src="../assets/cross.png" alt="">
             </div>
         </div>
-         <select @change="changeLanguage ($event)" placeholder="Pick a language">
+        <select @change="changeLanguage ($event)" placeholder="Pick a language">
         <option value="" disabled selected>Pick a language</option>
           <option value="en">English</option>
           <option value="nl">Nederlands</option>
-          </select> 
+        </select> 
     </div>
 </template>
 
@@ -87,16 +87,13 @@ export default {
 
         };
     },
-    props: {
-        
-    },
     methods:{
         closePanel() {
             this.$emit("closePanel", {});
         },
         changeLanguage(event){
             i18n.locale = event.target.value;
-      }
+        }
     }
 }
 </script>
