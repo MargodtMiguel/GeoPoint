@@ -1,7 +1,7 @@
 <template>
     <div class="c-maps">
     <h1>GeoPoint</h1>
-    <p>PICK A MAP</p>
+    <p>{{ $t('PICK-MAP') }}</p>
     <div class="c-maps__maps">
       <div @click="pickMap('Europe')" class="c-maps__maps__map">
           <img src="../assets/maps/europe.svg" />

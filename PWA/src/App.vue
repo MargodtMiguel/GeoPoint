@@ -2,7 +2,7 @@
   <div id="app">
     <container class="o-container--full">
       <router-view/>
-      <button @click.stop="testMethod">press here</button>
+      <!-- <button @click.stop="testMethod">press here</button> -->
     </container>
   </div>
 </template>

@@ -5,7 +5,7 @@
             <div class="c-leaderboard__toggle">
                 <p>Top 10 scores</p>
                 <div class="c-button-primary secundary toggle">
-                    Friends only
+                    {{ $t('FRIENDS-ONLY') }}
                 </div>     
             </div>
             <div class="c-leaderboard__header">
@@ -18,7 +18,7 @@
                 <div class="position"><div class="test"><p>{{ index + 1}}</p></div></div>
                 <div class="username"><p>{{score.user.userName}}</p></div>
                 <div class="score-label"><p class="label__helper">Score</p></div>
-                <div class="time-label"><p class="label__helper">Time</p></div>
+                <div class="time-label"><p class="label__helper">{{ $t('TIME') }}</p></div>
                 <div class="score"><div class="circle__helper">{{score.value}}</div></div>
                 <div class="time"><div class="circle__helper"><p>{{ score.timeSpan }}s</p></div></div>
             </div>
@@ -26,11 +26,11 @@
     
         </div>
         <div v-else>
-            <p>There are no scores available for this map</p>
+            <p>{{ $t('NO-SCORES-AVAILABLE') }}</p>
         </div>
        
 
-        <div @click="otherMap()" class="c-button-primary secundary">PICK OTHER MAP</div>
+        <div @click="otherMap()" class="c-button-primary secundary">{{ $t('OTHER-MAP') }}</div>
     </div>
 </template>
 
@@ -38,6 +38,10 @@
     @import './src/style/settings/settings.colors.scss';
 
     @import './src/style/components/components.leaderboard.scss';
+    .c-leaderboard p{
+        text-align:center;
+        font-size:1.3em;
+    }
     </style>
 
 <script>

@@ -7,14 +7,14 @@
     <div class="c-friends">
         <div class="c-friends__header">
             <div class="c-friends__header__item">
-                <h1>Friends</h1>
+                <h1>{{ $t('FRIENDS') }}</h1>
             </div>
             <div class="c-friends__header__item">
                 <img v-on:click.prevent="showPanel" src="../assets/addFriend.png" alt="">
             </div>
         </div>
 
-        <h2>Pending</h2>
+        <h2>{{ $t('PENDING') }}</h2>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
                 <p>Username</p>
@@ -34,7 +34,7 @@
             </div>
         </div>
 
-        <h2>Friendlist</h2>
+        <h2>{{ $t('FRIENDLIST') }}</h2>
         <div class="c-friends__list">
             <div class="c-friends__list__item">
                 <p>Username</p>
@@ -53,7 +53,7 @@
         </div>
 
         <router-link to="/">    
-            <div class="c-button-primary secundary">BACK TO MENU    </div>
+            <div class="c-button-primary secundary">{{ $t('BACK-TO-MENU') }}</div>
         </router-link>
     </div>
 </div>
@@ -147,8 +147,6 @@ export default {
                 //any data you want passed to your component
             }
         })
-        
-
         },
         searchFriends(){
 

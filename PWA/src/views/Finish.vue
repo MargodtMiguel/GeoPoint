@@ -1,10 +1,10 @@
 <template>
     <div class="c-finish">
-        <h1>Success!</h1>
-        <p>You finished the map <span class="c-finish__map">{{ currentMap }}</span></p>
+        <h1>{{ $t('SUCCESS') }}</h1>
+        <p>{{ $t('YOU-FINISHED') }} <span class="c-finish__map">{{ currentMap }}</span></p>
         <div class="c-finish__results">
             <p>Score: {{ lastScore }}</p>
-            <p>Duration: {{ durationTime }} seconds</p>
+            <p>{{ $t('DURATION') }} {{ durationTime }} seconds</p>
         </div>
         <router-link to="/maps">
         <div class="c-button-primary">PLAY AGAIN</div>

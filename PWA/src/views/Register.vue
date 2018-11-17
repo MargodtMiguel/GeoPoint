@@ -3,26 +3,26 @@
         <h1>GeoPoint</h1>
         <div class="c-login__form">
             <form @submit.prevent="userRegister">
-                <input v-model="account.login" id="inpUsername" placeholder="Username" type="text"  autocomplete="off" required/>
-                <input v-model="account.email" placeholder="E-mail address" tpye="e-mail" autocomplete="off" required/>
+                <input v-model="account.login" id="inpUsername" v-bind:placeholder="$t('USERNAME')" type="text"  autocomplete="off" required/>
+                <input v-model="account.email" v-bind:placeholder="$t('E-MAIL')" tpye="e-mail" autocomplete="off" required/>
                 <vue-password v-model="account.password1"
                                     classes="c-login__form__password"
-                                    placeholder="Password"
+                                    v-bind:placeholder="$t('PASSWORD')"
                                     :disableStrength="false"
                     >
                     </vue-password>
                 <vue-password v-model="account.password2"
                                     classes="c-login__form__password"
-                                    placeholder="Confirm password"
+                                    v-bind:placeholder="$t('CONFIRM-PASSWORD')"
                                     :disableStrength="true"
                     >
                     </vue-password>
                     <p class="c-login__form__error">{{ errorMessage }}</p>
                     <p class="c-login__form__error">{{ errorMessage2 }}</p>
-                <button class="c-button-primary">SIGN UP</button>
+                <button class="c-button-primary">{{ $t('SIGN-UP') }}</button>
             </form>
         </div>
-        <p class="c-login__signup">Already have an account? <router-link to="/login">Log in</router-link></p>
+        <p class="c-login__signup">{{ $t('HAVE-ACCOUNT') }} <router-link to="/login">{{ $t('LOG-IN') }}</router-link></p>
     </div>
 </template>
 

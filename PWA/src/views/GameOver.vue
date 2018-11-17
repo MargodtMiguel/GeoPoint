@@ -1,12 +1,12 @@
 <template>
     <div class="c-gameover">
         <h1 class="c-gameover__title">GAME OVER</h1>
-        <p class="c-gameover__score">YOU SCORED: {{ lastScore }}</p>
+        <p class="c-gameover__score">{{ $t('YOU-SCORED') }}: {{ lastScore }}</p>
          <router-link to="/maps">
-        <div class="c-button-primary">TRY AGAIN</div>
+        <div class="c-button-primary">{{ $t('TRY-AGAIN') }}</div>
          </router-link>
           <router-link to="/">
-        <div class="c-button-primary secundary">BACK TO MENU</div>
+        <div class="c-button-primary secundary">{{ $t('BACK-TO-MENU') }}</div>
           </router-link>
     </div>
 </template>

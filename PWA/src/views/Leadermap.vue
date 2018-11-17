@@ -1,7 +1,7 @@
 <template>
     <div>
         <MapPick routeVar="/leaderboard/"></MapPick>
-        <router-link to="/"><div class="c-button-primary secundary">BACK TO MENU</div></router-link>
+        <router-link to="/"><div class="c-button-primary secundary">{{ $t('BACK-TO-MENU') }}</div></router-link>
     </div>
 </template>
 

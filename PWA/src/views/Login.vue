@@ -3,19 +3,19 @@
         <h1>GeoPoint</h1>
         <div class="c-login__form">
             <form  @submit.prevent="userLogIn">
-                <input v-model="account.login" id="inpUsername" placeholder="Username" type="text" autocomplete="off" required/>
+                <input v-model="account.login" id="inpUsername" v-bind:placeholder="$t('USERNAME')" type="text" autocomplete="off" required/>
                     <vue-password v-model="account.password"
                                     classes="c-login__form__password"
-                                    placeholder="Password"
+                                    v-bind:placeholder="$t('PASSWORD')"
                                     :disableStrength="true"
                     >
                     </vue-password>
                     <p class="c-login__form__error">{{ errorMessage }}</p>
-                <button type="submit" class="c-button-primary">LOG IN</button>
+                <button type="submit" class="c-button-primary">{{ $t('LOG-IN') }}</button>
             </form>
         </div>
 
-        <p class="c-login__signup">Need an account? <router-link to="/register">Sign up</router-link></p>
+        <p class="c-login__signup">{{ $t('NEED-ACCOUNT') }} <router-link to="/register">{{ $t('SIGN-UP') }}</router-link></p>
     </div>
 </template>
 

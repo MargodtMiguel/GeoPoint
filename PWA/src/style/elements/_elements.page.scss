@@ -50,3 +50,20 @@ transition: .3s fill;
 .st0:hover{
     fill:$alpha-color;
 }
+
+.c-language-icon{
+    width:100%;
+    display:flex;
+    justify-content: flex-end;
+}
+
+.c-language-icon img{
+    width:30px;
+    margin:20px;
+    transition: transform .2s ease-in-out;
+}
+
+.c-language-icon img:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+}

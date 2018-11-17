@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import * as SignalR from '@aspnet/signalr'
+import {i18n } from'./plugins/i18n'
 
 Vue.config.productionTip = false
 
@@ -16,6 +17,7 @@ Sentry.init({
 })
 
 new Vue({
+  i18n,
   router,
   store,
   render: h => h(App)
