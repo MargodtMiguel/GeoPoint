@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +51,6 @@ namespace GeoPoint.API
 
             //Repos
             services.AddScoped<IScoreRepo, ScoreRepo>();
-            services.AddScoped<IUserRepo, UserRepo>();
 
             //cookie auth
             services.AddAuthentication("GeoPointScheme")
@@ -140,11 +136,13 @@ namespace GeoPoint.API
               });
 
             //MongoDB
-            services.AddIdentityMongoDbProvider<GeoPointUser,MongoRole>(options =>
-            {
-                options.ConnectionString = Configuration.GetConnectionString("MongoConnection");
+            
 
-            });
+            services.AddIdentityMongoDbProvider<GeoPointUser, MongoRole>(options =>
+             {
+                 options.ConnectionString = Configuration.GetConnectionString("MongoConnection")+"/GeoPoint";
+
+             });
             services.AddSingleton<GeoPointAPIMongoDBContext>();
             services.AddTransient<SeedMongo>();
             
@@ -172,6 +170,7 @@ namespace GeoPoint.API
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps(301, 44343));
             app.UseSignalR(routes => { routes.MapHub<friendRequest>("/friendRequest"); });
             app.UseMvc();
+
             seedMongo.initDatabase(150).Wait();
         }
     }

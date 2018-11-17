@@ -68,19 +68,24 @@ namespace GeoPoint.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(IdentityModel identityModel)
         {
-            if (!ModelState.IsValid) return BadRequest("Password should be minimum 8 characters and contain a combination of uppercase, lowercase, numbers and special characters");
+            if (!ModelState.IsValid) return BadRequest("Unvalid data");
             try
             {
                 var user = new GeoPointUser { SecurityStamp = Guid.NewGuid().ToString(), UserName = identityModel.Username, Email = identityModel.Email };
                 if (await _userManager.FindByNameAsync(user.UserName) == null)
                 {
                     var u = await _userManager.CreateAsync(user, identityModel.Password);
+                    if (u.Errors.Count() > 0)
+                    {
+                        return BadRequest("Password should be minimum 8 characters and contain a combination of uppercase, lowercase, numbers and special characters");
+                    }
                     return await Login(identityModel);
-            }
+                }
                 else
                 {
                     return BadRequest("User already exists!");
                 }
+               
             }
             catch (Exception e)
             {

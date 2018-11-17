@@ -9,8 +9,10 @@
             </div>
         </div>
         <input v-model="friendToAdd" id="friendToAdd" placeholder="Enter friends username" type="text" autocomplete="off" required/>
+        <div >
 
-        <button type="submit" class="c-button-primary">SEND INVITE</button>
+        </div>
+        <button @click="sendFriendRequest" type="submit" class="c-button-primary">SEND INVITE</button>
     </div>
 </template>
 
@@ -62,19 +64,35 @@
 </style>
 
 <script>
+import store from '../store.js';
 export default {
     name:'addfriend',
     data(){
         return{
             friendToAdd: '',
+          
         };
+    },
+    computed:{
+        connection(){
+            return store.getters.getSignalrConnection;
+        },
+       curUser(){
+            return store.getters.getSignalrCurUser;
+      },
     },
     methods:{
         closePanel() {
             this.$emit("closePanel", {});
         },
         searchFriends(val){
-            console.log("searching " + val)
+            store.dispatch('searchUser',val);
+           
+        },
+        sendFriendRequest(){
+            this.connection.invoke("SendFriendRequest",this.curUser.toString(),"MiguelMargodt").catch(function(err){
+                console.error(err.toString());
+            });
         }
     },
      watch: {
@@ -86,8 +104,8 @@ export default {
             }
         },
         deep: true
-        }
-    }, 
+        },       
+    },
 }
 </script>
 

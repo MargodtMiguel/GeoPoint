@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GeoPoint.Models;
+using GeoPoint.Models.Data;
 using GeoPoint.Models.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
 namespace GeoPoint.API.Controllers
 {
@@ -22,13 +24,13 @@ namespace GeoPoint.API.Controllers
     [EnableCors("CorsPolicy")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepo userRepo;
         private readonly UserManager<GeoPointUser> userManager;
         private readonly ILogger<UsersController> logger;
-        public UsersController(IUserRepo userRepo, UserManager<GeoPointUser> userManager, ILogger<UsersController> logger)
+        private readonly GeoPointAPIMongoDBContext context;
+        public UsersController(GeoPointAPIMongoDBContext context, UserManager<GeoPointUser> userManager, ILogger<UsersController> logger)
         {
             this.userManager = userManager;
-            this.userRepo = userRepo;
+            this.context = context;
             this.logger = logger;
         }
 
@@ -41,24 +43,62 @@ namespace GeoPoint.API.Controllers
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
                 GeoPointUser friend = await userManager.FindByNameAsync(username);
-                bool isFriends1 = await userRepo.checkIfFriends(user, username);
-                bool isFriends2 = await userRepo.checkIfFriends(friend, user.UserName);
-                if (isFriends1 || isFriends2)
+                foreach(Friend f in user.Friends)
                 {
-                    return BadRequest("Already friends/request still pending");
+                    if(f.Username == friend.UserName)
+                    {
+                        return BadRequest("Already friends");
+                    }
                 }
-
-                Friend f = new Friend
+                foreach (Friend f in friend.Friends)
                 {
-                    Username = user.UserName
-                };
-                await userRepo.sendFriendRequest(friend,f);
+                    if (f.Username == user.UserName)
+                    {
+                        return BadRequest("Already friends");
+                    }
+                }
+                friend.Friends.Add(new Friend
+                {
+                    Username = user.UserName,
+                });
+                await userManager.UpdateAsync(friend);
                 return Ok("Friend request sent to " + username);
             }
             catch(Exception e)
             {
                 logger.LogError($"\r\n\r\nError thrown on UsersController - SendFriendRequest method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Send Friend Request: " + e + "\r\n\r\n");
                 return BadRequest("Failed to send friend request");
+            }
+        }
+        [HttpPost("api/[controller]/confirmFriendRequest")]
+        public async Task<IActionResult> confirmFriendRequest([Required]string friendUsername)
+        {
+            try
+            {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                GeoPointUser user = await userManager.FindByIdAsync(userId);
+                foreach(Friend f in user.Friends)
+                {
+                    if(f.Username == friendUsername)
+                    {
+                        f.IsPending = false;
+                    }
+                }
+                await userManager.UpdateAsync(user);
+                GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
+                friend.Friends.Add(new Friend
+                {
+                    Username = user.UserName,
+                    IsPending = false
+                });
+                await userManager.UpdateAsync(friend);
+                return Ok("Your now friends with " + friendUsername);
+            }
+            catch(Exception e)
+            {
+                logger.LogError($"\r\n\r\nError thrown on UsersController - confirmFriendRequest method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to confirm Friend Request: " + e + "\r\n\r\n");
+                return BadRequest("Failed to confirm friend request");
             }
         }
         [HttpGet("api/[controller]/getMyFriends")]
@@ -69,7 +109,14 @@ namespace GeoPoint.API.Controllers
                 var claimsIdentity = this.User.Identity as ClaimsIdentity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
-                return Ok(user.Friends);
+                if(user.Friends == null)
+                {
+                    return BadRequest("no friends yet");
+                }
+                else
+                {
+                    return Ok(user.Friends);
+                }
             }
             catch (Exception e)
             {
@@ -78,14 +125,48 @@ namespace GeoPoint.API.Controllers
             }
 
         }
+        [HttpDelete("api/[controller]/removeFriend")]
+        public async Task<IActionResult> removeFriend([Required] string friendUsername)
+        {
+            try
+            {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                GeoPointUser user = await userManager.FindByIdAsync(userId);
+                GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
+                foreach(Friend f in user.Friends)
+                {
+                    if(f.Username == friendUsername)
+                    {
+                        user.Friends.Remove(f);
+                    }
+                }
+                foreach (Friend f in friend.Friends)
+                {
+                    if (f.Username == user.UserName)
+                    {
+                        friend.Friends.Remove(f);
+                    }
+                }
+                await userManager.UpdateAsync(user);
+                await userManager.UpdateAsync(friend);
+                return Ok("Friend was removed");
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"\r\n\r\nError thrown on UsersController - removeFriend method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to remove Friend: " + e + "\r\n\r\n");
+                return BadRequest("Failed to remove Friend");
+            }
+
+        }
         [HttpGet("api/[controller]/searhUser")]
         public async Task<IActionResult> searchUser([Required]string Username)
         {
             try
             {
-
-                IEnumerable<GeoPointUser> users = await userRepo.searchUser(Username);
-                var matches = new List<String>();
+                IMongoCollection<GeoPointUser> collection = context.Database.GetCollection<GeoPointUser>("Users");
+                IEnumerable<GeoPointUser> users = await collection.Find(x => x.UserName.ToLower().StartsWith(Username.ToLower())).ToListAsync();
+                List<string> matches = new List<string>();
                 if (users != null)
                 {
                     foreach (GeoPointUser u in users)

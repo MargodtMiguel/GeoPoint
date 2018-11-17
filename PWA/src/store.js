@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import moment from 'moment'
 import router from './router.js'
+import * as signalR from '@aspnet/signalr'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     endTime: '',
     topScores: [],
     errorMessage: '',
+    signalrConnection: '',
+    signalrCurUser: localStorage.signalrCurUser,
+    foundUsers: {},
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -39,7 +43,9 @@ export default new Vuex.Store({
       }
     },
     getErrorMessage: state => state.errorMessage,
-    getCurUser: state => state.curUser
+    getSignalrConnection: state => state.signalrConnection,
+    getSignalrCurUser: state => state.signalrCurUser,
+    getUsersByUsername: state => state.foundUsers
   },
   mutations: {
     setLastScore(state, s){
@@ -77,7 +83,8 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
-          localStorage.curUser = account.login;
+          state.signalrCurUser = account.login;
+          localStorage.signalrCurUser = account.login;
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
@@ -105,10 +112,12 @@ export default new Vuex.Store({
         if(response.data.token != undefined){
           //set local storage data's
           localStorage.authToken = response.data.token;
+          state.signalrCurUser = account.login;
+          localStorage.signalrCurUser = account.login;
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
-        }
+        } z
       })
       .catch(e => {
         //clear local storage data's
@@ -140,7 +149,13 @@ export default new Vuex.Store({
       .catch(e => {
         console.log("error " + e)
       })
-    }    
+    },
+    setConnection(state){
+        state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build();
+    },
+    setFoundUsers(state,users){
+      state.foundUsers = users 
+    } 
   },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
@@ -161,15 +176,20 @@ export default new Vuex.Store({
     },
     searchUser:({commit, state}, val) =>{
       let token = "Bearer " + localStorage.authToken;
-      axios.get('https://localhost:44363/api/Scores/getTopScores',
+      axios.get('https://localhost:44363/api/Users/searhUser',
       {
         headers: {'Authorization': token},
         params:{
-          area: a,
-          length: 10
+          Username: val
         }
       }
-    )
+    ).then(response => {
+      console.log(response)
+      commit('setFoundUsers', response.data);  
+    }).catch(err=>{
+      console.log(err)
+
+    })
     }
   }
 })
