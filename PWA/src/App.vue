@@ -2,7 +2,6 @@
   <div id="app">
     <container class="o-container--full">
       <router-view/>
-      <button @click.stop="sendFriendRequest">press here</button>
     </container>
   </div>
 </template>
@@ -18,57 +17,55 @@
 <script>
   import Container from './components/Container';
   import Row from './components/Row';
-  import * as SignalR from '@aspnet/signalr'
- 
-  export default {
+ export default {
     name: 'App',
     components: {
       Container,
       Row
     },
-    data(){
-      return{
-         connection: new SignalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build(),
-        
-      }
-    },   
+
     computed:{
-       curUser(){
-         return this.$store.getters.getCurUser
-       } 
-    } ,
-    watch:{
-      curUser (value) {
-        this.startRealTime(value)
+      curUser(){
+        return this.$store.getters.getSignalrCurUser;
+      },
+      connection(){
+        return this.$store.getters.getSignalrConnection;
       }
     },
+    watch:{
+        curUser(value){
+          console.log("user changed");
+          this.startConnection(value);
+        },
+    },
     methods:{
-      sendFriendRequest:function(){
-        console.log(this.curUser)
-         this.connection.invoke("sendFriendRequest", this.curUser, "MiguelMargodt").catch(function (err) {
+      startConnection: function(value){
+
+        console.log("started with user "+ value)
+        console.log(this.connection);
+
+        this.connection.start().then(function(){
+        }).catch(function(err){
             return console.error(err.toString());
-            
         });
-      },
-    startRealTime: function(user){
-      
-      this.connection.start().catch(function(err){
-        return console.log(err.toString());
-      });
-      this.connection.on("ReceiveMessage", function (user, message) {
-        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        var encodedMsg = user + " says " + msg;
-        console.log(encodedMsg);
-      });
-      connection.on('Login', () => {
-        connection.invoke("Login", user);
-      });
-      let start = document.addEventListener("DOMContentLoaded",(event) => {
-        console.log("DOM fully loaded and parsed");        
-        
-      });
+
+        this.connection.on('Login', () => {
+          this.connection.invoke("Login", value);
+        });
+
+        this.connection.on("ServerMessage", function (message) {        
+          console.log(message)
+        });
+
+        this.connection.on("RecieveFriendRequest",function(message){
+            alert(message);
+        });
+      }
+    },
+    created: function(){
+        this.$store.commit('setConnection')
     }
   }
-}
   
 </script>
+

@@ -98,7 +98,7 @@ if(to.meta.requiresAuth){
   var now = moment(Date.now());
 
   try{
-    if(now.isBefore(expDateStorage)){
+    if(now.isBefore(expDateStorage)){ 
       next();
     }else{
       return next('/login')

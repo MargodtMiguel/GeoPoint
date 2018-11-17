@@ -60,6 +60,7 @@ export default {
         }
     },
     created: function(){
+        console.log("test")
         this.$store.commit('resetValues');
     }
 }
