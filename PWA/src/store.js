@@ -19,7 +19,7 @@ export default new Vuex.Store({
     errorMessage: '',
     signalrConnection: '',
     signalrCurUser: localStorage.signalrCurUser,
-    foundUsers: {},
+    foundUsers: '',
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -29,16 +29,25 @@ export default new Vuex.Store({
     },
     getTopScores: state => state.topScores,
     isLoggedIn(state){
-      var expDateStorage = moment(localStorage.expDate);
+      var expDateStorage = localStorage.expDate;
+      var expDate = new Date(expDateStorage);
       var now = moment(Date.now());
-    
-      try{
-        if(now.isBefore(expDateStorage)){
-          return true;
+      console.log("get isloggedin expdate: "+ expDateStorage);
+      console.log("get isloggedin now: " + now);
+      if(now != undefined && expDateStorage != undefined){
+        // if(now.isValid() && expDateStorage.isValid()){
+          if(now.isValid() ){
+          if(now.isBefore(expDateStorage)){
+            console.log("now is before expdatestorage")
+            return true;
+          }else{
+            console.log("now is after expdatestorage")
+            return false;
+          }
         }else{
           return false;
         }
-      }catch(err){
+      }else{
         return false;
       }
     },
@@ -125,9 +134,6 @@ export default new Vuex.Store({
       state.errorMessage = e.response.data;
       })
     },
-    userLogOut(state){
-      localStorage.clear();
-    },
     addScore(state, score){
       let token = "Bearer " + localStorage.authToken;
       let data = JSON.stringify({
@@ -154,8 +160,26 @@ export default new Vuex.Store({
         state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build();
     },
     setFoundUsers(state,users){
-      state.foundUsers = users 
-    } 
+      state.foundUsers = users
+      //console.log("setFoundUsers "+ state.foundUsers) 
+    } ,
+    sendFriendRequest(state,friend){
+      let token = "Bearer " + localStorage.authToken;
+      axios.post(`https://localhost:44363/api/Users/sendFriendRequest`,friend.toString(), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+
+      })
+      .then(response => {
+        console.log(response)
+
+      })
+      .catch(e => {
+        console.log("error " + e)
+      })
+    }
   },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
@@ -174,7 +198,7 @@ export default new Vuex.Store({
         commit('setTopScores', response.data);  
       })
     },
-    searchUser:({commit, state}, val) =>{
+    searchUser:({commit}, val) =>{
       let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Users/searhUser',
       {
@@ -190,6 +214,6 @@ export default new Vuex.Store({
       console.log(err)
 
     })
-    }
+    },
   }
 })

@@ -64,7 +64,7 @@
     },
     created: function(){
         this.$store.commit('setConnection')
-    }
+    },
   }
   
 </script>

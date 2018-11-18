@@ -43,24 +43,33 @@ namespace GeoPoint.API.Controllers
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
                 GeoPointUser friend = await userManager.FindByNameAsync(username);
-                foreach(Friend f in user.Friends)
+                if(user.Friends != null)
                 {
-                    if(f.Username == friend.UserName)
+                    foreach (Friend f in user.Friends)
                     {
-                        return BadRequest("Already friends");
+                        if (f.Username == friend.UserName)
+                        {
+                            return BadRequest("Already friends");
+                        }
                     }
                 }
-                foreach (Friend f in friend.Friends)
+                if(friend.Friends != null)
                 {
-                    if (f.Username == user.UserName)
+                    foreach (Friend f in friend.Friends)
                     {
-                        return BadRequest("Already friends");
+                        if (f.Username == user.UserName)
+                        {
+                            return BadRequest("Already friends");
+                        }
                     }
+                    
                 }
-                friend.Friends.Add(new Friend
+                Friend newFriend = new Friend { Username = user.UserName };
+                if(friend.Friends == null)
                 {
-                    Username = user.UserName,
-                });
+                    friend.Friends = new List<Friend>();
+                }               
+                friend.Friends.Add(newFriend);
                 await userManager.UpdateAsync(friend);
                 return Ok("Friend request sent to " + username);
             }
@@ -78,15 +87,23 @@ namespace GeoPoint.API.Controllers
                 var claimsIdentity = this.User.Identity as ClaimsIdentity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
-                foreach(Friend f in user.Friends)
+                if(user.Friends != null)
                 {
-                    if(f.Username == friendUsername)
+                    foreach (Friend f in user.Friends)
                     {
-                        f.IsPending = false;
+                        if (f.Username == friendUsername)
+                        {
+                            f.IsPending = false;
+                        }
                     }
                 }
+               
                 await userManager.UpdateAsync(user);
                 GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
+                if(friend.Friends == null)
+                {
+                    friend.Friends = new List<Friend>();
+                }
                 friend.Friends.Add(new Friend
                 {
                     Username = user.UserName,

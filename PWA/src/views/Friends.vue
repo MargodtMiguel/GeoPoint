@@ -148,10 +148,7 @@ export default {
             }
         })
         },
-        searchFriends(){
-
-        }
-    }
+    },
 }
 </script>
 
