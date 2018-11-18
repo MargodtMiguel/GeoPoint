@@ -1,5 +1,13 @@
 <template>
-    <div class="c-login">
+    <div>
+        <slideout-panel>
+        </slideout-panel>
+        <div class="c-login">
+            <div class="c-language-icon">
+                <div>
+                    <img v-on:click.prevent="showPanel" src="../assets/translation.png" alt="">
+                </div>
+            </div>
         <h1>GeoPoint</h1>
         <div class="c-login__form">
             <form  @submit.prevent="userLogIn">
@@ -17,55 +25,66 @@
 
         <p class="c-login__signup">{{ $t('NEED-ACCOUNT') }} <router-link to="/register">{{ $t('SIGN-UP') }}</router-link></p>
     </div>
+    </div>
+    
 </template>
 
 <style lang="scss">
- @import './src/style/components/components.login.scss';
- button{
-     display:block;
-     margin:0 auto;
-     margin-top:40px;
- }
+@import "./src/style/components/components.login.scss";
+button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 40px;
+}
 
- .VuePassword__Input{
-     margin-bottom:20px;
- }
+.VuePassword__Input {
+  margin-bottom: 20px;
+}
 </style>
 
 <script>
-import VuePassword from 'vue-password'
+import VuePassword from "vue-password";
+import { VueSlideoutPanel } from 'vue2-slideout-panel';
+import changelanguage from '../components/ChangeLanguage';
+import { vueSlideoutPanelService } from 'vue2-slideout-panel';
 
 export default {
-    name: 'login',
-    components: {
-        VuePassword
-    },
-    data(){
-        return{
-            account:{
-                login:'',
-                password:''
-            },
-            isLoggedIn:false
-        }
-    },
-    beforeCreate:function(){
-      this.isLoggedIn =  this.$store.getters.isLoggedIn
-    },
-    computed:{
-        errorMessage(){
-            return this.$store.getters.getErrorMessage
-        }
-    },
-    methods:{
-        userLogIn: function(){
-            this.$store.commit('userLogIn', this.account);
-
-        }
-    },
-    created: function(){
-        console.log("test")
-        this.$store.commit('resetValues');
+  name: "login",
+  components: {
+    VuePassword,
+    'slideout-panel': VueSlideoutPanel
+  },
+  data() {
+    return {
+      account: {
+        login: "",
+        password: ""
+      },
+      isLoggedIn: false
+    };
+  },
+  beforeCreate: function() {
+    this.isLoggedIn = this.$store.getters.isLoggedIn;
+  },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.getErrorMessage;
     }
-}
+  },
+  methods: {
+    showPanel(){
+        const panel1Handle = vueSlideoutPanelService.show({
+        component : changelanguage,
+        width: '350px',
+        })
+    },
+    userLogIn: function() {
+      this.$store.commit("userLogIn", this.account);
+    }
+  },
+  created: function() {
+    console.log("test");
+    this.$store.commit("resetValues");
+  }
+};
 </script>

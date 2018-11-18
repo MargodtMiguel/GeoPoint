@@ -30,7 +30,7 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | Testing                      |                                 			|       |
 | Styling                      | SCSS                            			|   V   |
 | PWA                          | Heeft een correcte PWA set-up   			|   V   |
-| Multi-language               |                                 			|       |
+| Multi-language               | i18n gebruikt voor het toevoegen van meerdere talen	|   V   |
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
 | Development setup            |                                			|       |
 | Webpack optimisation         |                                 			|       |
