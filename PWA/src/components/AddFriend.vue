@@ -2,20 +2,20 @@
     <div class="c-addfriend">
         <div class="c-addfriend__close">
             <div class="c-addfriend__close__title">
-                Add friend
+                {{ this.aFriend }}
             </div>
             <div v-on:click.prevent="closePanel" class="c-addfriend__close__button">
                 <img src="../assets/cross.png" alt="">
             </div>
         </div>
-        <input v-model="friendToAdd" id="friendToAdd" placeholder="Enter friends username" type="text" autocomplete="off" required/>
+        <input v-model="friendToAdd" id="friendToAdd" v-bind:placeholder="this.eUsername" type="text" autocomplete="off" required/>
         <div v-for="(fr) in foundUsers" v-bind:key="fr">
             <p class="c-selectOption" @click="changeSelected(fr)" :id="fr">{{fr}}</p>
         </div>
         <!-- <div v-for="fr in foundUsers" v-bind:key="fr" >
             <button>{{fr}}</button>
         </div> -->
-        <button @click="sendFriendRequest" type="submit" class="c-button-primary c-button-adjust">SEND INVITE</button>
+        <button @click="sendFriendRequest" type="submit" class="c-button-primary c-button-adjust">{{ this.sInvite }}</button>
     </div>
 </template>
 
@@ -79,6 +79,7 @@
 
 <script>
 import store from '../store.js';
+import { i18n } from'../plugins/i18n'
 
 export default {
     name:'addfriend',
@@ -87,6 +88,9 @@ export default {
             friendToAdd: '',
             foundUsers:'',
             selectedUser:'',
+            aFriend:i18n.t('ADD-FRIEND'),
+            eUsername:i18n.t('ENTER-USERNAME'),
+            sInvite:i18n.t('SEND-INVITE'),
         };
     },
     computed:{

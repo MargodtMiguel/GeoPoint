@@ -635,7 +635,7 @@
     methods:{
       pickCountry: function(country){
         if(country == this.corrCountry){
-          this.score++;
+          this.incrementScore();
           delete mapDict[this.corrCountry]
           this.corrCountry = this.pickRandomCountry(mapDict);
         }else{
@@ -647,6 +647,9 @@
           setTimeout(() => this.$router.push('/gameover'), 2000);
 
         }
+      },
+      incrementScore: function(){
+        this.score++;
       },
       pickRandomCountry: function(obj) {
         var keys = Object.keys(obj)

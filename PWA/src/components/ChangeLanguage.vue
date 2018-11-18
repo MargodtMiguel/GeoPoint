@@ -2,14 +2,14 @@
     <div class="c-language">
         <div class="c-language__close">
             <div class="c-language__close__title">
-               Change language
+               {{ this.cLang }}
             </div>
             <div v-on:click.prevent="closePanel" class="c-language__close__button">
                 <img src="../assets/cross.png" alt="">
             </div>
         </div>
         <select @change="changeLanguage ($event)" placeholder="Pick a language">
-        <option value="" disabled selected>Pick a language</option>
+        <option value="" disabled selected>{{ this.pLang }}</option>
           <option value="en">English</option>
           <option value="nl">Nederlands</option>
         </select> 
@@ -84,7 +84,8 @@ export default {
     name:'changelanguage',
     data(){
         return{
-
+            cLang:i18n.t('CHANGE-LANGUAGE'),
+            pLang:i18n.t('PICK-LANGUAGE')
         };
     },
     methods:{
@@ -93,6 +94,8 @@ export default {
         },
         changeLanguage(event){
             i18n.locale = event.target.value;
+            this.cLang = i18n.t('CHANGE-LANGUAGE');
+            this.pLang = i18n.t('PICK-LANGUAGE');
         }
     }
 }

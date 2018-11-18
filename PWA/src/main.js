@@ -16,6 +16,7 @@ import * as Sentry from '@sentry/browser'
 //   integrations: [new Sentry.Integrations.Vue({ Vue })]
 // })
 
+
 new Vue({
   i18n,
   router,
