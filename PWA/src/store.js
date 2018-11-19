@@ -29,24 +29,32 @@ export default new Vuex.Store({
     },
     getTopScores: state => state.topScores,
     isLoggedIn(state){
-      var expDateStorage = localStorage.expDate;
-      var expDate = new Date(expDateStorage);
+      // var expDateStorage = localStorage.expDate;
+      // var expDate = new Date(expDateStorage);
+      // var now = moment(Date.now());
+      // console.log("get isloggedin expdate: "+ expDateStorage);
+      // console.log("get isloggedin now: " + now);
+      // if(now != undefined && expDateStorage != undefined){
+      //   // if(now.isValid() && expDateStorage.isValid()){
+      //     if(now.isValid() ){
+      //     if(now.isBefore(expDateStorage)){
+      //       console.log("now is before expdatestorage")
+      //       return true;
+      //     }else{
+      //       console.log("now is after expdatestorage")
+      //       return false;
+      //     }
+      //   }else{
+      //     return false;
+      //   }
+      // }else{
+      //   return false;
+      // }
+      var expDateStorage = moment(localStorage.expDate);
       var now = moment(Date.now());
-      console.log("get isloggedin expdate: "+ expDateStorage);
-      console.log("get isloggedin now: " + now);
-      if(now != undefined && expDateStorage != undefined){
-        // if(now.isValid() && expDateStorage.isValid()){
-          if(now.isValid() ){
-          if(now.isBefore(expDateStorage)){
-            console.log("now is before expdatestorage")
-            return true;
-          }else{
-            console.log("now is after expdatestorage")
-            return false;
-          }
-        }else{
-          return false;
-        }
+
+      if(now.isBefore(expDateStorage)){ 
+        return true;
       }else{
         return false;
       }
@@ -126,7 +134,7 @@ export default new Vuex.Store({
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
           router.push('/')
         }else{
-        } z
+        } 
       })
       .catch(e => {
         //clear local storage data's
