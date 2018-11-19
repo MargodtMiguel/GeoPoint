@@ -46,7 +46,7 @@ namespace GeoPoint.API.Controllers
                 GeoPointUser friend = await userManager.FindByNameAsync(userVM.username);
                 if(user.Friends != null)
                 {
-                    foreach (Friend f in user.Friends)
+                    foreach (Friend f in user.Friends.ToList())
                     {
                         if (f.Username == friend.UserName)
                         {
@@ -56,7 +56,7 @@ namespace GeoPoint.API.Controllers
                 }
                 if(friend.Friends != null)
                 {
-                    foreach (Friend f in friend.Friends)
+                    foreach (Friend f in friend.Friends.ToList())
                     {
                         if (f.Username == user.UserName)
                         {
@@ -90,7 +90,7 @@ namespace GeoPoint.API.Controllers
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
                 if(user.Friends != null)
                 {
-                    foreach (Friend f in user.Friends)
+                    foreach (Friend f in user.Friends.ToList())
                     {
                         if (f.Username == friendUsername)
                         {
@@ -117,6 +117,34 @@ namespace GeoPoint.API.Controllers
             {
                 logger.LogError($"\r\n\r\nError thrown on UsersController - confirmFriendRequest method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to confirm Friend Request: " + e + "\r\n\r\n");
                 return BadRequest("Failed to confirm friend request");
+            }
+        }
+        [HttpDelete("api/[controller]/declineFriendRequest")]
+        public async Task<IActionResult> declineFriendRequest(UserVM userVM)
+        {
+            try
+            {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                GeoPointUser user = await userManager.FindByIdAsync(userId);
+                GeoPointUser friend = await userManager.FindByNameAsync(userVM.username);
+                if((user.Friends != null))
+                {
+                    foreach (Friend f in user.Friends.ToList())
+                    {
+                        if (f.Username == userVM.username)
+                        {
+                            user.Friends.Remove(f);
+                        }
+                    }
+                }
+                await userManager.UpdateAsync(user);
+                return Ok("friend request declined!");
+            }
+            catch(Exception e)
+            {
+                logger.LogError($"\r\n\r\nError thrown on UsersController - declineFriendRequest method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to decline Friend Request: " + e + "\r\n\r\n");
+                return BadRequest("Failed to decline friend request");
             }
         }
         [HttpGet("api/[controller]/getMyFriends")]
@@ -152,14 +180,14 @@ namespace GeoPoint.API.Controllers
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
                 GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
-                foreach(Friend f in user.Friends)
+                foreach(Friend f in user.Friends.ToList())
                 {
                     if(f.Username == friendUsername)
                     {
                         user.Friends.Remove(f);
                     }
                 }
-                foreach (Friend f in friend.Friends)
+                foreach (Friend f in friend.Friends.ToList())
                 {
                     if (f.Username == user.UserName)
                     {
@@ -187,7 +215,7 @@ namespace GeoPoint.API.Controllers
                 List<string> matches = new List<string>();
                 if (users != null)
                 {
-                    foreach (GeoPointUser u in users)
+                    foreach (GeoPointUser u in users.ToList())
                     {
                         matches.Add(u.UserName);
                     }
