@@ -7,7 +7,7 @@ import * as signalR from '@aspnet/signalr'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     authToken:localStorage.authToken,
     expDate:localStorage.expDate,
@@ -172,23 +172,26 @@ export default new Vuex.Store({
       //console.log("setFoundUsers "+ state.foundUsers) 
     } ,
     sendFriendRequest(state,friend){
-      let token = "Bearer " + localStorage.authToken;
-      axios.post(`https://localhost:44363/api/Users/sendFriendRequest`,friend.toString(), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': token
-        },
+    let token = "Bearer " + localStorage.authToken;
+    let data = JSON.stringify({
+      username: friend
+    })
+    axios.post('https://localhost:44363/api/Users/sendFriendRequest',data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      },
 
-      })
-      .then(response => {
-        console.log(response)
+    })
+    .then(response => {
+      console.log("friend added")
 
-      })
-      .catch(e => {
-        console.log("error " + e)
-      })
-    }
+    })
+    .catch(e => {
+      console.log("error " + e)
+    })
   },
+},
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
       let token = "Bearer " + localStorage.authToken;
@@ -225,3 +228,5 @@ export default new Vuex.Store({
     },
   }
 })
+
+export default store;

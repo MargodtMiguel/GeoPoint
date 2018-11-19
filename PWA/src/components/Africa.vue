@@ -316,7 +316,7 @@ import SvgPanZoom from 'vue-svg-pan-zoom';
           this.$store.commit('setLastScore', this.score);
           this.$router.push('/finish');
         }else{
-          console.log("Random pick:" + ctp);
+          
         }
         return ctp;
       },

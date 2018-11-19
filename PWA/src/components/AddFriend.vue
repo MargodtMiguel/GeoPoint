@@ -12,9 +12,6 @@
         <div v-for="(fr) in foundUsers" v-bind:key="fr">
             <p class="c-selectOption" @click="changeSelected(fr)" :id="fr">{{fr}}</p>
         </div>
-        <!-- <div v-for="fr in foundUsers" v-bind:key="fr" >
-            <button>{{fr}}</button>
-        </div> -->
         <button @click="sendFriendRequest" type="submit" class="c-button-primary c-button-adjust">{{ this.sInvite }}</button>
     </div>
 </template>
@@ -111,6 +108,7 @@ export default {
                 this.searchFriends(val);
             }
             else{
+                this.selectedUser = '';
                 this.foundUsers = '';
             }
         },
@@ -128,7 +126,8 @@ export default {
         sendFriendRequest(){
             var selected = this.selectedUser;
             if(!selected == ''){
-                //store.commit('sendFriendRequest',this.selectedUser.toString()); //not working yet
+                store.commit('sendFriendRequest',this.selectedUser.toString());
+                this.$emit("closePanel", {});
             }
             // this.connection.invoke("SendFriendRequest",this.curUser.toString(),"MiguelMargodt").catch(function(err){
             //     console.error(err.toString());
@@ -139,7 +138,9 @@ export default {
                 document.querySelector("#"+this.selectedUser).classList.remove('c-selected');
             }          
             this.selectedUser = fr;
+            this.friendToAdd = fr;
             document.querySelector("#"+fr).classList.add('c-selected');
+            
         }
     },
     created(){

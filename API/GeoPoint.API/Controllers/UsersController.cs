@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GeoPoint.API.ViewModels;
 using GeoPoint.Models;
 using GeoPoint.Models.Data;
 using GeoPoint.Models.Repositories;
@@ -35,14 +36,14 @@ namespace GeoPoint.API.Controllers
         }
 
         [HttpPost("api/[controller]/sendFriendRequest")]
-        public async Task<IActionResult> SendFriendRequest([Required]string username)
+        public async Task<IActionResult> SendFriendRequest(UserVM userVM)
         {
             try
             {
                 var claimsIdentity = this.User.Identity as ClaimsIdentity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
-                GeoPointUser friend = await userManager.FindByNameAsync(username);
+                GeoPointUser friend = await userManager.FindByNameAsync(userVM.username);
                 if(user.Friends != null)
                 {
                     foreach (Friend f in user.Friends)
@@ -71,7 +72,7 @@ namespace GeoPoint.API.Controllers
                 }               
                 friend.Friends.Add(newFriend);
                 await userManager.UpdateAsync(friend);
-                return Ok("Friend request sent to " + username);
+                return Ok("Friend request sent to " + userVM.username);
             }
             catch(Exception e)
             {
