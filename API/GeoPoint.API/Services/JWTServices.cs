@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -85,10 +86,10 @@ namespace GeoPoint.API.Services
                      issuer: configuration["Tokens:Issuer"],  //onze website
                      audience: configuration["Tokens:Audience"],//gebruikers
                      claims: claims,
-                     expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(configuration["Tokens: Expires"])),
+                     expires: DateTime.Now.AddMinutes(Convert.ToDouble(40)),
                      signingCredentials: creds  //controleert token v
                      );
-
+                Debug.WriteLine(token.ValidTo);
                     //5. user info returnen (vervaldatum als additionele info)
                     return new
                     {

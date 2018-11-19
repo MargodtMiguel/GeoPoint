@@ -38,10 +38,7 @@
     @import './src/style/settings/settings.colors.scss';
 
     @import './src/style/components/components.leaderboard.scss';
-    .c-leaderboard p{
-        text-align:center;
-        font-size:1.3em;
-    }
+
     </style>
 
 <script>

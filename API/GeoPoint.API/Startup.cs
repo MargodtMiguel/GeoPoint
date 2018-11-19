@@ -19,6 +19,7 @@ using AspNetCore.Identity.Mongo;
 using GeoPoint.API.Hubs;
 using Microsoft.Extensions.Logging;
 using AspNetCore.Identity.Mongo.Model;
+using System;
 
 namespace GeoPoint.API
 {
@@ -75,6 +76,7 @@ namespace GeoPoint.API
                             return Task.CompletedTask;
                         }
                     };
+                    options.Cookie.MaxAge = new TimeSpan(0, 1, 0, 0, 0);
                 });
 
             //Cross origin
@@ -127,12 +129,14 @@ namespace GeoPoint.API
                       ValidateIssuerSigningKey = true,
                       ValidIssuer = Configuration["Tokens:Issuer"],
                       ValidAudience = Configuration["Tokens:Audience"],
+                      
 
                       IssuerSigningKey = new SymmetricSecurityKey
                  (Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                   };
                   options.SaveToken = false;
                   options.RequireHttpsMetadata = false;
+                  
               });
 
             //MongoDB
