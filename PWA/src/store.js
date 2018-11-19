@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     startTime: '',
     endTime: '',
     topScores: [],
+    friends: [],
     errorMessage: '',
     signalrConnection: '',
     signalrCurUser: localStorage.signalrCurUser,
@@ -28,28 +29,27 @@ const store = new Vuex.Store({
       return (state.endTime - state.startTime) / 1000
     },
     getTopScores: state => state.topScores,
+    getFriends(state){
+      var friends = [];
+      for(var i = 0, l = state.friends.length; i<l; i++){
+        // console.log(state.friends[i])
+        if(state.friends[i].isPending != true){
+          friends.push(state.friends[i])
+        }
+      }
+      return friends;
+    },
+    getPendingFriends(state){
+      var pendingfriends = [];
+      for(var i = 0, l = state.friends.length; i<l; i++){
+        // console.log(state.friends[i])
+        if(state.friends[i].isPending == true){
+          pendingfriends.push(state.friends[i])
+        }
+      }
+      return pendingfriends;
+    },
     isLoggedIn(state){
-      // var expDateStorage = localStorage.expDate;
-      // var expDate = new Date(expDateStorage);
-      // var now = moment(Date.now());
-      // console.log("get isloggedin expdate: "+ expDateStorage);
-      // console.log("get isloggedin now: " + now);
-      // if(now != undefined && expDateStorage != undefined){
-      //   // if(now.isValid() && expDateStorage.isValid()){
-      //     if(now.isValid() ){
-      //     if(now.isBefore(expDateStorage)){
-      //       console.log("now is before expdatestorage")
-      //       return true;
-      //     }else{
-      //       console.log("now is after expdatestorage")
-      //       return false;
-      //     }
-      //   }else{
-      //     return false;
-      //   }
-      // }else{
-      //   return false;
-      // }
       var expDateStorage = moment(localStorage.expDate);
       var now = moment(Date.now());
 
@@ -79,6 +79,9 @@ const store = new Vuex.Store({
     },
     setTopScores(state, s){
       state.topScores = s
+    },
+    setFriends(state, f){
+      state.friends = f
     },
     resetValues(state){
       //reset all values (in case of new game)
@@ -225,6 +228,17 @@ const store = new Vuex.Store({
       console.log(err)
 
     })
+    },
+    fetchFriends:({commit, state})=>{
+      let token = "Bearer " + localStorage.authToken;
+      axios.get('https://localhost:44363/api/Users/getMyFriends',
+        {
+          headers: {'Authorization': token}
+        }
+      )
+      .then(response => {
+        commit('setFriends', response.data);  
+      })
     },
   }
 })

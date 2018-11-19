@@ -15,40 +15,28 @@
         </div>
 
         <h2>{{ $t('PENDING') }}</h2>
-        <div class="c-friends__list">
+        <div v-for="friend in PendingFriends" v-bind:key="friend.username">
+            <div class="c-friends__list">
             <div class="c-friends__list__item">
-                <p>Username</p>
+                <p>{{friend.username}}</p>
             </div>
             <div class="c-friends__list__item">
                 <img src="../assets/checkmark.png" alt="">
                 <img src="../assets/cross.png" alt="">
             </div>
         </div>
-        <div class="c-friends__list">
-            <div class="c-friends__list__item">
-                <p>Username</p>
-            </div>
-            <div class="c-friends__list__item">
-                <img src="../assets/checkmark.png" alt="">
-                <img src="../assets/cross.png" alt="">
-            </div>
         </div>
+        
 
         <h2>{{ $t('FRIENDLIST') }}</h2>
-        <div class="c-friends__list">
-            <div class="c-friends__list__item">
-                <p>Username</p>
-            </div>
-            <div class="c-friends__list__item">
-                <img src="../assets/trash.png" alt="">
-            </div>
-        </div>
-        <div class="c-friends__list">
-            <div class="c-friends__list__item">
-                <p>Username</p>
-            </div>
-            <div class="c-friends__list__item">
-                <img src="../assets/trash.png" alt="">
+        <div v-for="friend in Friends" v-bind:key="friend.username">
+            <div class="c-friends__list">
+                <div class="c-friends__list__item">
+                    <p>{{friend.username}}</p>
+                </div>
+                <div class="c-friends__list__item">
+                    <img src="../assets/trash.png" alt="">
+                </div>
             </div>
         </div>
 
@@ -138,6 +126,14 @@ export default {
     components:{
         'slideout-panel': VueSlideoutPanel
     },
+    computed:{
+        PendingFriends(){
+            return this.$store.getters.getPendingFriends
+        },
+        Friends(){
+            return this.$store.getters.getFriends
+        }
+    },
     methods:{
         showPanel(){
             const panel1Handle = vueSlideoutPanelService.show({
@@ -149,6 +145,9 @@ export default {
         })
         },
     },
+    created: function(){
+        this.$store.dispatch('fetchFriends');
+    }
 }
 </script>
 
