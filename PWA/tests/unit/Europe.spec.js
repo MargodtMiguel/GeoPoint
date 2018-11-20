@@ -10,5 +10,12 @@ describe('Europe.vue',()=>{
         vm.incrementScore()
         expect(vm.score).to.equal(1);
     })
+
+    it('should be able to return a country to pick',() =>{
+        const Constructor = Vue.extend(Europe)
+        const vm = new Constructor().$mount()
+        var randomCountry = vm.pickRandomCountry({random1:'Country1'})
+        expect(randomCountry).to.equal('random1');
+    })
 })
 
