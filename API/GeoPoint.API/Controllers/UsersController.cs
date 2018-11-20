@@ -81,7 +81,7 @@ namespace GeoPoint.API.Controllers
             }
         }
         [HttpPost("api/[controller]/confirmFriendRequest")]
-        public async Task<IActionResult> confirmFriendRequest([Required]string friendUsername)
+        public async Task<IActionResult> confirmFriendRequest(UserVM userVM)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace GeoPoint.API.Controllers
                 {
                     foreach (Friend f in user.Friends.ToList())
                     {
-                        if (f.Username == friendUsername)
+                        if (f.Username == userVM.username)
                         {
                             f.IsPending = false;
                         }
@@ -100,7 +100,7 @@ namespace GeoPoint.API.Controllers
                 }
                
                 await userManager.UpdateAsync(user);
-                GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
+                GeoPointUser friend = await userManager.FindByNameAsync(userVM.username);
                 if(friend.Friends == null)
                 {
                     friend.Friends = new List<Friend>();
@@ -111,7 +111,7 @@ namespace GeoPoint.API.Controllers
                     IsPending = false
                 });
                 await userManager.UpdateAsync(friend);
-                return Ok("Your now friends with " + friendUsername);
+                return Ok("Your now friends with " + userVM.username);
             }
             catch(Exception e)
             {
@@ -172,17 +172,17 @@ namespace GeoPoint.API.Controllers
 
         }
         [HttpDelete("api/[controller]/removeFriend")]
-        public async Task<IActionResult> removeFriend([Required] string friendUsername)
+        public async Task<IActionResult> removeFriend(UserVM userVM)
         {
             try
             {
                 var claimsIdentity = this.User.Identity as ClaimsIdentity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
                 GeoPointUser user = await userManager.FindByIdAsync(userId);
-                GeoPointUser friend = await userManager.FindByNameAsync(friendUsername);
+                GeoPointUser friend = await userManager.FindByNameAsync(userVM.username);
                 foreach(Friend f in user.Friends.ToList())
                 {
-                    if(f.Username == friendUsername)
+                    if(f.Username == userVM.username)
                     {
                         user.Friends.Remove(f);
                     }

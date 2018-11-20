@@ -119,6 +119,7 @@ const store = new Vuex.Store({
     userRegister(state, account){
       //clear local storage data's
       localStorage.clear();
+      state.friends=[];
 
       //clear previous error message
       state.errorMessage = '';
@@ -151,7 +152,7 @@ const store = new Vuex.Store({
         value: score.value,
         area: score.area.toUpperCase(),
         timeSpan: score.timeSpan
-    })
+      })
       axios.post('https://localhost:44363/api/Scores/addScore',data, {
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +194,67 @@ const store = new Vuex.Store({
     .catch(e => {
       console.log("error " + e)
     })
-  },
+    },
+    userLogOut(state){
+      localStorage.clear();
+    },
+    confirmFriendRequest(state, fun){
+      let token = "Bearer " + localStorage.authToken;
+      let data = JSON.stringify({
+        username: fun
+      })
+      axios.post('https://localhost:44363/api/Users/confirmFriendRequest',data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+
+      })
+      .then(response => {
+        console.log("friend added")
+      })
+      .catch(e => {
+        console.log("error " + e)
+      })
+    },
+    declineFriendRequest(state, fun){
+      let token = "Bearer " + localStorage.authToken;
+      axios.delete('https://localhost:44363/api/Users/declineFriendrequest', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        data:{
+          username:fun
+        }
+
+      })
+      .then(response => {
+        console.log("friend declined")
+      })
+      .catch(e => {
+        console.log("error " + e)
+      })
+    },
+    deleteFriend(state, fun){
+      let token = "Bearer " + localStorage.authToken;
+      axios.delete('https://localhost:44363/api/Users/removeFriend', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        },
+        data:{
+          username:fun
+        }
+
+      })
+      .then(response => {
+        console.log("friend removed")
+      })
+      .catch(e => {
+        console.log("error " + e)
+      })
+    }
 },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{

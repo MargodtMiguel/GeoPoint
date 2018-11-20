@@ -13,31 +13,39 @@
                 <img v-on:click.prevent="showPanel" src="../assets/addFriend.png" alt="">
             </div>
         </div>
+        <div v-if="PendingFriends && PendingFriends.length"> 
+            <h2>{{ $t('PENDING') }}</h2>
+            <div v-for="friend in PendingFriends" v-bind:key="friend.username">
+                <div class="c-friends__list">
+                    <div class="c-friends__list__item">
+                        <p>{{friend.username}}</p>
+                    </div>
+                    <div class="c-friends__list__item">
+                        <img src="../assets/checkmark.png" alt="" @click="confirmFriendRequest(friend.username)">
+                        <img src="../assets/cross.png" alt="" @click="declineFriendRequest(friend.username)">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <h2>{{ $t('PENDING') }}</h2>
-        <div v-for="friend in PendingFriends" v-bind:key="friend.username">
-            <div class="c-friends__list">
-            <div class="c-friends__list__item">
-                <p>{{friend.username}}</p>
-            </div>
-            <div class="c-friends__list__item">
-                <img src="../assets/checkmark.png" alt="">
-                <img src="../assets/cross.png" alt="">
-            </div>
-        </div>
-        </div>
         
 
         <h2>{{ $t('FRIENDLIST') }}</h2>
-        <div v-for="friend in Friends" v-bind:key="friend.username">
-            <div class="c-friends__list">
-                <div class="c-friends__list__item">
-                    <p>{{friend.username}}</p>
-                </div>
-                <div class="c-friends__list__item">
-                    <img src="../assets/trash.png" alt="">
+        <div  v-if="Friends && Friends.length">
+            <div v-for="friend in Friends" v-bind:key="friend.username">
+                <div class="c-friends__list">
+                    <div class="c-friends__list__item">
+                        <p>{{friend.username}}</p>
+                    </div>
+                    <div class="c-friends__list__item">
+                        <img src="../assets/trash.png" alt="" @click="deleteFriend(friend.username)">
+                    </div>
                 </div>
             </div>
+        </div>
+        
+        <div v-else>
+            <p>You don't have any friends yet :(</p>
         </div>
 
         <router-link to="/">    
@@ -134,6 +142,11 @@ export default {
             return this.$store.getters.getFriends
         }
     },
+    watch:{
+        Friends(value){
+          this.Friends = value;
+        },
+    },
     methods:{
         showPanel(){
             const panel1Handle = vueSlideoutPanelService.show({
@@ -144,6 +157,18 @@ export default {
             }
         })
         },
+        confirmFriendRequest(fun){
+            this.$store.commit('confirmFriendRequest', fun);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+        },
+        declineFriendRequest(fun){
+            this.$store.commit('declineFriendRequest', fun);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+        },
+        deleteFriend(fun){
+            this.$store.commit('deleteFriend', fun);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+        }
     },
     created: function(){
         this.$store.dispatch('fetchFriends');

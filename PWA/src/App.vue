@@ -23,7 +23,6 @@
       Container,
       Row
     },
-
     computed:{
       curUser(){
         return this.$store.getters.getSignalrCurUser;
