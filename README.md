@@ -27,7 +27,7 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | Vereisten                    | Info                            			| Check |  
 | -----------------------------|--------------------------------------------------------|:-----:|
 | Framework                    | Gebruik gemaakt van vue.js      			|   V   |
-| Testing                      |                                 			|       |
+| Testing                      | Er zijn 4 unit tests aanwezig, gebruik gemaakt van Karma|   V   |
 | Styling                      | SCSS                            			|   V   |
 | PWA                          | Heeft een correcte PWA set-up   			|   V   |
 | Multi-language               | i18n gebruikt voor het toevoegen van meerdere talen	|   V   |
