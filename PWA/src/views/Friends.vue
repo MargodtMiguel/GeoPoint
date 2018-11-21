@@ -142,11 +142,6 @@ export default {
             return this.$store.getters.getFriends
         }
     },
-    watch:{
-        Friends(value){
-          this.Friends = value;
-        },
-    },
     methods:{
         showPanel(){
             const panel1Handle = vueSlideoutPanelService.show({
