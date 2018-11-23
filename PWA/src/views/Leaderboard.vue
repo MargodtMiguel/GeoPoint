@@ -4,9 +4,12 @@
         <div class="c-leaderboard__holder" v-if="topScores && topScores.length">
             <div class="c-leaderboard__toggle">
                 <p>Top 10 scores</p>
-                <div class="c-button-primary secundary toggle">
+                <div  v-if="friendsOnly" class="c-button-primary secundary toggle" @click="toggleFriends()">
                     {{ $t('FRIENDS-ONLY') }}
-                </div>     
+                </div>
+                  <div v-else class="c-button-primary secundary toggle" @click="toggleFriends()">
+                    {{ $t('GLOBAL') }}
+                </div>   
             </div>
             <div class="c-leaderboard__header">
                 <p>Position</p>
@@ -26,7 +29,7 @@
     
         </div>
         <div v-else>
-            <p>{{ $t('NO-SCORES-AVAILABLE') }}</p>
+            <p class="c-leaderboard__no-scores">{{ $t('NO-SCORES-AVAILABLE') }}</p>
         </div>
        
 
@@ -39,6 +42,10 @@
 
     @import './src/style/components/components.leaderboard.scss';
 
+    .c-leaderboard__no-scores{
+        text-align:center;
+    }
+
     </style>
 
 <script>
@@ -48,6 +55,11 @@
 
 export default {
     name: 'leaderboard',
+    data(){
+        return{
+            friendsOnly : false,
+        }
+    },
     computed:{
         mapRoute(){
             return this.$route.params.map
@@ -60,10 +72,20 @@ export default {
         otherMap: function(){
             this.$store.commit('resetValues');
             this.$router.push('/leaderboard');
+        },
+        toggleFriends: function(){
+            if(this.friendsOnly){
+                this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);
+                this.friendsOnly = false;
+            }else{
+                this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);
+                this.friendsOnly = true;
+            }
         }
+
     },
     created: function(){
-        this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);   
+        this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);
     }
 }
 </script>

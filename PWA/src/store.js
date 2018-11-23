@@ -105,7 +105,7 @@ const store = new Vuex.Store({
           localStorage.authToken = response.data.token;
           state.signalrCurUser = account.login;
           localStorage.signalrCurUser = account.login;
-          localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
+          localStorage.expDate =  moment().add(40, 'm').format();
           router.push('/')
         }else{
         }
@@ -269,7 +269,6 @@ const store = new Vuex.Store({
         }
       )
       .then(response => {
-        console.log(response)
         commit('setTopScores', response.data);  
       })
     },

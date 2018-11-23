@@ -94,11 +94,13 @@ router.beforeEach((to, from, next) => {
   // }
 
 if(to.meta.requiresAuth){
-  var expDateStorage = moment(localStorage.expDate);
-  var now = moment(Date.now());
+  var expDateStorage =localStorage.expDate;
+  var expDate = moment(expDateStorage);
+  var now = moment();
+
 
   try{
-    if(now.isBefore(expDateStorage)){ 
+    if(now.isBefore(expDate)){ 
       next();
     }else{
       return next('/login')
@@ -108,10 +110,6 @@ if(to.meta.requiresAuth){
   }
      
 }
-  
-
-  
-
   next();
 })
 
