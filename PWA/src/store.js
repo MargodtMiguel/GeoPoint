@@ -170,6 +170,7 @@ const store = new Vuex.Store({
     },
     setConnection(state){
         state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build();
+        console.log(state.signalrConnection);
     },
     setFoundUsers(state,users){
       state.foundUsers = users

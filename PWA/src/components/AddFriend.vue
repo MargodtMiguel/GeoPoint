@@ -129,7 +129,8 @@ export default {
                 store.commit('sendFriendRequest',this.selectedUser.toString());
                 this.$emit("closePanel", {});
             }
-            // this.connection.invoke("SendFriendRequest",this.curUser.toString(),"MiguelMargodt").catch(function(err){
+            console.log(this.connection);
+            // this.connection.invoke("sendFriendRequest",this.selectedUser.toString()).catch(function(err){
             //     console.error(err.toString());
             // });
         },
