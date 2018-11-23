@@ -106,6 +106,7 @@ const store = new Vuex.Store({
           state.signalrCurUser = account.login;
           localStorage.signalrCurUser = account.login;
           localStorage.expDate =  moment().add(40, 'm').format();
+
           router.push('/')
         }else{
         }
@@ -169,8 +170,30 @@ const store = new Vuex.Store({
       })
     },
     setConnection(state){
+      console.log("start")
+      if(state.signalrConnection == ''){
         state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build();
-        console.log(state.signalrConnection);
+        state.signalrConnection.start().then(function(){
+          console.log("connected");
+        }).catch(function(err){
+            console.error(err.toString());
+        });   
+        
+        state.signalrConnection.on("ServerMessage", function (message) {        
+          console.log(message)
+        });
+        state.signalrConnection.on('Login', () => {         
+          state.signalrConnection.invoke("Login", localStorage.signalrCurUser.toString());
+        });
+        state.signalrConnection.on("RecieveFriendRequest",function(friend,username){
+          if(state.signalrCurUser == username){
+            console.log(friend + "has send you a friend request!");
+            alert(friend + "has send you a friend request!");
+          }
+          
+      });
+      }
+        
     },
     setFoundUsers(state,users){
       state.foundUsers = users
@@ -198,6 +221,14 @@ const store = new Vuex.Store({
     },
     userLogOut(state){
       localStorage.clear();
+      if(state.signalrConnection != ''){
+        state.signalrConnection.stop().then(function(){
+          console.log("connection stopped")
+        }).catch(function(){
+            console.log("connection could not be stopped")
+        })
+      }
+      state.signalrConnection ='';
     },
     confirmFriendRequest(state, fun){
       let token = "Bearer " + localStorage.authToken;
@@ -256,7 +287,7 @@ const store = new Vuex.Store({
         console.log("error " + e)
       })
     }
-},
+  },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
       let token = "Bearer " + localStorage.authToken;

@@ -23,14 +23,11 @@
       Container,
       Row
     },
-    computed:{
-    },
-
-    methods:{
-     
-    },
     created: function(){
-        this.$store.commit('setConnection')
+        if(localStorage.signalrCurUser != undefined){
+
+            this.$store.commit('setConnection');
+          }
     },
   }
   
