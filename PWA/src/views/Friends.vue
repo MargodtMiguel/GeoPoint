@@ -45,7 +45,7 @@
         </div>
         
         <div v-else>
-            <p>You don't have any friends yet :(</p>
+            <p>{{ $t('NO-FRIENDS') }}</p>
         </div>
 
         <router-link to="/">    

@@ -187,8 +187,9 @@ const store = new Vuex.Store({
         });
         state.signalrConnection.on("RecieveFriendRequest",function(friend,username){
           if(state.signalrCurUser == username){
-            console.log(friend + "has send you a friend request!");
-            alert(friend + "has send you a friend request!");
+            // console.log(friend + "has send you a friend request!");
+            // alert(friend + "has send you a friend request!");
+
           }
           
       });

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="foo" />
     <container class="o-container--full">
       <router-view/>
     </container>
