@@ -7,7 +7,6 @@ import * as SignalR from '@aspnet/signalr'
 import {i18n } from'./plugins/i18n'
 import Notifications from 'vue-notification'
 
-
 import * as Sentry from '@sentry/browser'
 
 
@@ -19,10 +18,10 @@ Sentry.init({
 
 new Vue({
   i18n,
-  Notifications,
   router,
+  Notifications,
   store,
   render: h => h(App)
 }).$mount('#app')
 
-
+Vue.use(Notifications)

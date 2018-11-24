@@ -170,17 +170,17 @@ const store = new Vuex.Store({
       })
     },
     setConnection(state){
-      console.log("start")
+      // console.log("start")
       if(state.signalrConnection == ''){
         state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44363/friendRequest").build();
         state.signalrConnection.start().then(function(){
-          console.log("connected");
+          // console.log("connected");
         }).catch(function(err){
             console.error(err.toString());
         });   
         
         state.signalrConnection.on("ServerMessage", function (message) {        
-          console.log(message)
+          // console.log(message)
         });
         state.signalrConnection.on('Login', () => {         
           state.signalrConnection.invoke("Login", localStorage.signalrCurUser.toString());
@@ -191,7 +191,6 @@ const store = new Vuex.Store({
     },
     setFoundUsers(state,users){
       state.foundUsers = users
-      //console.log("setFoundUsers "+ state.foundUsers) 
     } ,
     sendFriendRequest(state,friend){
     let token = "Bearer " + localStorage.authToken;

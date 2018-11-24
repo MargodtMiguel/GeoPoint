@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <notifications group="foo" />
+    <notifications group="friendrequest" classes="c-notification"/>
     <container class="o-container--full">
       <router-view/>
     </container>
@@ -13,13 +13,36 @@
  html, body{
    background-color:$bg-color-dark
  }
+
+ .c-notification {
+  // Style of the notification itself 
+  background-color:$alpha-color-dark;
+  margin:5px;
+ 
+  .notification-title {
+    font-size:1.4em;
+    padding:20px;
+    padding-bottom:10px;
+  }
+ 
+  .notification-content {
+    font-size:1.1em;
+    padding:20px;
+    padding-top:0px;
+  }
+}
 </style>
 
 <script>
   import Container from './components/Container';
   import Row from './components/Row';
-  import stroe from './store.js'
-import store from './store.js';
+  import store from './store.js';
+  import Vue           from 'vue'
+  import Notifications from 'vue-notification'
+ 
+
+Vue.use(Notifications)
+
  export default {
     name: 'App',
     components: {
@@ -27,12 +50,16 @@ import store from './store.js';
       Row
     },
     created: function(){
+
         if(localStorage.signalrCurUser != undefined){
             store.commit('setConnection');
             store.getters.getSignalrConnection.on("RecieveFriendRequest",function(friend,username){
               if(store.getters.getSignalrCurUser == username){
-              // console.log(friend + "has send you a friend request!");
-              alert(friend + "has send you a friend request!");
+                        Vue.notify({
+                        group: 'friendrequest',
+                        title: 'New friend request!',
+                        text: friend + " wants to become your friend."
+                      })
               }
             });
         }
