@@ -78,7 +78,7 @@ export default {
                 this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);
                 this.friendsOnly = false;
             }else{
-                this.$store.dispatch('fetchTopScoresByArea', this.$route.params.map);
+                this.$store.dispatch('fetchFriendTopScoresByArea', this.$route.params.map);
                 this.friendsOnly = true;
             }
         }

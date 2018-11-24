@@ -11,6 +11,7 @@ import Leaderboard from './views/Leaderboard.vue'
 import Leadermap from './views/Leadermap.vue'
 import Friends from './views/Friends.vue'
 import moment from 'moment'
+import store from './store.js'
 
 Vue.use(Router)
 
@@ -98,10 +99,11 @@ if(to.meta.requiresAuth){
   var expDate = moment(expDateStorage);
   var now = moment();
 
-
   try{
     if(now.isBefore(expDate)){ 
+
       next();
+      
     }else{
       return next('/login')
     }

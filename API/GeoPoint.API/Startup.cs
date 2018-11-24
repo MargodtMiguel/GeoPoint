@@ -150,7 +150,7 @@ namespace GeoPoint.API
             services.AddSingleton<GeoPointAPIMongoDBContext>();
             services.AddTransient<SeedMongo>();
             
-            services.AddSignalR();
+            services.AddSignalR(o => o.EnableDetailedErrors = true);
         }
 
 

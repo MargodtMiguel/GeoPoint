@@ -91,9 +91,6 @@ export default {
         };
     },
     computed:{
-        connection(){
-            return store.getters.getSignalrConnection;
-        },
         curUser(){
                 return store.getters.getSignalrCurUser;
         },
@@ -129,9 +126,11 @@ export default {
                 store.commit('sendFriendRequest',this.selectedUser.toString());
                 this.$emit("closePanel", {});
             }
-            // this.connection.invoke("SendFriendRequest",this.curUser.toString(),"MiguelMargodt").catch(function(err){
-            //     console.error(err.toString());
-            // });
+            var connection = store.getters.getSignalrConnection;
+            console.log("sending SignalR friendRequest")
+            connection.invoke("sendFriendRequest",this.selectedUser.toString(),store.getters.getSignalrCurUser.toString()).catch(function(err){
+                console.error(err.toString());
+            });
         },
         changeSelected(fr){
             if(!(this.selectedUser == '')){

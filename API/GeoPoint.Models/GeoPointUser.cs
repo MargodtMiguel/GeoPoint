@@ -10,6 +10,8 @@ namespace GeoPoint.Models
 {
     public class GeoPointUser : MongoUser
     {
+        [BsonElement("ConnectionId")]
+        public string ConnectionId { get; set; } = "";
         [BsonIgnoreIfNull]
         public IList<Friend> Friends { get; set; }
     }

@@ -65,6 +65,11 @@ export default {
       width: '350px',
       })
     },
+  },
+  created:function(){
+    if(this.$store.getters.getSignalrConnection == ''){
+      this.$store.commit('setConnection');
+    }
   }
 }
 </script>
