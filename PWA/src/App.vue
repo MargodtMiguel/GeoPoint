@@ -18,6 +18,8 @@
 <script>
   import Container from './components/Container';
   import Row from './components/Row';
+  import stroe from './store.js'
+import store from './store.js';
  export default {
     name: 'App',
     components: {
@@ -26,11 +28,16 @@
     },
     created: function(){
         if(localStorage.signalrCurUser != undefined){
-
-            this.$store.commit('setConnection');
-          }
-    },
-  }
+            store.commit('setConnection');
+            store.getters.getSignalrConnection.on("RecieveFriendRequest",function(friend,username){
+              if(store.getters.getSignalrCurUser == username){
+              // console.log(friend + "has send you a friend request!");
+              alert(friend + "has send you a friend request!");
+              }
+            });
+        }
+    }
+ }
   
 </script>
 
