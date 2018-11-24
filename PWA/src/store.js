@@ -304,6 +304,21 @@ const store = new Vuex.Store({
         commit('setTopScores', response.data);  
       })
     },
+    fetchFriendTopScoresByArea:({commit, state}, a)=>{
+      let token = "Bearer " + localStorage.authToken;
+      axios.get('https://localhost:44363/api/Scores/getFriendTopScores',
+        {
+          headers: {'Authorization': token},
+          params:{
+            area: a,
+            length: 10
+          }
+        }
+      )
+      .then(response => {
+        commit('setTopScores', response.data);  
+      })
+    },
     searchUser:({commit}, val) =>{
       let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Users/searhUser',

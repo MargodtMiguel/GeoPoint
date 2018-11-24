@@ -22,10 +22,8 @@ namespace GeoPoint.API.Hubs
     [EnableCors("CorsPolicy")]
     public class friendRequest : Hub
     {
-        private readonly UserManager<GeoPointUser> userManager;
-        public friendRequest(UserManager<GeoPointUser> userManager)
+        public friendRequest()
         {
-            this.userManager = userManager;
         }
 
         public override async Task OnConnectedAsync() {
@@ -39,17 +37,11 @@ namespace GeoPoint.API.Hubs
             await base.OnDisconnectedAsync(exception);
         }
         public async Task Login(string username) {
-            GeoPointUser user = await userManager.FindByNameAsync(username);
-            user.ConnectionId = Context.ConnectionId;
-            await userManager.UpdateAsync(user);
-            await Clients.Caller.SendAsync("ServerMessage", new { userName = user.UserName, message = $"Welcome {user.UserName}!" });
-            await Clients.Others.SendAsync("ServerMessage", new { message = $"{user.UserName} just logged in." });
+            await Clients.Caller.SendAsync("ServerMessage", new { userName = username, message = $"Welcome {username}!" });
+            await Clients.Others.SendAsync("ServerMessage", new { message = $"{username} just logged in." });
         }
         public async Task sendFriendRequest(string friendusername,string username)
         {
-            GeoPointUser user = await userManager.FindByNameAsync(username);
-            GeoPointUser friend = await userManager.FindByNameAsync(friendusername);
-            var Client = Clients.User(friend.ConnectionId);
             await Clients.Others.SendAsync("RecieveFriendRequest",username,friendusername);
         }
         

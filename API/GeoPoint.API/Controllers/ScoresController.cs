@@ -67,6 +67,31 @@ namespace GeoPoint.API.Controllers
                 return BadRequest("Failed to get top scores");
             }
         }
+        [HttpGet("api/[controller]/getFriendTopScores")]
+        public async Task<IActionResult> getFriendTopScores([Required] string area, int length = 10)
+        {
+            try
+            {
+                var claimsIdentity = this.User.Identity as ClaimsIdentity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+                GeoPointUser user = await _userManager.FindByIdAsync(userId);
+                if(user.Friends != null)
+                {
+                    IEnumerable<Score> scores = await _scoreRepo.GetFriendTopScoresAsync(user, area.ToUpper(), length);
+                    foreach (Score s in scores)
+                    {
+                        s.User.PasswordHash = null;
+                    }
+                    return Ok(scores);
+                }
+                return BadRequest("no friends yet");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"\r\n\r\nError thrown on ScoresController - GetFriendTopScores method (" + DateTime.UtcNow.ToString() + ") \r\nException thrown when trying to Get Friend Top Scores: " + e + "\r\n\r\n");
+                return BadRequest("Failed to get friend topscores");
+            }
+        }
 
         [HttpPost("api/[Controller]/addScore")]
         public async Task<IActionResult> addScore(ScoreVM scoreVM)
