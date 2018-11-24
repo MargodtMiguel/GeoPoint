@@ -34,7 +34,7 @@ namespace GeoPoint.Models.Repositories
         {          
             return await mongoDBContext.Scores.Find(s => s.Area == area)
                 .SortByDescending(s => s.Value)
-                .ThenByDescending(s => s.TimeSpan)
+                .ThenBy(s => s.TimeSpan)
                 .Limit(length)
                 .ToListAsync<Score>();            
         }

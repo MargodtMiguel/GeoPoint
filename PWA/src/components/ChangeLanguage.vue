@@ -78,7 +78,7 @@
 </style>
 
 <script>
-import { i18n } from'../plugins/i18n'
+import { i18n } from '../plugins/i18n'
 
 export default {
     name:'changelanguage',
@@ -92,7 +92,7 @@ export default {
         closePanel() {
             this.$emit("closePanel", {});
         },
-        changeLanguage(event){
+        changeLanguage:function(event){
             i18n.locale = event.target.value;
             this.cLang = i18n.t('CHANGE-LANGUAGE');
             this.pLang = i18n.t('PICK-LANGUAGE');

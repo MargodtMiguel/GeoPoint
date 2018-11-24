@@ -76,7 +76,7 @@
 
 <script>
 import store from '../store.js';
-import { i18n } from'../plugins/i18n'
+import { i18n } from '../plugins/i18n'
 
 export default {
     name:'addfriend',
