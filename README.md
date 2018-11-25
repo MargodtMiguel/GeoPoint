@@ -32,6 +32,6 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | PWA                          | Heeft een correcte PWA set-up   			|   V   |
 | Multi-language               | i18n gebruikt voor het toevoegen van meerdere talen	|   V   |
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
-| Development setup            |                                			|       |
+| Development setup            | Code climat gebruikt -> duplicate code verwijdert.	|   V   |
 | Webpack optimisation         |                                 			|       |
 | Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend'|   V   |
