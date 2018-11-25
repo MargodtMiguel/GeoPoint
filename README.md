@@ -34,4 +34,4 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
 | Development setup            | Code climat gebruikt -> duplicate code verwijdert.	|   V   |
 | Webpack optimisation         |                                 			|       |
-| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend'|   V   |
+| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend'<br>Notification bij het ontvangen van een vriendschapsverzoek|   V   |
