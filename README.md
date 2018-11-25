@@ -12,7 +12,7 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | -----------------------------|--------------------------------------------------------|:-----:|
 | Backend API                  | ASP.NET Core MVC API            			|   V   |
 | De database                  | MongoDB                         			|   V   |
-| Realtime                     |                                 			|       |
+| Realtime                     | Bij het versturen van een vriendschapsverzoek komt dit<br>realtime op het scherm van de andere persoon.                                			|   V   |
 | Autorisatie en authenticatie | JWT Token authentication        			|   V   |
 | Kwetsbaarheid                | Cors http://localhost:8080      			|   V   |
 | API Docs                     | Swagger                         			|   V   |
