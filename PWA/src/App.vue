@@ -55,6 +55,7 @@ Vue.use(Notifications)
             store.commit('setConnection');
             store.getters.getSignalrConnection.on("RecieveFriendRequest",function(friend,username){
               if(store.getters.getSignalrCurUser == username){
+                console.log("REALTIME TEST");
                         Vue.notify({
                         group: 'friendrequest',
                         title: 'New friend request!',

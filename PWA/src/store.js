@@ -21,6 +21,7 @@ const store = new Vuex.Store({
     signalrConnection: '',
     signalrCurUser: localStorage.signalrCurUser,
     foundUsers: '',
+    bearer: 'Bearer '+localStorage.authToken,
   },
   getters:{
     getLastScore: state => state.lastScore,
@@ -106,7 +107,7 @@ const store = new Vuex.Store({
           state.signalrCurUser = account.login;
           localStorage.signalrCurUser = account.login;
           localStorage.expDate =  moment().add(40, 'm').format();
-
+          state.bearer = "Bearer "+ localStorage.authToken;
           router.push('/')
         }else{
         }
@@ -137,6 +138,7 @@ const store = new Vuex.Store({
           state.signalrCurUser = account.login;
           localStorage.signalrCurUser = account.login;
           localStorage.expDate =  moment(response.data.expiration).add(40, 'm').toDate();
+          state.bearer = "Bearer "+ localStorage.authToken;
           router.push('/')
         }else{
         } 
@@ -148,7 +150,6 @@ const store = new Vuex.Store({
       })
     },
     addScore(state, score){
-      let token = "Bearer " + localStorage.authToken;
       let data = JSON.stringify({
         value: score.value,
         area: score.area.toUpperCase(),
@@ -157,7 +158,7 @@ const store = new Vuex.Store({
       axios.post('https://localhost:44363/api/Scores/addScore',data, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          'Authorization': state.bearer
         },
 
       })
@@ -193,14 +194,13 @@ const store = new Vuex.Store({
       state.foundUsers = users
     } ,
     sendFriendRequest(state,friend){
-    let token = "Bearer " + localStorage.authToken;
     let data = JSON.stringify({
       username: friend
     })
     axios.post('https://localhost:44363/api/Users/sendFriendRequest',data, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': token
+        'Authorization': state.bearer
       },
 
     })
@@ -224,14 +224,13 @@ const store = new Vuex.Store({
       state.signalrConnection ='';
     },
     confirmFriendRequest(state, fun){
-      let token = "Bearer " + localStorage.authToken;
       let data = JSON.stringify({
         username: fun
       })
       axios.post('https://localhost:44363/api/Users/confirmFriendRequest',data, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          'Authorization': state.bearer
         },
 
       })
@@ -243,11 +242,10 @@ const store = new Vuex.Store({
       })
     },
     declineFriendRequest(state, fun){
-      let token = "Bearer " + localStorage.authToken;
       axios.delete('https://localhost:44363/api/Users/declineFriendrequest', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          'Authorization': state.bearer
         },
         data:{
           username:fun
@@ -262,11 +260,10 @@ const store = new Vuex.Store({
       })
     },
     deleteFriend(state, fun){
-      let token = "Bearer " + localStorage.authToken;
       axios.delete('https://localhost:44363/api/Users/removeFriend', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token
+          'Authorization': state.bearer
         },
         data:{
           username:fun
@@ -283,10 +280,9 @@ const store = new Vuex.Store({
   },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
-      let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Scores/getTopScores',
         {
-          headers: {'Authorization': token},
+          headers: {'Authorization': state.bearer},
           params:{
             area: a,
             length: 10
@@ -298,10 +294,9 @@ const store = new Vuex.Store({
       })
     },
     fetchFriendTopScoresByArea:({commit, state}, a)=>{
-      let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Scores/getFriendTopScores',
         {
-          headers: {'Authorization': token},
+          headers: {'Authorization': state.bearer},
           params:{
             area: a,
             length: 10
@@ -313,10 +308,9 @@ const store = new Vuex.Store({
       })
     },
     searchUser:({commit}, val) =>{
-      let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Users/searhUser',
       {
-        headers: {'Authorization': token},
+        headers: {'Authorization': state.bearer},
         params:{
           Username: val
         }
@@ -330,10 +324,9 @@ const store = new Vuex.Store({
     })
     },
     fetchFriends:({commit, state})=>{
-      let token = "Bearer " + localStorage.authToken;
       axios.get('https://localhost:44363/api/Users/getMyFriends',
         {
-          headers: {'Authorization': token}
+          headers: {'Authorization': state.bearer}
         }
       )
       .then(response => {
