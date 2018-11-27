@@ -1,5 +1,4 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
 import Vue from 'vue'
 import Europe from '@/components/Europe.vue'
 

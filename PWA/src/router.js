@@ -11,7 +11,6 @@ import Leaderboard from './views/Leaderboard.vue'
 import Leadermap from './views/Leadermap.vue'
 import Friends from './views/Friends.vue'
 import moment from 'moment'
-import store from './store.js'
 
 Vue.use(Router)
 

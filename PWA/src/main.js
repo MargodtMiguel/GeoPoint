@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
-import * as SignalR from '@aspnet/signalr'
 import {i18n } from'./plugins/i18n'
 import Notifications from 'vue-notification'
 
