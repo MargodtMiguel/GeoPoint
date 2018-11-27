@@ -12,7 +12,7 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | -----------------------------|--------------------------------------------------------|:-----:|
 | Backend API                  | ASP.NET Core MVC API            			|   V   |
 | De database                  | MongoDB                         			|   V   |
-| Realtime                     |                                 			|       |
+| Realtime                     | Bij het versturen van een vriendschapsverzoek komt dit<br>realtime op het scherm van de andere persoon.                                			|   V   |
 | Autorisatie en authenticatie | JWT Token authentication        			|   V   |
 | Kwetsbaarheid                | Cors http://localhost:8080      			|   V   |
 | API Docs                     | Swagger                         			|   V   |
@@ -32,6 +32,6 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | PWA                          | Heeft een correcte PWA set-up   			|   V   |
 | Multi-language               | i18n gebruikt voor het toevoegen van meerdere talen	|   V   |
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
-| Development setup            |                                			|       |
+| Development setup            | Code climat gebruikt -> duplicate code verwijdert.	|   V   |
 | Webpack optimisation         |                                 			|       |
-| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend'|   V   |
+| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend' e 'Change language'<br>Notification bij het ontvangen van een vriendschapsverzoek|   V   |
