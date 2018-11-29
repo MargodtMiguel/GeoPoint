@@ -16,19 +16,19 @@
 
  .c-notification {
   // Style of the notification itself 
-  background-color:$alpha-color-dark;
-  margin:5px;
+  background-color:$alpha-color-dark !important;
+  margin:5px !important;
  
   .notification-title {
-    font-size:1.4em;
-    padding:20px;
-    padding-bottom:10px;
+    font-size:1.4em !important;
+    padding:20px !important;
+    padding-bottom:10px !important;
   }
  
   .notification-content {
-    font-size:1.1em;
-    padding:20px;
-    padding-top:0px;
+    font-size:1.1em !important;
+    padding:20px !important;
+    padding-top:0px !important;
   }
 }
 </style>
@@ -55,7 +55,6 @@ Vue.use(Notifications)
             store.commit('setConnection');
             store.getters.getSignalrConnection.on("RecieveFriendRequest",function(friend,username){
               if(store.getters.getSignalrCurUser == username){
-                console.log("REALTIME TEST");
                         Vue.notify({
                         group: 'friendrequest',
                         title: 'New friend request!',

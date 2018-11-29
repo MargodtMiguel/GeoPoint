@@ -154,15 +154,15 @@ export default {
         },
         confirmFriendRequest(fun){
             this.$store.commit('confirmFriendRequest', fun);
-            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 500);
         },
         declineFriendRequest(fun){
             this.$store.commit('declineFriendRequest', fun);
-            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 500);
         },
         deleteFriend(fun){
             this.$store.commit('deleteFriend', fun);
-            setTimeout(() => this.$store.dispatch('fetchFriends'), 100);
+            setTimeout(() => this.$store.dispatch('fetchFriends'), 500);
         }
     },
     created: function(){
