@@ -58,7 +58,7 @@ namespace GeoPoint.Models.Data
                         }
                     }
                 }
-                if (mongoDBContext.CollectionExistsAsync("scores").Result)
+                if (!mongoDBContext.CollectionExistsAsync("scores").Result)
                 {
                     List<string> AreaList = new List<string> { "EUROPE", "AFRICA", "SOUTH-AMERICA", "NORTH-AMERICA", "AUSTRALIA" };
                     for (var i = 0; i < nmbrScores; i++)

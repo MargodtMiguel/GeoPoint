@@ -43,7 +43,7 @@
         color:$alpha-color;
         font-size:1.3em;
         margin-top:40px;
-        margin-bottom:40px;
+        margin-bottom:20px;
         margin-left:7%;
     }
     .c-addfriend input:focus{
@@ -57,13 +57,14 @@
         line-height:70px;
     }
     .c-button-adjust{
-        margin-top: 25px;
+        margin-top: 40px !important;
     }
     .c-selectOption{
         height:30px;
         line-height: 30px;
         display: block;
-        margin:0 auto;
+        margin-left:7%;
+        margin-right:7%;
         width: 280px;
         cursor: pointer;
     }

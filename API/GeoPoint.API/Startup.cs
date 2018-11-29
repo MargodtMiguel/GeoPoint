@@ -20,6 +20,7 @@ using GeoPoint.API.Hubs;
 using Microsoft.Extensions.Logging;
 using AspNetCore.Identity.Mongo.Model;
 using System;
+using MongoDB.Driver;
 
 namespace GeoPoint.API
 {
@@ -84,7 +85,7 @@ namespace GeoPoint.API
               builder =>
               {
                   builder.AllowAnyMethod().AllowAnyHeader()
-                         .WithOrigins("http://localhost:8080", "https://localhost:44363/")
+                         .WithOrigins("http://localhost:8080","https://margodtmiguel.github.io")
                          .AllowCredentials();
               }));
 
@@ -109,7 +110,7 @@ namespace GeoPoint.API
                 {
                     new RateLimitRule() {
                     Endpoint = "*",
-                    Limit=50,
+                    Limit=5000,
                     Period ="5m"
                     }
                 };
@@ -144,7 +145,11 @@ namespace GeoPoint.API
 
             services.AddIdentityMongoDbProvider<GeoPointUser, MongoRole>(options =>
              {
-                 options.ConnectionString = Configuration.GetConnectionString("MongoConnection")+"/GeoPoint";
+                 string connectionString = @"mongodb://geopoint:cVP4AZwCGVxRjaMEqdNHBTBFHWEa4z1M3Is2MK9APpKX5EeoOjpIlvrfz48IA6IofQbey922M8dsDyGS3ngtEA==@geopoint.documents.azure.com:10255/GeoPoint?ssl=true&replicaSet=globaldb";
+
+                 options.ConnectionString = connectionString ;
+                 options.UsersCollection = "Users";
+                 options.RolesCollection = "Roles";
 
              });
             services.AddSingleton<GeoPointAPIMongoDBContext>();
@@ -160,13 +165,14 @@ namespace GeoPoint.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwaggerDocumentation();
+                
                 loggerFactory.AddFile("Logs/GeoPointAPI - {Date}.txt");
             }
             else
             {
                 app.UseHsts();
             }
+            app.UseSwaggerDocumentation();
             app.UseCors("CorsPolicy");
             app.UseIpRateLimiting();
             app.UseAuthentication();
