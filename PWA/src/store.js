@@ -307,7 +307,7 @@ const store = new Vuex.Store({
         commit('setTopScores', response.data);  
       })
     },
-    searchUser:({commit}, val) =>{
+    searchUser:({commit, state}, val) =>{
       axios.get('https://localhost:44363/api/Users/searhUser',
       {
         headers: {'Authorization': state.bearer},
