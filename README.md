@@ -14,12 +14,12 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | De database                  | MongoDB                         			|   V   |
 | Realtime                     | Bij het versturen van een vriendschapsverzoek komt dit<br>realtime op het scherm van de andere persoon.                                			|   V   |
 | Autorisatie en authenticatie | JWT Token authentication        			|   V   |
-| Kwetsbaarheid                | Cors http://localhost:8080      			|   V   |
+| Kwetsbaarheid                | Cors http://localhost:8080 & https://margodtmiguel.github.io      			|   V   |
 | API Docs                     | Swagger                         			|   V   |
 | Framework                    | Seeder ingesteld                			|   V   |
-| Foutcontrole                 | Try/Catch on controllers with Logging            	|   V   |
+| Foutcontrole                 | Try/Catch on controllers with Logging to file            	|   V   |
 | Source controle              | Github                          			|   V   |
-| Deployment                   | Azure deployment (2 modes: production & development 	|   V   |
+| Deployment                   | Azure deployment (2 modes: production & development) 	|   V   |
 | Eigen inbgeng                | Rate limiting, MongoDB Idenity Store, custom swagger bearing token input      		|   V   |
 
 ## Frontend vereisten
