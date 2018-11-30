@@ -85,7 +85,7 @@ namespace GeoPoint.API
               builder =>
               {
                   builder.AllowAnyMethod().AllowAnyHeader()
-                         .WithOrigins("http://localhost:8080","https://margodtmiguel.github.io")
+                         .WithOrigins("http://localhost:8080","https://margodtmiguel.github.io", "https://runeclaeys.github.io")
                          .AllowCredentials();
               }));
 
@@ -141,17 +141,32 @@ namespace GeoPoint.API
               });
 
             //MongoDB
-            
+            if (_env.IsDevelopment())
+            {
+                services.AddIdentityMongoDbProvider<GeoPointUser, MongoRole>(options =>
+                {
+                    string connectionString = "mongodb://localhost:27017/GeoPoint";
 
-            services.AddIdentityMongoDbProvider<GeoPointUser, MongoRole>(options =>
-             {
-                 string connectionString = @"mongodb://geopoint:cVP4AZwCGVxRjaMEqdNHBTBFHWEa4z1M3Is2MK9APpKX5EeoOjpIlvrfz48IA6IofQbey922M8dsDyGS3ngtEA==@geopoint.documents.azure.com:10255/GeoPoint?ssl=true&replicaSet=globaldb";
+                    options.ConnectionString = connectionString;
+                    options.UsersCollection = "Users";
+                    options.RolesCollection = "Roles";
 
-                 options.ConnectionString = connectionString ;
-                 options.UsersCollection = "Users";
-                 options.RolesCollection = "Roles";
+                });
+            }
+            else
+            {
+                services.AddIdentityMongoDbProvider<GeoPointUser, MongoRole>(options =>
+                {
+                    string connectionString = @"mongodb://geopoint:cVP4AZwCGVxRjaMEqdNHBTBFHWEa4z1M3Is2MK9APpKX5EeoOjpIlvrfz48IA6IofQbey922M8dsDyGS3ngtEA==@geopoint.documents.azure.com:10255/GeoPoint?ssl=true&replicaSet=globaldb";
 
-             });
+                    options.ConnectionString = connectionString;
+                    options.UsersCollection = "Users";
+                    options.RolesCollection = "Roles";
+
+                });
+            }
+
+           
             services.AddSingleton<GeoPointAPIMongoDBContext>();
             services.AddTransient<SeedMongo>();
             

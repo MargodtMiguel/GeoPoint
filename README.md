@@ -19,8 +19,8 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | Framework                    | Seeder ingesteld                			|   V   |
 | Foutcontrole                 | Try/Catch on controllers with Logging            	|   V   |
 | Source controle              | Github                          			|   V   |
-| Deployment                   |                                 			|       |
-| Eigen inbgeng                |                                 			|       |
+| Deployment                   | Azure deployment (2 modes: production & development 	|   V   |
+| Eigen inbgeng                | Rate limiting, MongoDB Idenity Store, custom swagger bearing token input      		|   V   |
 
 ## Frontend vereisten
  
@@ -33,5 +33,5 @@ Realtime: Vriendschapsverzoeken komen realtime op het scherm
 | Multi-language               | i18n gebruikt voor het toevoegen van meerdere talen	|   V   |
 | Error logging                | Error logging a.d.h.V sentry.io (setup in main.js)	|   V   |
 | Development setup            | Code climat gebruikt -> duplicate code verwijdert.	|   V   |
-| Webpack optimisation         |                                 			|       |
-| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend' e 'Change language'<br>Notification bij het ontvangen van een vriendschapsverzoek|   V   |
+| Webpack optimisation         | Google Audits score => performance: 100, pwa: 100, best practices: 100                            			|   V   |
+| Eigen inbreng                | SVG map pan en zoom<br>Wachtwoord sterkte meter<br>Slideout-panel bij 'Add friend' e 'Change language'<br>Notification bij het ontvangen van een vriendschapsverzoek<br>Gebruik van environment variables (production & development|   V   |

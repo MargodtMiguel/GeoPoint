@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -12,18 +13,27 @@ namespace GeoPoint.Models.Data
     public class GeoPointAPIMongoDBContext
     {
         public readonly IMongoDatabase Database;
-
-        public GeoPointAPIMongoDBContext()
+        protected readonly IHostingEnvironment hostingEnvironment;
+        public GeoPointAPIMongoDBContext(IHostingEnvironment hostingEnvironment)
         {
-            string connectionString =
-  @"mongodb://geopoint:cVP4AZwCGVxRjaMEqdNHBTBFHWEa4z1M3Is2MK9APpKX5EeoOjpIlvrfz48IA6IofQbey922M8dsDyGS3ngtEA==@geopoint.documents.azure.com:10255/?ssl=true&replicaSet=globaldb";
-            MongoClientSettings settings = MongoClientSettings.FromUrl(
-              new MongoUrl(connectionString)
-            );
-            settings.SslSettings =
-              new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
-            var mongoClient = new MongoClient(settings);
-            Database = mongoClient.GetDatabase("GeoPoint");
+            this.hostingEnvironment = hostingEnvironment;
+            if (hostingEnvironment.IsDevelopment())
+            {
+                MongoClient client = new MongoClient("mongodb://localhost:27017");
+                Database = client.GetDatabase("GeoPoint");
+            }
+            else
+            {
+                string connectionString = @"mongodb://geopoint:cVP4AZwCGVxRjaMEqdNHBTBFHWEa4z1M3Is2MK9APpKX5EeoOjpIlvrfz48IA6IofQbey922M8dsDyGS3ngtEA==@geopoint.documents.azure.com:10255/?ssl=true&replicaSet=globaldb";
+                MongoClientSettings settings = MongoClientSettings.FromUrl(
+                  new MongoUrl(connectionString)
+                );
+                settings.SslSettings =
+                  new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
+                var mongoClient = new MongoClient(settings);
+                Database = mongoClient.GetDatabase("GeoPoint");
+            }
+            
         }
         public IMongoCollection<Score> Scores => Database.GetCollection<Score>("scores");
         public IMongoCollection<GeoPointUser> Users => Database.GetCollection<GeoPointUser>("Users");

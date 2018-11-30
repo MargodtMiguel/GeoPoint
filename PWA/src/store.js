@@ -7,7 +7,8 @@ import * as signalR from '@aspnet/signalr'
 
 Vue.use(Vuex)
 
-const baseURL = "https://geopointapi20181129010330.azurewebsites.net/api/";
+// const baseURL = "https://geopointapi20181129010330.azurewebsites.net/api/";
+const baseURL = process.env.VUE_APP_API_URL;
 
 const store = new Vuex.Store({
   state: {
@@ -98,7 +99,7 @@ const store = new Vuex.Store({
     userLogIn(state, account){
       //clear local storage data's
       localStorage.clear();
-      axios.post(`${baseURL}Auth/Login`, {
+      axios.post(`${baseURL}api/Auth/Login`, {
         username: account.login,
         password: account.password
       })
@@ -128,7 +129,7 @@ const store = new Vuex.Store({
       //clear previous error message
       state.errorMessage = '';
 
-      axios.post(`${baseURL}Auth/Register`, {
+      axios.post(`${baseURL}api/Auth/Register`, {
         username: account.login,
         password: account.password1,
         email: account.email
@@ -157,7 +158,7 @@ const store = new Vuex.Store({
         area: score.area.toUpperCase(),
         timeSpan: score.timeSpan
       })
-      axios.post(`${baseURL}Scores/addScore`,data, {
+      axios.post(`${baseURL}api/Scores/addScore`,data, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': state.bearer
@@ -175,7 +176,7 @@ const store = new Vuex.Store({
     setConnection(state){
       // console.log("start")
       if(state.signalrConnection == ''){
-        state.signalrConnection = new signalR.HubConnectionBuilder().withUrl("https://geopointapi20181129010330.azurewebsites.net/friendRequest").build();
+        state.signalrConnection = new signalR.HubConnectionBuilder().withUrl(`${baseURL}friendRequest`).build();
         state.signalrConnection.start().then(function(){
           // console.log("connected");
         }).catch(function(err){
@@ -199,7 +200,7 @@ const store = new Vuex.Store({
     let data = JSON.stringify({
       username: friend
     })
-    axios.post(`${baseURL}Users/sendFriendRequest`,data, {
+    axios.post(`${baseURL}api/Users/sendFriendRequest`,data, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': state.bearer
@@ -229,7 +230,7 @@ const store = new Vuex.Store({
       let data = JSON.stringify({
         username: fun
       })
-      axios.post(`${baseURL}Users/confirmFriendRequest`,data, {
+      axios.post(`${baseURL}api/Users/confirmFriendRequest`,data, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': state.bearer
@@ -244,7 +245,7 @@ const store = new Vuex.Store({
       })
     },
     declineFriendRequest(state, fun){
-      axios.delete(`${baseURL}Users/declineFriendrequest`, {
+      axios.delete(`${baseURL}api/Users/declineFriendrequest`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': state.bearer
@@ -262,7 +263,7 @@ const store = new Vuex.Store({
       })
     },
     deleteFriend(state, fun){
-      axios.delete(`${baseURL}Users/removeFriend`, {
+      axios.delete(`${baseURL}api/Users/removeFriend`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': state.bearer
@@ -282,7 +283,7 @@ const store = new Vuex.Store({
   },
   actions: {
     fetchTopScoresByArea:({commit, state}, a)=>{
-      axios.get(`${baseURL}Scores/getTopScores`,
+      axios.get(`${baseURL}api/Scores/getTopScores`,
         {
           headers: {'Authorization': state.bearer},
           params:{
@@ -296,7 +297,7 @@ const store = new Vuex.Store({
       })
     },
     fetchFriendTopScoresByArea:({commit, state}, a)=>{
-      axios.get(`${baseURL}Scores/getFriendTopScores`,
+      axios.get(`${baseURL}api/Scores/getFriendTopScores`,
         {
           headers: {'Authorization': state.bearer},
           params:{
@@ -311,7 +312,7 @@ const store = new Vuex.Store({
     },
     searchUser:({commit, state}, val) =>{
       //axios.get(`${baseURL}Users/searhUser`,
-      axios.get(`${baseURL}Users/searhUser`,
+      axios.get(`${baseURL}api/Users/searhUser`,
       {
         headers: {'Authorization': state.bearer},
         params:{
@@ -327,7 +328,7 @@ const store = new Vuex.Store({
     })
     },
     fetchFriends:({commit, state})=>{
-      axios.get(`${baseURL}Users/getMyFriends`,
+      axios.get(`${baseURL}api/Users/getMyFriends`,
         {
           headers: {'Authorization': state.bearer}
         }
